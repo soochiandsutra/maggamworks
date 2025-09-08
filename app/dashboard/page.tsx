@@ -60,35 +60,187 @@ export default function DashboardPage() {
           </div>
         );
       case "front":
+        const renderFrontContent = () => {
+          switch (activeSecondaryTab) {
+            case "neck":
+              return (
+                <div className="grid gap-4">
+                  <div className="bg-card border border-border rounded-lg p-4">
+                    <h3 className="font-semibold mb-3 flex items-center gap-2">
+                      <span className="text-primary">👔</span> Neck Work Details
+                    </h3>
+                    <div className="space-y-2">
+                      <div className="flex justify-between items-center">
+                        <span className="text-sm">Neckline embroidery</span>
+                        <span className="text-sm font-medium">1.5 hrs</span>
+                      </div>
+                      <div className="flex justify-between items-center">
+                        <span className="text-sm">Collar attachment</span>
+                        <span className="text-sm font-medium">2.0 hrs</span>
+                      </div>
+                      <div className="flex justify-between items-center">
+                        <span className="text-sm">Neck piping</span>
+                        <span className="text-sm font-medium">1.0 hr</span>
+                      </div>
+                      <div className="flex justify-between items-center">
+                        <span className="text-sm">Button holes (neck)</span>
+                        <span className="text-sm font-medium">0.8 hrs</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              );
+            case "borders":
+              return (
+                <div className="grid gap-4">
+                  <div className="bg-card border border-border rounded-lg p-4">
+                    <h3 className="font-semibold mb-3 flex items-center gap-2">
+                      <span className="text-primary">🔲</span> Border Work Details
+                    </h3>
+                    <div className="space-y-2">
+                      <div className="flex justify-between items-center">
+                        <span className="text-sm">Front border embroidery</span>
+                        <span className="text-sm font-medium">3.5 hrs</span>
+                      </div>
+                      <div className="flex justify-between items-center">
+                        <span className="text-sm">Side border stitching</span>
+                        <span className="text-sm font-medium">2.2 hrs</span>
+                      </div>
+                      <div className="flex justify-between items-center">
+                        <span className="text-sm">Border finishing</span>
+                        <span className="text-sm font-medium">1.5 hrs</span>
+                      </div>
+                      <div className="flex justify-between items-center">
+                        <span className="text-sm">Edge piping</span>
+                        <span className="text-sm font-medium">1.8 hrs</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              );
+            case "motifs":
+              return (
+                <div className="grid gap-4">
+                  <div className="bg-card border border-border rounded-lg p-4">
+                    <h3 className="font-semibold mb-3 flex items-center gap-2">
+                      <span className="text-primary">✨</span> Motifs Work Details
+                    </h3>
+                    <div className="space-y-2">
+                      <div className="flex justify-between items-center">
+                        <span className="text-sm">Main motif embroidery</span>
+                        <span className="text-sm font-medium">4.0 hrs</span>
+                      </div>
+                      <div className="flex justify-between items-center">
+                        <span className="text-sm">Secondary motifs</span>
+                        <span className="text-sm font-medium">2.5 hrs</span>
+                      </div>
+                      <div className="flex justify-between items-center">
+                        <span className="text-sm">Corner decorations</span>
+                        <span className="text-sm font-medium">1.5 hrs</span>
+                      </div>
+                      <div className="flex justify-between items-center">
+                        <span className="text-sm">Motif alignment</span>
+                        <span className="text-sm font-medium">0.5 hrs</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              );
+            case "fill-work":
+              return (
+                <div className="grid gap-4">
+                  <div className="bg-card border border-border rounded-lg p-4">
+                    <h3 className="font-semibold mb-3 flex items-center gap-2">
+                      <span className="text-primary">🎨</span> Fill Work Details
+                    </h3>
+                    <div className="space-y-2">
+                      <div className="flex justify-between items-center">
+                        <span className="text-sm">Dense fill embroidery</span>
+                        <span className="text-sm font-medium">5.5 hrs</span>
+                      </div>
+                      <div className="flex justify-between items-center">
+                        <span className="text-sm">Gradient fill work</span>
+                        <span className="text-sm font-medium">3.0 hrs</span>
+                      </div>
+                      <div className="flex justify-between items-center">
+                        <span className="text-sm">Background filling</span>
+                        <span className="text-sm font-medium">4.2 hrs</span>
+                      </div>
+                      <div className="flex justify-between items-center">
+                        <span className="text-sm">Fill pattern setup</span>
+                        <span className="text-sm font-medium">1.0 hr</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              );
+            case "others":
+              return (
+                <div className="grid gap-4">
+                  <div className="bg-card border border-border rounded-lg p-4">
+                    <h3 className="font-semibold mb-3 flex items-center gap-2">
+                      <span className="text-primary">🔧</span> Other Front Work
+                    </h3>
+                    <div className="space-y-2">
+                      <div className="flex justify-between items-center">
+                        <span className="text-sm">Pocket placement</span>
+                        <span className="text-sm font-medium">1.5 hrs</span>
+                      </div>
+                      <div className="flex justify-between items-center">
+                        <span className="text-sm">Button attachment</span>
+                        <span className="text-sm font-medium">1.2 hrs</span>
+                      </div>
+                      <div className="flex justify-between items-center">
+                        <span className="text-sm">Label sewing</span>
+                        <span className="text-sm font-medium">0.8 hrs</span>
+                      </div>
+                      <div className="flex justify-between items-center">
+                        <span className="text-sm">Front finishing</span>
+                        <span className="text-sm font-medium">1.0 hr</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              );
+            default:
+              return (
+                <div className="grid gap-4">
+                  <div className="bg-card border border-border rounded-lg p-4">
+                    <h3 className="font-semibold mb-3">Front Panel Work Overview</h3>
+                    <p className="text-sm text-muted-foreground mb-3">
+                      Select a specific front work category from the bottom navigation to see detailed time estimates.
+                    </p>
+                    <div className="grid grid-cols-2 gap-3 text-sm">
+                      <div className="text-center p-3 bg-muted/50 rounded">
+                        <div className="font-medium">👔 Neck</div>
+                        <div className="text-muted-foreground">5.3 hrs total</div>
+                      </div>
+                      <div className="text-center p-3 bg-muted/50 rounded">
+                        <div className="font-medium">🔲 Borders</div>
+                        <div className="text-muted-foreground">9.0 hrs total</div>
+                      </div>
+                      <div className="text-center p-3 bg-muted/50 rounded">
+                        <div className="font-medium">✨ Motifs</div>
+                        <div className="text-muted-foreground">8.5 hrs total</div>
+                      </div>
+                      <div className="text-center p-3 bg-muted/50 rounded">
+                        <div className="font-medium">🎨 Fill Work</div>
+                        <div className="text-muted-foreground">13.7 hrs total</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              );
+          }
+        };
+
         return (
           <div className="p-6">
             <h1 className="text-2xl font-bold mb-4">Front Work Details</h1>
             <p className="text-muted-foreground mb-6">
-              Front panel embroidery and decoration work specifications.
+              Front panel embroidery and decoration work specifications. {activeSecondaryTab ? `Viewing: ${activeSecondaryTab}` : 'Select a category below'}
             </p>
-            <div className="grid gap-4">
-              <div className="bg-card border border-border rounded-lg p-4">
-                <h3 className="font-semibold mb-3">Front Panel Work</h3>
-                <div className="space-y-2">
-                  <div className="flex justify-between items-center">
-                    <span className="text-sm">Collar work</span>
-                    <span className="text-sm font-medium">2.5 hrs</span>
-                  </div>
-                  <div className="flex justify-between items-center">
-                    <span className="text-sm">Button holes</span>
-                    <span className="text-sm font-medium">1.0 hr</span>
-                  </div>
-                  <div className="flex justify-between items-center">
-                    <span className="text-sm">Pocket embroidery</span>
-                    <span className="text-sm font-medium">3.0 hrs</span>
-                  </div>
-                  <div className="flex justify-between items-center">
-                    <span className="text-sm">Logo placement</span>
-                    <span className="text-sm font-medium">4.5 hrs</span>
-                  </div>
-                </div>
-              </div>
-            </div>
+            {renderFrontContent()}
           </div>
         );
       case "back":

@@ -97,9 +97,9 @@ const BottomNavigation: React.FC<BottomNavigationProps> = ({
 
       {/* Main Bottom Navigation Bar */}
       <div className={`fixed bottom-0 left-0 right-0 bg-card border-t border-border z-40`}>
-        <div className="flex items-center justify-between px-2 py-2 pb-safe">
-          {/* Left navigation tabs - All 4 tabs evenly spaced */}
-          <div className="flex items-center justify-between flex-1 max-w-md">
+        <div className="flex items-center justify-center px-2 py-2 pb-safe">
+          {/* All navigation items evenly spaced */}
+          <div className="flex items-center justify-between flex-1 max-w-2xl">
             {tabs.map((tab) => {
               const Icon = tab.icon;
               const isActive = activeTab === tab.id;
@@ -124,17 +124,16 @@ const BottomNavigation: React.FC<BottomNavigationProps> = ({
                 </Button>
               );
             })}
-          </div>
 
-          {/* Calculate Button - Right corner */}
-          <div className="flex items-center ml-2">
+            {/* Calculate Button - Same size as other buttons */}
             <Button
               variant="default"
               size="sm"
-              className="flex items-center justify-center h-12 w-12 bg-primary hover:bg-primary/90 text-primary-foreground shadow-lg rounded-xl transition-all duration-200 hover:scale-105 active:scale-95"
+              className="flex flex-col items-center gap-1 h-auto py-2 px-2 flex-1 relative rounded-lg bg-primary hover:bg-primary/90 text-primary-foreground shadow-lg transition-all duration-200 hover:scale-105 active:scale-95"
               onClick={onCalculateClick}
             >
-              <Calculator className="h-6 w-6" />
+              <Calculator className="h-5 w-5" />
+              <span className="text-xs font-medium">Calc</span>
             </Button>
           </div>
         </div>
