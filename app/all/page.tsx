@@ -1,0 +1,74 @@
+"use client";
+
+import { useState } from "react";
+import BottomNavigation from "@/components/ui/bottom-navigation";
+
+export default function AllPage() {
+  const [activeTab, setActiveTab] = useState("all");
+
+  const handleTabChange = (tab: string) => {
+    setActiveTab(tab);
+    // Navigate to different sections if needed
+    if (tab !== "all") {
+      window.location.href = `/${tab}`;
+    }
+  };
+
+  return (
+    <div className="min-h-screen bg-background">
+      <main className="pb-16">
+        <div className="p-6">
+          <h1 className="text-2xl font-bold mb-4">All Work Overview</h1>
+          <p className="text-muted-foreground mb-6">
+            Complete overview of all Maggam Works projects and time estimates.
+          </p>
+          <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+            <div className="bg-card border border-border rounded-lg p-4">
+              <h3 className="font-semibold mb-2 flex items-center gap-2">
+                <span className="text-primary">📊</span> Total Projects
+              </h3>
+              <p className="text-2xl font-bold text-primary">24</p>
+              <p className="text-sm text-muted-foreground">This month</p>
+            </div>
+            <div className="bg-card border border-border rounded-lg p-4">
+              <h3 className="font-semibold mb-2 flex items-center gap-2">
+                <span className="text-primary">⏱️</span> Total Hours
+              </h3>
+              <p className="text-2xl font-bold text-primary">156.5</p>
+              <p className="text-sm text-muted-foreground">Estimated time</p>
+            </div>
+            <div className="bg-card border border-border rounded-lg p-4">
+              <h3 className="font-semibold mb-2 flex items-center gap-2">
+                <span className="text-primary">💰</span> Revenue
+              </h3>
+              <p className="text-2xl font-bold text-primary">₹24,800</p>
+              <p className="text-sm text-muted-foreground">This month</p>
+            </div>
+          </div>
+
+          {/* Recent Projects List */}
+          <div className="mt-6">
+            <h3 className="text-lg font-semibold mb-4">Recent Projects</h3>
+            <div className="space-y-3">
+              {[1, 2, 3].map((i) => (
+                <div key={i} className="bg-card border border-border rounded-lg p-4">
+                  <div className="flex justify-between items-start">
+                    <div>
+                      <h4 className="font-medium">Project #{i}</h4>
+                      <p className="text-sm text-muted-foreground">Custom shirt with embroidery</p>
+                    </div>
+                    <div className="text-right">
+                      <p className="text-sm font-medium">8.5 hrs</p>
+                      <p className="text-xs text-muted-foreground">₹1,200</p>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </main>
+      <BottomNavigation activeTab={activeTab} onTabChange={handleTabChange} />
+    </div>
+  );
+}
