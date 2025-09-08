@@ -1,5 +1,5 @@
 import React from "react";
-import { Grid3X3, Shirt, RotateCcw, Hand, Calculator, Clock, Star, Settings, Filter } from "lucide-react";
+import { Grid3X3, Shirt, RotateCcw, Hand, Calculator, Clock, Star, Settings, Filter, Box, Sparkles, Palette, MoreHorizontal } from "lucide-react";
 import { Button } from "./button";
 
 interface BottomNavigationProps {
@@ -35,9 +35,11 @@ const BottomNavigation: React.FC<BottomNavigationProps> = ({
         ];
       case "front":
         return [
-          { id: "collar", icon: Shirt, label: "Collar" },
-          { id: "buttons", icon: Settings, label: "Buttons" },
-          { id: "logo", icon: Star, label: "Logo" },
+          { id: "neck", icon: Shirt, label: "Neck" },
+          { id: "borders", icon: Settings, label: "Borders" },
+          { id: "motifs", icon: Sparkles, label: "Motifs" },
+          { id: "fill-work", icon: Palette, label: "Fill Work" },
+          { id: "others", icon: MoreHorizontal, label: "Others" },
         ];
       case "back":
         return [
@@ -63,7 +65,7 @@ const BottomNavigation: React.FC<BottomNavigationProps> = ({
       {/* Secondary Bottom Bar */}
       {secondaryNavItems.length > 0 && (
         <div className="fixed bottom-16 left-0 right-0 bg-muted/30 border-t border-border/50 z-30">
-          <div className="flex items-center justify-center px-4 pt-2 pb-3">
+          <div className="flex items-center justify-center px-2 pt-2 pb-3">
             <div className="flex items-center justify-between flex-1 max-w-lg">
               {secondaryNavItems.map((item) => {
                 const Icon = item.icon;
@@ -95,7 +97,7 @@ const BottomNavigation: React.FC<BottomNavigationProps> = ({
 
       {/* Main Bottom Navigation Bar */}
       <div className={`fixed bottom-0 left-0 right-0 bg-card border-t border-border z-40`}>
-        <div className="flex items-center justify-between px-3 py-2 pb-safe">
+        <div className="flex items-center justify-between px-2 py-2 pb-safe">
           {/* Left navigation tabs - All 4 tabs evenly spaced */}
           <div className="flex items-center justify-between flex-1 max-w-md">
             {tabs.map((tab) => {
