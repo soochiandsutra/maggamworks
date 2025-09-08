@@ -1,5 +1,5 @@
 import React from "react";
-import { Grid3X3, Shirt, RotateCcw, Hand, Calculator, Clock, Star, Settings, Filter, Box, Sparkles, Palette, MoreHorizontal } from "lucide-react";
+import { Grid3X3, Shirt, RotateCcw, Hand, Calculator, Clock, Star, Settings, Filter, Box, Sparkles, Palette, MoreHorizontal, Ruler } from "lucide-react";
 import { Button } from "./button";
 
 interface BottomNavigationProps {
@@ -29,9 +29,12 @@ const BottomNavigation: React.FC<BottomNavigationProps> = ({
     switch (activeTab) {
       case "all":
         return [
-          { id: "recent", icon: Clock, label: "Recent" },
-          { id: "favorites", icon: Star, label: "Favorites" },
-          { id: "filter", icon: Filter, label: "Filter" },
+          { id: "size", icon: Ruler, label: "Size" },
+          { id: "neck", icon: Shirt, label: "Neck" },
+          { id: "borders", icon: Settings, label: "Borders" },
+          { id: "motifs", icon: Sparkles, label: "Motifs" },
+          { id: "fill-work", icon: Palette, label: "Fill Work" },
+          { id: "others", icon: MoreHorizontal, label: "Others" },
         ];
       case "front":
         return [
@@ -43,15 +46,19 @@ const BottomNavigation: React.FC<BottomNavigationProps> = ({
         ];
       case "back":
         return [
-          { id: "seam", icon: Settings, label: "Seam" },
-          { id: "embroidery", icon: Star, label: "Embroidery" },
-          { id: "vent", icon: Filter, label: "Vent" },
+          { id: "neck", icon: Shirt, label: "Neck" },
+          { id: "borders", icon: Settings, label: "Borders" },
+          { id: "motifs", icon: Sparkles, label: "Motifs" },
+          { id: "fill-work", icon: Palette, label: "Fill Work" },
+          { id: "others", icon: MoreHorizontal, label: "Others" },
         ];
       case "hands":
         return [
-          { id: "stitching", icon: Settings, label: "Stitching" },
-          { id: "pressing", icon: Star, label: "Pressing" },
-          { id: "finishing", icon: Filter, label: "Finishing" },
+          { id: "size", icon: Ruler, label: "Size" },
+          { id: "borders", icon: Settings, label: "Borders" },
+          { id: "motifs", icon: Sparkles, label: "Motifs" },
+          { id: "fill-work", icon: Palette, label: "Fill Work" },
+          { id: "others", icon: MoreHorizontal, label: "Others" },
         ];
       default:
         return [];
