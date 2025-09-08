@@ -1,6 +1,6 @@
 import React from "react";
 import { Grid3X3, Shirt, RotateCcw, Hand, Calculator, Clock, Star, Settings, Filter, Box, Sparkles, Palette, MoreHorizontal, Ruler } from "lucide-react";
-import { Button } from "./button";
+import { Button } from "./ui/button";
 
 interface BottomNavigationProps {
   activeTab?: string;
@@ -71,7 +71,7 @@ const BottomNavigation: React.FC<BottomNavigationProps> = ({
     <>
       {/* Secondary Bottom Bar */}
       {secondaryNavItems.length > 0 && (
-        <div className="fixed bottom-16 left-0 right-0 bg-muted/30 border-t border-border/50 z-30">
+        <div className="fixed bottom-16 left-0 right-0 bg-card/95 backdrop-blur-md border-t border-border/50 z-30 shadow-lg">
           <div className="flex items-center justify-center px-2 pt-2 pb-3">
             <div className="flex items-center justify-between flex-1 max-w-lg">
               {secondaryNavItems.map((item) => {
