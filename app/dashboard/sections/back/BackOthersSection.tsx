@@ -1,11 +1,11 @@
 "use client";
 
-import { useState } from "react";
+import { useAppStateStore } from "@/lib/store/appState";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
 
 export default function BackOthersSection() {
-  const [selectedTechniques, setSelectedTechniques] = useState<string[]>([]);
+  const { backSelectedTechniques, setBackSelectedTechniques } = useAppStateStore();
 
   const embroideryTechniques = [
     "Challa work",
@@ -26,9 +26,9 @@ export default function BackOthersSection() {
 
   const handleTechniqueChange = (technique: string, checked: boolean) => {
     if (checked) {
-      setSelectedTechniques(prev => [...prev, technique]);
+      setBackSelectedTechniques(prev => [...prev, technique]);
     } else {
-      setSelectedTechniques(prev => prev.filter(t => t !== technique));
+      setBackSelectedTechniques(prev => prev.filter(t => t !== technique));
     }
   };
 
@@ -45,7 +45,7 @@ export default function BackOthersSection() {
               <div key={technique} className="flex items-center space-x-2">
                 <Checkbox
                   id={technique.toLowerCase().replace(/\s+/g, '-').replace(/\//g, '-') + '-back'}
-                  checked={selectedTechniques.includes(technique)}
+                  checked={backSelectedTechniques.includes(technique)}
                   onCheckedChange={(checked) => handleTechniqueChange(technique, checked as boolean)}
                 />
                 <Label
@@ -57,11 +57,11 @@ export default function BackOthersSection() {
               </div>
             ))}
           </div>
-          {selectedTechniques.length > 0 && (
+          {backSelectedTechniques.length > 0 && (
             <div className="mt-4 p-3 bg-muted/50 rounded-lg">
               <Label className="text-sm font-medium">Selected techniques:</Label>
               <div className="flex flex-wrap gap-2 mt-2">
-                {selectedTechniques.map((technique) => (
+                {backSelectedTechniques.map((technique) => (
                   <span
                     key={technique}
                     className="inline-flex items-center px-2 py-1 text-xs bg-primary/10 text-primary rounded-full"

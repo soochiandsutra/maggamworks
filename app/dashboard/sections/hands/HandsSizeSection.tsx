@@ -1,13 +1,18 @@
 "use client";
 
-import { useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { useAppStateStore } from "@/lib/store/appState";
 
 export default function HandsSizeSection() {
-  const [armholeRound, setArmholeRound] = useState<string>("");
-  const [handLength, setHandLength] = useState<string>("");
-  const [handRound, setHandRound] = useState<string>("");
+  const {
+    armholeRound,
+    handLength,
+    handRound,
+    setArmholeRound,
+    setHandLength,
+    setHandRound,
+  } = useAppStateStore();
 
   return (
     <div className="grid gap-4">

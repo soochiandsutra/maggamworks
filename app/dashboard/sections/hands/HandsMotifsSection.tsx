@@ -1,15 +1,18 @@
 "use client";
 
-import { useState } from "react";
+import { useAppStateStore } from "@/lib/store/appState";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Input } from "@/components/ui/input";
 
 export default function HandsMotifsSection() {
-  const [hasMotifs, setHasMotifs] = useState<boolean>(false);
-  const [motifSize, setMotifSize] = useState<string>("");
-  const [motifCount, setMotifCount] = useState<string>("");
+  const handsHasMotifs = useAppStateStore((state) => state.handsHasMotifs);
+  const handsMotifSize = useAppStateStore((state) => state.handsMotifSize);
+  const handsMotifCount = useAppStateStore((state) => state.handsMotifCount);
+  const setHandsHasMotifs = useAppStateStore((state) => state.setHandsHasMotifs);
+  const setHandsMotifSize = useAppStateStore((state) => state.setHandsMotifSize);
+  const setHandsMotifCount = useAppStateStore((state) => state.setHandsMotifCount);
 
   return (
     <div className="grid gap-4">
@@ -21,19 +24,19 @@ export default function HandsMotifsSection() {
           <div className="flex items-center space-x-2">
             <Checkbox
               id="hands-motifs"
-              checked={hasMotifs}
-              onCheckedChange={(checked) => setHasMotifs(checked as boolean)}
+              checked={handsHasMotifs}
+              onCheckedChange={(checked) => setHandsHasMotifs(checked as boolean)}
             />
             <Label htmlFor="hands-motifs" className="text-sm font-medium">
               Motifs present
             </Label>
           </div>
 
-          {hasMotifs && (
+          {handsHasMotifs && (
             <>
               <div className="space-y-3">
                 <Label className="text-sm font-medium">Motif Size</Label>
-                <RadioGroup value={motifSize} onValueChange={setMotifSize}>
+                <RadioGroup value={handsMotifSize} onValueChange={setHandsMotifSize}>
                   <div className="flex items-center space-x-2">
                     <RadioGroupItem value="small" id="hands-motif-small" />
                     <Label htmlFor="hands-motif-small">Small</Label>
@@ -62,8 +65,8 @@ export default function HandsMotifsSection() {
                   type="number"
                   min="1"
                   max="20"
-                  value={motifCount}
-                  onChange={(e) => setMotifCount(e.target.value)}
+                  value={handsMotifCount}
+                  onChange={(e) => setHandsMotifCount(e.target.value)}
                   placeholder="Enter motif count"
                 />
               </div>

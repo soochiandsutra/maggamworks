@@ -1,11 +1,11 @@
 "use client";
 
-import { useState } from "react";
+import { useAppStateStore } from "@/lib/store/appState";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
 
 export default function AllOthersSection() {
-  const [selectedTechniques, setSelectedTechniques] = useState<string[]>([]);
+  const { allSelectedTechniques, setAllSelectedTechniques } = useAppStateStore();
 
   const embroideryTechniques = [
     "Challa work",
@@ -26,9 +26,9 @@ export default function AllOthersSection() {
 
   const handleTechniqueChange = (technique: string, checked: boolean) => {
     if (checked) {
-      setSelectedTechniques(prev => [...prev, technique]);
+      setAllSelectedTechniques(prev => [...prev, technique]);
     } else {
-      setSelectedTechniques(prev => prev.filter(t => t !== technique));
+      setAllSelectedTechniques(prev => prev.filter(t => t !== technique));
     }
   };
 
@@ -45,7 +45,7 @@ export default function AllOthersSection() {
               <div key={technique} className="flex items-start space-x-3 p-3 rounded-lg hover:bg-muted/50 transition-colors">
                 <Checkbox
                   id={technique.toLowerCase().replace(/\s+/g, '-').replace(/\//g, '-')}
-                  checked={selectedTechniques.includes(technique)}
+                  checked={allSelectedTechniques.includes(technique)}
                   onCheckedChange={(checked) => handleTechniqueChange(technique, checked as boolean)}
                   className="h-5 w-5 mt-0.5"
                 />
@@ -58,11 +58,11 @@ export default function AllOthersSection() {
               </div>
             ))}
           </div>
-          {selectedTechniques.length > 0 && (
+          {allSelectedTechniques.length > 0 && (
             <div className="mt-6 p-4 bg-primary/5 border border-primary/20 rounded-lg">
               <Label className="text-base font-medium text-primary">Selected techniques:</Label>
               <div className="flex flex-wrap gap-2 mt-3">
-                {selectedTechniques.map((technique) => (
+                {allSelectedTechniques.map((technique) => (
                   <span
                     key={technique}
                     className="inline-flex items-center px-3 py-1.5 text-sm bg-primary/10 text-primary rounded-full font-medium"

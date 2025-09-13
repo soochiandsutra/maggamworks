@@ -1,13 +1,15 @@
 "use client";
 
-import { useState } from "react";
+import { useAppStateStore } from "@/lib/store/appState";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 
 export default function BackFillWorkSection() {
-  const [hasFillWork, setHasFillWork] = useState<boolean>(false);
-  const [coverage, setCoverage] = useState<string>("");
+  const backHasFillWork = useAppStateStore((state) => state.backHasFillWork);
+  const backCoverage = useAppStateStore((state) => state.backCoverage);
+  const setBackHasFillWork = useAppStateStore((state) => state.setBackHasFillWork);
+  const setBackCoverage = useAppStateStore((state) => state.setBackCoverage);
 
   return (
     <div className="grid gap-4">
@@ -19,18 +21,18 @@ export default function BackFillWorkSection() {
           <div className="flex items-center space-x-2">
             <Checkbox
               id="back-fill-work"
-              checked={hasFillWork}
-              onCheckedChange={(checked) => setHasFillWork(checked as boolean)}
+              checked={backHasFillWork}
+              onCheckedChange={(checked) => setBackHasFillWork(checked as boolean)}
             />
             <Label htmlFor="back-fill-work" className="text-sm font-medium">
               Fill work present
             </Label>
           </div>
 
-          {hasFillWork && (
+          {backHasFillWork && (
             <div className="space-y-3">
               <Label className="text-sm font-medium">Coverage</Label>
-              <RadioGroup value={coverage} onValueChange={setCoverage}>
+              <RadioGroup value={backCoverage} onValueChange={setBackCoverage}>
                 <div className="flex items-center space-x-2">
                   <RadioGroupItem value="100%" id="back-coverage-100" />
                   <Label htmlFor="back-coverage-100">100%</Label>

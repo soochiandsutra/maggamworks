@@ -1,6 +1,6 @@
 import React from "react";
 import { Grid3X3, Shirt, RotateCcw, Hand, Calculator, Clock, Star, Settings, Filter, Box, Sparkles, Palette, MoreHorizontal, Ruler } from "lucide-react";
-import { Button } from "./ui/button";
+import { Button } from "../../components/ui/button";
 
 interface BottomNavigationProps {
   activeTab?: string;

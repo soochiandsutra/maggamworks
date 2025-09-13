@@ -1,18 +1,21 @@
 "use client";
 
 import { useState } from "react";
-import BottomNavigation from "@/components/bottom-navigation";
+import BottomNavigation from "@/app/dashboard/bottom-navigation";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import AllOverviewSection from "./sections/AllOverviewSection";
 import FrontSection from "./sections/FrontSection";
 import BackSection from "./sections/BackSection";
 import HandsSection from "./sections/HandsSection";
+import { useAppStateStore } from "@/lib/store/appState";
+import CalculationSummaryDialog from "./components/CalculationSummaryDialog";
 
 export default function DashboardPage() {
   const [activeTab, setActiveTab] = useState("all");
   const [activeSecondaryTab, setActiveSecondaryTab] = useState<string | undefined>();
   const [calculateOpen, setCalculateOpen] = useState(false);
+  const { chestSize, armholeRound, handLength, handRound } = useAppStateStore();
 
   const handleTabChange = (tab: string) => {
     setActiveTab(tab);
@@ -50,33 +53,6 @@ export default function DashboardPage() {
         {renderContent()}
       </main>
 
-      <Dialog open={calculateOpen} onOpenChange={setCalculateOpen}>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>Calculate Project Time</DialogTitle>
-          </DialogHeader>
-          <div className="py-4">
-            <p className="text-muted-foreground mb-4">
-              Start calculating time estimates for your Maggam Works projects.
-            </p>
-            <div className="space-y-3">
-              <div className="text-center">
-                <p className="text-sm text-muted-foreground">
-                  Calculator functionality will be implemented here
-                </p>
-              </div>
-            </div>
-          </div>
-          <div className="flex justify-end gap-2">
-            <Button variant="outline" onClick={() => setCalculateOpen(false)}>
-              Cancel
-            </Button>
-            <Button onClick={() => setCalculateOpen(false)}>
-              Start Calculation
-            </Button>
-          </div>
-        </DialogContent>
-      </Dialog>
 
       <BottomNavigation
         activeTab={activeTab}
@@ -84,6 +60,11 @@ export default function DashboardPage() {
         onCalculateClick={handleCalculateClick}
         activeSecondaryTab={activeSecondaryTab}
         onSecondaryTabChange={handleSecondaryTabChange}
+      />
+
+      <CalculationSummaryDialog
+        open={calculateOpen}
+        onOpenChange={setCalculateOpen}
       />
     </div>
   );

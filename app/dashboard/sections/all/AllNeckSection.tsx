@@ -1,12 +1,16 @@
 "use client";
 
-import { useState } from "react";
+import { useAppStateStore } from "@/lib/store/appState";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 
 export default function AllNeckSection() {
-  const [neckType, setNeckType] = useState<string>("");
-  const [neckDesignNumber, setNeckDesignNumber] = useState<string>("");
+  const {
+    allNeckType,
+    allNeckDesignNumber,
+    setAllNeckType,
+    setAllNeckDesignNumber,
+  } = useAppStateStore();
 
   return (
     <div className="grid gap-6">
@@ -17,7 +21,7 @@ export default function AllNeckSection() {
         <div className="space-y-8">
           <div className="space-y-4">
             <Label className="text-base font-medium">Neck Type</Label>
-            <RadioGroup value={neckType} onValueChange={setNeckType} className="space-y-3">
+            <RadioGroup value={allNeckType} onValueChange={setAllNeckType} className="space-y-3">
               <div className="flex items-center space-x-3 p-3 rounded-lg hover:bg-muted/50 transition-colors">
                 <RadioGroupItem value="boat" id="all-boat-neck" className="h-5 w-5" />
                 <Label htmlFor="all-boat-neck" className="text-base cursor-pointer flex-1">
@@ -41,7 +45,7 @@ export default function AllNeckSection() {
 
           <div className="space-y-4">
             <Label className="text-base font-medium">Neck Design Numbers</Label>
-            <RadioGroup value={neckDesignNumber} onValueChange={setNeckDesignNumber} className="grid grid-cols-3 gap-3 sm:grid-cols-5">
+            <RadioGroup value={allNeckDesignNumber} onValueChange={setAllNeckDesignNumber} className="grid grid-cols-3 gap-3 sm:grid-cols-5">
               {[1, 2, 3, 4, 5].map((num) => (
                 <div key={num} className="flex items-center justify-center">
                   <div className="flex items-center space-x-2 p-3 rounded-lg hover:bg-muted/50 transition-colors min-w-[60px] justify-center">

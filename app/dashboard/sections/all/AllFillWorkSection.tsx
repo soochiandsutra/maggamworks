@@ -1,13 +1,15 @@
 "use client";
 
-import { useState } from "react";
+import { useAppStateStore } from "@/lib/store/appState";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 
 export default function AllFillWorkSection() {
-  const [hasFillWork, setHasFillWork] = useState<boolean>(false);
-  const [coverage, setCoverage] = useState<string>("");
+  const allHasFillWork = useAppStateStore((state) => state.allHasFillWork);
+  const allCoverage = useAppStateStore((state) => state.allCoverage);
+  const setAllHasFillWork = useAppStateStore((state) => state.setAllHasFillWork);
+  const setAllCoverage = useAppStateStore((state) => state.setAllCoverage);
 
   return (
     <div className="grid gap-6">
@@ -19,8 +21,8 @@ export default function AllFillWorkSection() {
           <div className="flex items-center space-x-3 p-3 rounded-lg hover:bg-muted/50 transition-colors">
             <Checkbox
               id="all-fill-work"
-              checked={hasFillWork}
-              onCheckedChange={(checked) => setHasFillWork(checked as boolean)}
+              checked={allHasFillWork}
+              onCheckedChange={(checked) => setAllHasFillWork(checked as boolean)}
               className="h-5 w-5"
             />
             <Label htmlFor="all-fill-work" className="text-base font-medium cursor-pointer flex-1">
@@ -28,10 +30,10 @@ export default function AllFillWorkSection() {
             </Label>
           </div>
 
-          {hasFillWork && (
+          {allHasFillWork && (
             <div className="space-y-4 pl-6 border-l-2 border-muted">
               <Label className="text-base font-medium">Coverage</Label>
-              <RadioGroup value={coverage} onValueChange={setCoverage} className="grid grid-cols-1 gap-3">
+              <RadioGroup value={allCoverage} onValueChange={setAllCoverage} className="grid grid-cols-1 gap-3">
                 {[
                   { value: "100%", label: "100%" },
                   { value: "80%", label: "80%" },

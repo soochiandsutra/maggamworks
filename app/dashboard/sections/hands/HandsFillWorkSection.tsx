@@ -1,13 +1,15 @@
 "use client";
 
-import { useState } from "react";
+import { useAppStateStore } from "@/lib/store/appState";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 
 export default function HandsFillWorkSection() {
-  const [hasFillWork, setHasFillWork] = useState<boolean>(false);
-  const [coverage, setCoverage] = useState<string>("");
+  const handsHasFillWork = useAppStateStore((state) => state.handsHasFillWork);
+  const handsCoverage = useAppStateStore((state) => state.handsCoverage);
+  const setHandsHasFillWork = useAppStateStore((state) => state.setHandsHasFillWork);
+  const setHandsCoverage = useAppStateStore((state) => state.setHandsCoverage);
 
   return (
     <div className="grid gap-4">
@@ -19,18 +21,18 @@ export default function HandsFillWorkSection() {
           <div className="flex items-center space-x-2">
             <Checkbox
               id="hands-fill-work"
-              checked={hasFillWork}
-              onCheckedChange={(checked) => setHasFillWork(checked as boolean)}
+              checked={handsHasFillWork}
+              onCheckedChange={(checked) => setHandsHasFillWork(checked as boolean)}
             />
             <Label htmlFor="hands-fill-work" className="text-sm font-medium">
               Fill work present
             </Label>
           </div>
 
-          {hasFillWork && (
+          {handsHasFillWork && (
             <div className="space-y-3">
               <Label className="text-sm font-medium">Coverage</Label>
-              <RadioGroup value={coverage} onValueChange={setCoverage}>
+              <RadioGroup value={handsCoverage} onValueChange={setHandsCoverage}>
                 <div className="flex items-center space-x-2">
                   <RadioGroupItem value="100%" id="hands-coverage-100" />
                   <Label htmlFor="hands-coverage-100">100%</Label>
