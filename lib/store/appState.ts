@@ -12,6 +12,8 @@ interface AppState {
   allBorderSize: string;
   allNeckType: string;
   allNeckDesignNumber: string;
+  allNeckType2: string;
+  allNeckType2DesignNumber: string;
   allHasFillWork: boolean;
   allCoverage: string;
   allHasMotifs: boolean;
@@ -64,6 +66,8 @@ interface AppState {
   setAllBorderSize: (value: string) => void;
   setAllNeckType: (value: string) => void;
   setAllNeckDesignNumber: (value: string) => void;
+  setAllNeckType2: (value: string) => void;
+  setAllNeckType2DesignNumber: (value: string) => void;
   setAllHasFillWork: (value: boolean) => void;
   setAllCoverage: (value: string) => void;
   setAllHasMotifs: (value: boolean) => void;
@@ -121,6 +125,8 @@ const initialState = {
   allBorderSize: '',
   allNeckType: '',
   allNeckDesignNumber: '',
+  allNeckType2: '',
+  allNeckType2DesignNumber: '',
   allHasFillWork: false,
   allCoverage: '',
   allHasMotifs: false,
@@ -177,6 +183,8 @@ export const useAppStateStore = create<AppState>((set) => ({
   setAllBorderSize: (value) => set({ allBorderSize: value }),
   setAllNeckType: (value) => set({ allNeckType: value }),
   setAllNeckDesignNumber: (value) => set({ allNeckDesignNumber: value }),
+  setAllNeckType2: (value) => set({ allNeckType2: value }),
+  setAllNeckType2DesignNumber: (value) => set({ allNeckType2DesignNumber: value }),
   setAllHasFillWork: (value) => set({ allHasFillWork: value }),
   setAllCoverage: (value) => set({ allCoverage: value }),
   setAllHasMotifs: (value) => set({ allHasMotifs: value }),
