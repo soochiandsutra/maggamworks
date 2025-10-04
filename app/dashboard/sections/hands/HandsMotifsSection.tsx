@@ -3,8 +3,10 @@
 import { useAppStateStore } from "@/lib/store/appState";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { RadioGroup } from "@/components/ui/radio-group";
 import { Input } from "@/components/ui/input";
+import { Card } from "@/components/ui/card";
+import { TextCard } from "@/app/dashboard/components/RadioCards";
 
 export default function HandsMotifsSection() {
   const handsHasMotifs = useAppStateStore((state) => state.handsHasMotifs);
@@ -14,49 +16,50 @@ export default function HandsMotifsSection() {
   const setHandsMotifSize = useAppStateStore((state) => state.setHandsMotifSize);
   const setHandsMotifCount = useAppStateStore((state) => state.setHandsMotifCount);
 
+  const motifSizes = [
+    { id: "small", name: "Small" },
+    { id: "medium", name: "Medium" },
+    { id: "large", name: "Large" },
+    { id: "big", name: "Big" }
+  ];
+
   return (
     <div className="grid gap-4">
-      <div className="bg-card border border-border rounded-lg p-4">
-        <h3 className="font-semibold mb-3 flex items-center gap-2">
-          <span className="text-primary">✨</span> Hands Motifs Details
-        </h3>
-        <div className="space-y-6">
-          <div className="flex items-center space-x-2">
-            <Checkbox
-              id="hands-motifs"
-              checked={handsHasMotifs}
-              onCheckedChange={(checked) => setHandsHasMotifs(checked as boolean)}
-            />
-            <Label htmlFor="hands-motifs" className="text-sm font-medium">
-              Motifs present
-            </Label>
-          </div>
+      <h3 className="font-semibold mb-3 flex items-center gap-2 text-base">
+        <span className="text-primary">✨</span> Hands Motifs Details
+      </h3>
+      <div className="space-y-4">
+        <Card className="relative cursor-pointer p-4 ring-1 border-border ring-border/30 hover:border-primary/30 hover:bg-primary/2 transition-all">
+          <Checkbox
+            id="hands-motifs"
+            checked={handsHasMotifs}
+            onCheckedChange={(checked) => setHandsHasMotifs(checked as boolean)}
+            className="absolute right-4 top-4 h-5 w-5"
+          />
+          <Label htmlFor="hands-motifs" className="text-sm font-medium cursor-pointer">
+            Motifs present
+          </Label>
+        </Card>
 
-          {handsHasMotifs && (
-            <>
+        {handsHasMotifs && (
+          <div className="space-y-4">
+            <div className="space-y-3">
+              <Label className="text-sm font-medium">Motif Size</Label>
+              <RadioGroup value={handsMotifSize} onValueChange={setHandsMotifSize} className="grid grid-cols-2 gap-3">
+                {motifSizes.map((size) => (
+                  <TextCard
+                    key={size.id}
+                    item={size}
+                    isSelected={handsMotifSize === size.id}
+                    onClick={() => setHandsMotifSize(size.id)}
+                    radioId={`hands-motif-${size.id}`}
+                  />
+                ))}
+              </RadioGroup>
+            </div>
+
+            <Card className="p-4 ring-1 border-border ring-border/30">
               <div className="space-y-3">
-                <Label className="text-sm font-medium">Motif Size</Label>
-                <RadioGroup value={handsMotifSize} onValueChange={setHandsMotifSize}>
-                  <div className="flex items-center space-x-2">
-                    <RadioGroupItem value="small" id="hands-motif-small" />
-                    <Label htmlFor="hands-motif-small">Small</Label>
-                  </div>
-                  <div className="flex items-center space-x-2">
-                    <RadioGroupItem value="medium" id="hands-motif-medium" />
-                    <Label htmlFor="hands-motif-medium">Med</Label>
-                  </div>
-                  <div className="flex items-center space-x-2">
-                    <RadioGroupItem value="large" id="hands-motif-large" />
-                    <Label htmlFor="hands-motif-large">Large</Label>
-                  </div>
-                  <div className="flex items-center space-x-2">
-                    <RadioGroupItem value="big" id="hands-motif-big" />
-                    <Label htmlFor="hands-motif-big">Big</Label>
-                  </div>
-                </RadioGroup>
-              </div>
-
-              <div className="space-y-2">
                 <Label htmlFor="hands-motif-count" className="text-sm font-medium">
                   Count (1-20)
                 </Label>
@@ -68,11 +71,12 @@ export default function HandsMotifsSection() {
                   value={handsMotifCount}
                   onChange={(e) => setHandsMotifCount(e.target.value)}
                   placeholder="Enter motif count"
+                  className="h-10 text-sm"
                 />
               </div>
-            </>
-          )}
-        </div>
+            </Card>
+          </div>
+        )}
       </div>
     </div>
   );

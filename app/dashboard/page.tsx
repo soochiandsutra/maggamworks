@@ -2,20 +2,16 @@
 
 import { useState } from "react";
 import BottomNavigation from "@/app/dashboard/bottom-navigation";
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { Button } from "@/components/ui/button";
 import AllOverviewSection from "./sections/AllOverviewSection";
 import FrontSection from "./sections/FrontSection";
 import BackSection from "./sections/BackSection";
 import HandsSection from "./sections/HandsSection";
-import { useAppStateStore } from "@/lib/store/appState";
 import CalculationSummaryDialog from "./components/CalculationSummaryDialog";
 
 export default function DashboardPage() {
   const [activeTab, setActiveTab] = useState("all");
   const [activeSecondaryTab, setActiveSecondaryTab] = useState<string | undefined>();
   const [calculateOpen, setCalculateOpen] = useState(false);
-  const { chestSize, armholeRound, handLength, handRound } = useAppStateStore();
 
   const handleTabChange = (tab: string) => {
     setActiveTab(tab);

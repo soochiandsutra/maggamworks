@@ -4,12 +4,18 @@ import { useAppStateStore } from "@/lib/store/appState";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Card } from "@/components/ui/card";
+import { Slider } from "@/components/ui/slider";
 
 export default function AllOthersSection() {
-  const { allSelectedTechniques, setAllSelectedTechniques } = useAppStateStore();
+  const {
+    allSelectedTechniques = [],
+    allTechniquePercentages = {},
+    setAllSelectedTechniques,
+    setAllTechniquePercentage
+  } = useAppStateStore();
 
   // Ensure allSelectedTechniques is always an array
-  const techniques = allSelectedTechniques || [];
+  const techniques = allSelectedTechniques;
 
   const embroideryTechniques = [
     { id: "challa-work", name: "Challa work", icon: "🧵" },
@@ -30,9 +36,13 @@ export default function AllOthersSection() {
 
   const handleTechniqueChange = (technique: string, checked: boolean) => {
     if (checked) {
-      setAllSelectedTechniques(prev => [...prev, technique]);
+      setAllSelectedTechniques([...techniques, technique]);
+      // Initialize percentage to 50% if not already set
+      if (!allTechniquePercentages[technique]) {
+        setAllTechniquePercentage(technique, 50);
+      }
     } else {
-      setAllSelectedTechniques(prev => prev.filter(t => t !== technique));
+      setAllSelectedTechniques(techniques.filter(t => t !== technique));
     }
   };
 
@@ -42,6 +52,48 @@ export default function AllOthersSection() {
         <span className="text-primary">🔧</span> Type of Work - Embroidery Techniques
       </h3>
       <div className="space-y-4">
+        {techniques.length > 0 && (
+          <Card className="p-4 bg-primary/5 border border-primary/20 ring-1 ring-primary/30">
+            <Label className="text-sm font-medium text-primary">Selected techniques:</Label>
+            <div className="flex flex-wrap gap-2 mt-3">
+              {techniques.map((technique) => (
+                <span
+                  key={technique}
+                  className="inline-flex items-center px-3 py-1.5 text-sm bg-primary/10 text-primary rounded-full font-medium"
+                >
+                  {technique}
+                </span>
+              ))}
+            </div>
+          </Card>
+        )}
+
+        {techniques.length > 0 && (
+          <div className="space-y-4">
+            <Label className="text-sm font-medium">Technique Intensity (%)</Label>
+            <div className="space-y-3">
+              {techniques.map((technique) => (
+                <Card key={technique} className="p-4 ring-1 border-border ring-border/30">
+                  <div className="flex items-center justify-between mb-3">
+                    <Label className="text-sm font-medium">{technique}</Label>
+                    <span className="text-sm text-muted-foreground">
+                      {allTechniquePercentages[technique] || 50}%
+                    </span>
+                  </div>
+                  <Slider
+                    value={[allTechniquePercentages[technique] || 50]}
+                    onValueChange={(value) => setAllTechniquePercentage(technique, value[0])}
+                    max={100}
+                    min={0}
+                    step={1}
+                    className="w-full"
+                  />
+                </Card>
+              ))}
+            </div>
+          </div>
+        )}
+
         <Label className="text-sm font-medium">Select embroidery techniques used:</Label>
         <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
           {embroideryTechniques.map((technique) => (
@@ -74,21 +126,6 @@ export default function AllOthersSection() {
             </Card>
           ))}
         </div>
-        {techniques.length > 0 && (
-          <Card className="p-4 bg-primary/5 border border-primary/20 ring-1 ring-primary/30">
-            <Label className="text-sm font-medium text-primary">Selected techniques:</Label>
-            <div className="flex flex-wrap gap-2 mt-3">
-              {techniques.map((technique) => (
-                <span
-                  key={technique}
-                  className="inline-flex items-center px-3 py-1.5 text-sm bg-primary/10 text-primary rounded-full font-medium"
-                >
-                  {technique}
-                </span>
-              ))}
-            </div>
-          </Card>
-        )}
       </div>
     </div>
   );

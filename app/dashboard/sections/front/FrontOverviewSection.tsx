@@ -1,4 +1,18 @@
+'use client';
+
+import { useAppStateStore } from '@/lib/store/appState';
+import { calculateTime, CalculationResult } from '@/lib/caluclate';
+
 export default function FrontOverviewSection() {
+  const store = useAppStateStore();
+  const calculation: CalculationResult = calculateTime(store);
+
+  const formatTime = (minutes: number) => {
+    const hours = Math.floor(minutes / 60);
+    const mins = Math.round(minutes % 60);
+    return `${hours}.${mins} hrs`;
+  };
+
   return (
     <div className="grid gap-4">
       <div className="bg-card border border-border rounded-lg p-4">
@@ -9,19 +23,25 @@ export default function FrontOverviewSection() {
         <div className="grid grid-cols-2 gap-3 text-sm">
           <div className="text-center p-3 bg-muted/50 rounded">
             <div className="font-medium">👔 Neck</div>
-            <div className="text-muted-foreground">5.3 hrs total</div>
+            <div className="text-muted-foreground">{formatTime(calculation.breakdown.front.neck)}</div>
           </div>
           <div className="text-center p-3 bg-muted/50 rounded">
             <div className="font-medium">🔲 Borders</div>
-            <div className="text-muted-foreground">9.0 hrs total</div>
+            <div className="text-muted-foreground">{formatTime(calculation.breakdown.front.borders)}</div>
           </div>
           <div className="text-center p-3 bg-muted/50 rounded">
             <div className="font-medium">✨ Motifs</div>
-            <div className="text-muted-foreground">8.5 hrs total</div>
+            <div className="text-muted-foreground">{formatTime(calculation.breakdown.front.motifs)}</div>
           </div>
           <div className="text-center p-3 bg-muted/50 rounded">
             <div className="font-medium">🎨 Fill Work</div>
-            <div className="text-muted-foreground">13.7 hrs total</div>
+            <div className="text-muted-foreground">{formatTime(calculation.breakdown.front.fillWork)}</div>
+          </div>
+        </div>
+        <div className="mt-4 p-3 bg-primary/10 rounded">
+          <div className="text-center">
+            <div className="font-medium text-primary">Total Front Time</div>
+            <div className="text-lg font-bold">{formatTime(calculation.breakdown.front.total)}</div>
           </div>
         </div>
       </div>

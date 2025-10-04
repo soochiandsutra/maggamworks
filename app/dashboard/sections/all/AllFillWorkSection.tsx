@@ -3,7 +3,7 @@
 import { useAppStateStore } from "@/lib/store/appState";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { RadioGroup } from "@/components/ui/radio-group";
 import { Card } from "@/components/ui/card";
 import { TextCard } from "@/app/dashboard/components/RadioCards";
 
@@ -15,10 +15,15 @@ export default function AllFillWorkSection() {
 
   const coverageOptions = [
     { id: "100%", name: "100%" },
+    { id: "90%", name: "90%" },
     { id: "80%", name: "80%" },
+    { id: "70%", name: "70%" },
     { id: "60%", name: "60%" },
+    { id: "50%", name: "50%" },
     { id: "40%", name: "40%" },
-    { id: "20%", name: "20%" }
+    { id: "30%", name: "30%" },
+    { id: "20%", name: "20%" },
+    { id: "10%", name: "10%" }
   ];
 
   return (
@@ -42,7 +47,7 @@ export default function AllFillWorkSection() {
         {allHasFillWork && (
           <div className="space-y-3">
             <Label className="text-sm font-medium">Coverage</Label>
-            <RadioGroup value={allCoverage} onValueChange={setAllCoverage} className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3">
+            <RadioGroup value={allCoverage} onValueChange={setAllCoverage} className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 xl:grid-cols-10 gap-3">
               {coverageOptions.map((coverage) => (
                 <TextCard
                   key={coverage.id}

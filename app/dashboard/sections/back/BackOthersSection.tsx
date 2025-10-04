@@ -3,75 +3,125 @@
 import { useAppStateStore } from "@/lib/store/appState";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
+import { Card } from "@/components/ui/card";
+import { Slider } from "@/components/ui/slider";
 
 export default function BackOthersSection() {
-  const { backSelectedTechniques, setBackSelectedTechniques } = useAppStateStore();
+  const {
+    backSelectedTechniques = [],
+    backTechniquePercentages = {},
+    setBackSelectedTechniques,
+    setBackTechniquePercentage
+  } = useAppStateStore();
 
   const embroideryTechniques = [
-    "Challa work",
-    "Paani work / chamki filling / culdhan filling",
-    "Knot work",
-    "Lavangam Kuttu / sugar bead filling",
-    "Thread filling",
-    "Small mirror",
-    "Zardosi challa work",
-    "Zardosi Knot work",
-    "Zardosi loading",
-    "Zardosi filling",
-    "Zardose rose",
-    "Zardosi cross line / chain like Zardosi",
-    "Knot work with chamki",
-    "Thread roses"
+    { id: "challa-work", name: "Challa work", icon: "🧵" },
+    { id: "paani-work", name: "Paani work / chamki filling / culdhan filling", icon: "💧" },
+    { id: "knot-work", name: "Knot work", icon: "🪢" },
+    { id: "lavangam-kuttu", name: "Lavangam Kuttu / sugar bead filling", icon: "🌾" },
+    { id: "thread-filling", name: "Thread filling", icon: "🧶" },
+    { id: "small-mirror", name: "Small mirror", icon: "🪞" },
+    { id: "zardosi-challa", name: "Zardosi challa work", icon: "✨" },
+    { id: "zardosi-knot", name: "Zardosi Knot work", icon: "🔗" },
+    { id: "zardosi-loading", name: "Zardosi loading", icon: "⚖️" },
+    { id: "zardosi-filling", name: "Zardosi filling", icon: "🎨" },
+    { id: "zardose-rose", name: "Zardose rose", icon: "🌹" },
+    { id: "zardosi-cross", name: "Zardosi cross line / chain like Zardosi", icon: "➕" },
+    { id: "knot-chamki", name: "Knot work with chamki", icon: "✨" },
+    { id: "thread-roses", name: "Thread roses", icon: "🌹" }
   ];
 
   const handleTechniqueChange = (technique: string, checked: boolean) => {
     if (checked) {
-      setBackSelectedTechniques(prev => [...prev, technique]);
+      setBackSelectedTechniques([...backSelectedTechniques, technique]);
+      // Initialize percentage to 50% if not already set
+      if (!backTechniquePercentages[technique]) {
+        setBackTechniquePercentage(technique, 50);
+      }
     } else {
-      setBackSelectedTechniques(prev => prev.filter(t => t !== technique));
+      setBackSelectedTechniques(backSelectedTechniques.filter(t => t !== technique));
     }
   };
 
   return (
     <div className="grid gap-4">
-      <div className="bg-card border border-border rounded-lg p-4">
-        <h3 className="font-semibold mb-3 flex items-center gap-2">
-          <span className="text-primary">🔧</span> Back Type of Work - Embroidery Techniques
-        </h3>
-        <div className="space-y-4">
-          <Label className="text-sm font-medium">Select embroidery techniques used on back:</Label>
-          <div className="grid gap-3 md:grid-cols-2">
-            {embroideryTechniques.map((technique) => (
-              <div key={technique} className="flex items-center space-x-2">
-                <Checkbox
-                  id={technique.toLowerCase().replace(/\s+/g, '-').replace(/\//g, '-') + '-back'}
-                  checked={backSelectedTechniques.includes(technique)}
-                  onCheckedChange={(checked) => handleTechniqueChange(technique, checked as boolean)}
-                />
-                <Label
-                  htmlFor={technique.toLowerCase().replace(/\s+/g, '-').replace(/\//g, '-') + '-back'}
-                  className="text-sm"
+      <h3 className="font-semibold mb-3 flex items-center gap-2 text-base">
+        <span className="text-primary">🔧</span> Back Type of Work - Embroidery Techniques
+      </h3>
+      <div className="space-y-4">
+        {backSelectedTechniques.length > 0 && (
+          <Card className="p-4 bg-primary/5 border border-primary/20 ring-1 ring-primary/30">
+            <Label className="text-sm font-medium text-primary">Selected techniques:</Label>
+            <div className="flex flex-wrap gap-2 mt-3">
+              {backSelectedTechniques.map((technique) => (
+                <span
+                  key={technique}
+                  className="inline-flex items-center px-3 py-1.5 text-sm bg-primary/10 text-primary rounded-full font-medium"
                 >
                   {technique}
+                </span>
+              ))}
+            </div>
+          </Card>
+        )}
+
+        {backSelectedTechniques.length > 0 && (
+          <div className="space-y-4">
+            <Label className="text-sm font-medium">Technique Intensity (%)</Label>
+            <div className="space-y-3">
+              {backSelectedTechniques.map((technique) => (
+                <Card key={technique} className="p-4 ring-1 border-border ring-border/30">
+                  <div className="flex items-center justify-between mb-3">
+                    <Label className="text-sm font-medium">{technique}</Label>
+                    <span className="text-sm text-muted-foreground">
+                      {backTechniquePercentages[technique] || 50}%
+                    </span>
+                  </div>
+                  <Slider
+                    value={[backTechniquePercentages[technique] || 50]}
+                    onValueChange={(value) => setBackTechniquePercentage(technique, value[0])}
+                    max={100}
+                    min={0}
+                    step={1}
+                    className="w-full"
+                  />
+                </Card>
+              ))}
+            </div>
+          </div>
+        )}
+
+        <Label className="text-sm font-medium">Select embroidery techniques used on back:</Label>
+        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+          {embroideryTechniques.map((technique) => (
+            <Card
+              key={technique.id}
+              className={`relative cursor-pointer p-4 ring-1 transition-all ${
+                backSelectedTechniques.includes(technique.name)
+                  ? "border-primary ring-primary bg-primary/5"
+                  : "border-border ring-border/30 hover:border-primary/30 hover:bg-primary/2"
+              }`}
+              onClick={() => handleTechniqueChange(technique.name, !backSelectedTechniques.includes(technique.name))}
+            >
+              <div className="absolute right-3 top-3">
+                <Checkbox
+                  id={technique.id + '-back'}
+                  checked={backSelectedTechniques.includes(technique.name)}
+                  onChange={() => {}}
+                  className="h-5 w-5"
+                />
+              </div>
+              <div className="flex items-start gap-3">
+                <span className="text-xl">{technique.icon}</span>
+                <Label
+                  htmlFor={technique.id + '-back'}
+                  className="text-sm font-medium cursor-pointer leading-relaxed flex-1 pr-6"
+                >
+                  {technique.name}
                 </Label>
               </div>
-            ))}
-          </div>
-          {backSelectedTechniques.length > 0 && (
-            <div className="mt-4 p-3 bg-muted/50 rounded-lg">
-              <Label className="text-sm font-medium">Selected techniques:</Label>
-              <div className="flex flex-wrap gap-2 mt-2">
-                {backSelectedTechniques.map((technique) => (
-                  <span
-                    key={technique}
-                    className="inline-flex items-center px-2 py-1 text-xs bg-primary/10 text-primary rounded-full"
-                  >
-                    {technique}
-                  </span>
-                ))}
-              </div>
-            </div>
-          )}
+            </Card>
+          ))}
         </div>
       </div>
     </div>

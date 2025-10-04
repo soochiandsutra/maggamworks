@@ -3,7 +3,9 @@
 import { useAppStateStore } from "@/lib/store/appState";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { RadioGroup } from "@/components/ui/radio-group";
+import { Card } from "@/components/ui/card";
+import { TextCard } from "@/app/dashboard/components/RadioCards";
 
 export default function FrontBordersSection() {
   const {
@@ -13,45 +15,53 @@ export default function FrontBordersSection() {
     setFrontBorderSize,
   } = useAppStateStore();
 
-  return (
-    <div className="grid gap-6">
-      <div className="bg-card border border-border rounded-lg p-6">
-        <h3 className="font-semibold mb-4 flex items-center gap-3 text-lg">
-          <span className="text-primary text-xl">🔲</span> Front Border Details
-        </h3>
-        <div className="space-y-6">
-          <div className="flex items-center space-x-3 p-3 rounded-lg hover:bg-muted/50 transition-colors">
-            <Checkbox
-              id="borders"
-              checked={frontHasBorders}
-              onCheckedChange={(checked) => setFrontHasBorders(checked as boolean)}
-              className="h-5 w-5"
-            />
-            <Label htmlFor="borders" className="text-base font-medium cursor-pointer flex-1">
-              Borders present
-            </Label>
-          </div>
+  const borderSizes = [
+    { id: "0.5-inch", name: "0.5 inch" },
+    { id: "1-inch", name: "1 inch" },
+    { id: "1.5-inch", name: "1.5 inch" },
+    { id: "2-inch", name: "2 inch" },
+    { id: "2.5-inch", name: "2.5 inch" },
+    { id: "3-inch", name: "3 inch" },
+    { id: "3.5-inch", name: "3.5 inch" },
+    { id: "4-inch", name: "4 inch" },
+    { id: "4.5-inch", name: "4.5 inch" },
+    { id: "5-inch", name: "5 inch" }
+  ];
 
-          {frontHasBorders && (
-            <div className="space-y-4 pl-6 border-l-2 border-muted">
-              <Label className="text-base font-medium">Border Size</Label>
-              <RadioGroup value={frontBorderSize} onValueChange={setFrontBorderSize} className="space-y-3">
-                <div className="flex items-center space-x-3 p-3 rounded-lg hover:bg-muted/50 transition-colors">
-                  <RadioGroupItem value="1-inch" id="border-1-inch" className="h-5 w-5" />
-                  <Label htmlFor="border-1-inch" className="text-base cursor-pointer flex-1">
-                    1 inch
-                  </Label>
-                </div>
-                <div className="flex items-center space-x-3 p-3 rounded-lg hover:bg-muted/50 transition-colors">
-                  <RadioGroupItem value="2-inch" id="border-2-inch" className="h-5 w-5" />
-                  <Label htmlFor="border-2-inch" className="text-base cursor-pointer flex-1">
-                    2 inch
-                  </Label>
-                </div>
-              </RadioGroup>
-            </div>
-          )}
-        </div>
+  return (
+    <div className="grid gap-4">
+      <h3 className="font-semibold mb-3 flex items-center gap-2 text-base">
+        <span className="text-primary">🔲</span> Front Border Details
+      </h3>
+      <div className="space-y-4">
+        <Card className="relative cursor-pointer p-4 ring-1 border-border ring-border/30 hover:border-primary/30 hover:bg-primary/2 transition-all">
+          <Checkbox
+            id="front-borders"
+            checked={frontHasBorders}
+            onCheckedChange={(checked) => setFrontHasBorders(checked as boolean)}
+            className="absolute right-4 top-4 h-5 w-5"
+          />
+          <Label htmlFor="front-borders" className="text-sm font-medium cursor-pointer">
+            Borders present
+          </Label>
+        </Card>
+
+        {frontHasBorders && (
+          <div className="space-y-3">
+            <Label className="text-sm font-medium">Border Size</Label>
+            <RadioGroup value={frontBorderSize} onValueChange={setFrontBorderSize} className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3">
+              {borderSizes.map((size) => (
+                <TextCard
+                  key={size.id}
+                  item={size}
+                  isSelected={frontBorderSize === size.id}
+                  onClick={() => setFrontBorderSize(size.id)}
+                  radioId={`front-border-${size.id}`}
+                />
+              ))}
+            </RadioGroup>
+          </div>
+        )}
       </div>
     </div>
   );

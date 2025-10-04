@@ -3,7 +3,7 @@
 import { useAppStateStore } from "@/lib/store/appState";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { RadioGroup } from "@/components/ui/radio-group";
 import { Input } from "@/components/ui/input";
 import { Card } from "@/components/ui/card";
 import { TextCard, ImageCard } from "@/app/dashboard/components/RadioCards";
@@ -74,8 +74,8 @@ export default function AllMotifsSection() {
                     item={design}
                     isSelected={false}
                     onClick={() => {}}
-                    radioId={`all-motif-design-${design.id}`}
                     altPrefix="Motif "
+                    showRadioButton={false}
                   />
                 ))}
               </div>

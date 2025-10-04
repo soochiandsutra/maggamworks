@@ -6,8 +6,8 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { Button } from "@/components/ui/button";
 import { useAppStateStore } from "@/lib/store/appState";
+import { calculateTime, CalculationResult } from "@/lib/caluclate";
 
 interface CalculationSummaryDialogProps {
   open: boolean;
@@ -19,6 +19,15 @@ export default function CalculationSummaryDialog({
   open,
   onOpenChange,
 }: CalculationSummaryDialogProps) {
+  const store = useAppStateStore();
+  const calculation: CalculationResult = calculateTime(store);
+
+  const formatTime = (minutes: number) => {
+    const hours = Math.floor(minutes / 60);
+    const mins = Math.round(minutes % 60);
+    return `${hours}.${mins} hrs`;
+  };
+
   const {
     // Size measurements
     chestSize,
@@ -28,232 +37,159 @@ export default function CalculationSummaryDialog({
 
     // All Section
     allHasBorders,
-    allBorderSize,
-    allNeckType,
-    allNeckDesignNumber,
+    // allBorderSize, // Commented out - may be needed for future detailed views
+    // allNeckType, // Commented out - may be needed for future detailed views
+    // allNeckDesignNumber, // Commented out - may be needed for future detailed views
     allHasFillWork,
-    allCoverage,
+    // allCoverage, // Commented out - may be needed for future detailed views
     allHasMotifs,
-    allMotifSize,
-    allMotifCount,
-    allSelectedTechniques,
+    // allMotifSize, // Commented out - may be needed for future detailed views
+    // allMotifCount, // Commented out - may be needed for future detailed views
+    // allSelectedTechniques, // Commented out - may be needed for future detailed views
+    // allTechniquePercentages, // Commented out - may be needed for future detailed views
 
     // Front Section
     frontHasBorders,
-    frontBorderSize,
-    frontNeckType,
-    frontNeckDesignNumber,
+    // frontBorderSize, // Commented out - may be needed for future detailed views
+    // frontNeckType, // Commented out - may be needed for future detailed views
+    // frontNeckDesignNumber, // Commented out - may be needed for future detailed views
     frontHasFillWork,
-    frontCoverage,
+    // frontCoverage, // Commented out - may be needed for future detailed views
     frontHasMotifs,
-    frontMotifSize,
-    frontMotifCount,
-    frontSelectedTechniques,
+    // frontMotifSize, // Commented out - may be needed for future detailed views
+    // frontMotifCount, // Commented out - may be needed for future detailed views
+    // frontSelectedTechniques, // Commented out - may be needed for future detailed views
 
     // Back Section
     backHasBorders,
-    backBorderSize,
-    backNeckType,
-    backNeckDesignNumber,
+    // backBorderSize, // Commented out - may be needed for future detailed views
+    // backNeckType, // Commented out - may be needed for future detailed views
+    // backNeckDesignNumber, // Commented out - may be needed for future detailed views
     backHasFillWork,
-    backCoverage,
+    // backCoverage, // Commented out - may be needed for future detailed views
     backHasMotifs,
-    backMotifSize,
-    backMotifCount,
-    backSelectedTechniques,
+    // backMotifSize, // Commented out - may be needed for future detailed views
+    // backMotifCount, // Commented out - may be needed for future detailed views
+    // backSelectedTechniques, // Commented out - may be needed for future detailed views
 
     // Hands Section
     handsHasBorders,
-    handsBorderSize,
+    // handsBorderSize, // Commented out - may be needed for future detailed views
     handsHasFillWork,
-    handsCoverage,
+    // handsCoverage, // Commented out - may be needed for future detailed views
     handsHasMotifs,
-    handsMotifSize,
-    handsMotifCount,
-    handsSelectedTechniques,
-  } = useAppStateStore();
+    // handsMotifSize, // Commented out - may be needed for future detailed views
+    // handsMotifCount, // Commented out - may be needed for future detailed views
+    // handsSelectedTechniques, // Commented out - may be needed for future detailed views
+  } = store;
+
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-4xl max-h-[80vh] overflow-y-auto">
+        <DialogContent className="max-w-2xl max-h-[80vh] overflow-y-auto bg-card border-border">
         <DialogHeader>
-          <DialogTitle>Project Summary</DialogTitle>
+          <DialogTitle className="text-foreground font-bold">Project Summary</DialogTitle>
         </DialogHeader>
-        <div className="py-4">
-          <p className="text-muted-foreground mb-6">
-            All measurements and selections for your Maggam Works project
-          </p>
-
-          <div className="space-y-6">
-            {/* Size Measurements */}
+        <div className="py-4 space-y-4">
+          <div className="space-y-4">
+            {/* Summary Header */}
             <div className="bg-card border border-border rounded-lg p-4">
-              <h3 className="font-semibold mb-4 text-lg">Size Measurements</h3>
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                <div className="space-y-1">
-                  <p className="text-sm font-medium">Chest Size</p>
-                  <p className="text-lg">{chestSize || "NA"}</p>
-                </div>
-                <div className="space-y-1">
-                  <p className="text-sm font-medium">Armhole Round</p>
-                  <p className="text-lg">{armholeRound || "NA"}</p>
-                </div>
-                <div className="space-y-1">
-                  <p className="text-sm font-medium">Hand Length</p>
-                  <p className="text-lg">{handLength || "NA"}</p>
-                </div>
-                <div className="space-y-1">
-                  <p className="text-sm font-medium">Hand Round</p>
-                  <p className="text-lg">{handRound || "NA"}</p>
+              <div className="text-center space-y-2">
+                <div className="text-3xl font-black text-primary">{formatTime(calculation.totalTime)}</div>
+                <div className="text-sm text-secondary-foreground font-medium">Total Project Time</div>
+                <div className="text-sm text-muted-foreground font-normal">
+                  <span>{Math.round(calculation.totalTime / 8)} working days</span>
                 </div>
               </div>
             </div>
 
-            {/* All Section */}
+            {/* Time Breakdown */}
             <div className="bg-card border border-border rounded-lg p-4">
-              <h3 className="font-semibold mb-4 text-lg">All Sections</h3>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div className="space-y-2">
-                  <p className="text-sm font-medium">Borders</p>
-                  <p className="text-muted-foreground">
-                    {allHasBorders ? `Size: ${allBorderSize || "NA"}` : "NA"}
-                  </p>
+              <h3 className="font-bold mb-3 text-foreground">Time Breakdown</h3>
+              <div className="space-y-3 text-sm">
+                <div className="flex justify-between py-1">
+                  <span className="text-secondary-foreground font-semibold">Front Panel Total</span>
+                  <span className="font-black text-primary">{formatTime(calculation.breakdown.front.total)}</span>
                 </div>
-                <div className="space-y-2">
-                  <p className="text-sm font-medium">Neck Design</p>
-                  <p className="text-muted-foreground">
-                    {allNeckType ? `${allNeckType} #${allNeckDesignNumber || "NA"}` : "NA"}
-                  </p>
-                </div>
-                <div className="space-y-2">
-                  <p className="text-sm font-medium">Fill Work</p>
-                  <p className="text-muted-foreground">
-                    {allHasFillWork ? `Coverage: ${allCoverage || "NA"}` : "NA"}
-                  </p>
-                </div>
-                <div className="space-y-2">
-                  <p className="text-sm font-medium">Motifs</p>
-                  <p className="text-muted-foreground">
-                    {allHasMotifs ? `${allMotifSize || "NA"}, Count: ${allMotifCount || "NA"}` : "NA"}
-                  </p>
-                </div>
-                {allSelectedTechniques.length > 0 && (
-                  <div className="space-y-2 md:col-span-2">
-                    <p className="text-sm font-medium">Other Techniques</p>
-                    <p className="text-muted-foreground">{allSelectedTechniques.join(", ")}</p>
+                <div className="pl-4 space-y-1">
+                  <div className="flex justify-between">
+                    <span className="text-muted-foreground font-normal">Borders</span>
+                    <span className="text-secondary-foreground font-medium">{formatTime(calculation.breakdown.front.borders)}</span>
                   </div>
-                )}
+                  <div className="flex justify-between">
+                    <span className="text-muted-foreground font-normal">Fill Work</span>
+                    <span className="text-secondary-foreground font-medium">{formatTime(calculation.breakdown.front.fillWork)}</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-muted-foreground font-normal">Motifs</span>
+                    <span className="text-secondary-foreground font-medium">{formatTime(calculation.breakdown.front.motifs)}</span>
+                  </div>
+                </div>
+
+                <div className="flex justify-between py-1">
+                  <span className="text-secondary-foreground font-semibold">Back Panel Total</span>
+                  <span className="font-black text-primary">{formatTime(calculation.breakdown.back.total)}</span>
+                </div>
+                <div className="pl-4 space-y-1">
+                  <div className="flex justify-between">
+                    <span className="text-muted-foreground font-normal">Borders</span>
+                    <span className="text-secondary-foreground font-medium">{formatTime(calculation.breakdown.back.borders)}</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-muted-foreground font-normal">Fill Work</span>
+                    <span className="text-secondary-foreground font-medium">{formatTime(calculation.breakdown.back.fillWork)}</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-muted-foreground font-normal">Motifs</span>
+                    <span className="text-secondary-foreground font-medium">{formatTime(calculation.breakdown.back.motifs)}</span>
+                  </div>
+                </div>
+
+                <div className="flex justify-between py-1">
+                  <span className="text-secondary-foreground font-semibold">Hands/Sleeves Total</span>
+                  <span className="font-black text-primary">{formatTime(calculation.breakdown.hands.total)}</span>
+                </div>
+                <div className="pl-4 space-y-1">
+                  <div className="flex justify-between">
+                    <span className="text-muted-foreground font-normal">Borders</span>
+                    <span className="text-secondary-foreground font-medium">{formatTime(calculation.breakdown.hands.borders)}</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-muted-foreground font-normal">Fill Work</span>
+                    <span className="text-secondary-foreground font-medium">{formatTime(calculation.breakdown.hands.fillWork)}</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-muted-foreground font-normal">Motifs</span>
+                    <span className="text-secondary-foreground font-medium">{formatTime(calculation.breakdown.hands.motifs)}</span>
+                  </div>
+                </div>
               </div>
             </div>
 
-            {/* Front Section */}
+            {/* Project Details */}
             <div className="bg-card border border-border rounded-lg p-4">
-              <h3 className="font-semibold mb-4 text-lg">Front Section</h3>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div className="space-y-2">
-                  <p className="text-sm font-medium">Borders</p>
-                  <p className="text-muted-foreground">
-                    {frontHasBorders ? `Size: ${frontBorderSize || "NA"}` : "NA"}
-                  </p>
-                </div>
-                <div className="space-y-2">
-                  <p className="text-sm font-medium">Neck Design</p>
-                  <p className="text-muted-foreground">
-                    {frontNeckType ? `${frontNeckType} #${frontNeckDesignNumber || "NA"}` : "NA"}
-                  </p>
-                </div>
-                <div className="space-y-2">
-                  <p className="text-sm font-medium">Fill Work</p>
-                  <p className="text-muted-foreground">
-                    {frontHasFillWork ? `Coverage: ${frontCoverage || "NA"}` : "NA"}
-                  </p>
-                </div>
-                <div className="space-y-2">
-                  <p className="text-sm font-medium">Motifs</p>
-                  <p className="text-muted-foreground">
-                    {frontHasMotifs ? `${frontMotifSize || "NA"}, Count: ${frontMotifCount || "NA"}` : "NA"}
-                  </p>
-                </div>
-                {frontSelectedTechniques.length > 0 && (
-                  <div className="space-y-2 md:col-span-2">
-                    <p className="text-sm font-medium">Other Techniques</p>
-                    <p className="text-muted-foreground">{frontSelectedTechniques.join(", ")}</p>
+              <h3 className="font-bold mb-3 text-foreground">Project Details</h3>
+              <div className="grid grid-cols-2 gap-4 text-sm">
+                <div>
+                  <div className="font-semibold mb-2 text-secondary-foreground">Measurements</div>
+                  <div className="space-y-1">
+                    <div className="text-muted-foreground font-normal">Chest: {chestSize || "—"}</div>
+                    <div className="text-muted-foreground font-normal">Armhole: {armholeRound || "—"}</div>
+                    <div className="text-muted-foreground font-normal">Hand Length: {handLength || "—"}</div>
+                    <div className="text-muted-foreground font-normal">Hand Round: {handRound || "—"}</div>
                   </div>
-                )}
-              </div>
-            </div>
-
-            {/* Back Section */}
-            <div className="bg-card border border-border rounded-lg p-4">
-              <h3 className="font-semibold mb-4 text-lg">Back Section</h3>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div className="space-y-2">
-                  <p className="text-sm font-medium">Borders</p>
-                  <p className="text-muted-foreground">
-                    {backHasBorders ? `Size: ${backBorderSize || "NA"}` : "NA"}
-                  </p>
                 </div>
-                <div className="space-y-2">
-                  <p className="text-sm font-medium">Neck Design</p>
-                  <p className="text-muted-foreground">
-                    {backNeckType ? `${backNeckType} #${backNeckDesignNumber || "NA"}` : "NA"}
-                  </p>
-                </div>
-                <div className="space-y-2">
-                  <p className="text-sm font-medium">Fill Work</p>
-                  <p className="text-muted-foreground">
-                    {backHasFillWork ? `Coverage: ${backCoverage || "NA"}` : "NA"}
-                  </p>
-                </div>
-                <div className="space-y-2">
-                  <p className="text-sm font-medium">Motifs</p>
-                  <p className="text-muted-foreground">
-                    {backHasMotifs ? `${backMotifSize || "NA"}, Count: ${backMotifCount || "NA"}` : "NA"}
-                  </p>
-                </div>
-                {backSelectedTechniques.length > 0 && (
-                  <div className="space-y-2 md:col-span-2">
-                    <p className="text-sm font-medium">Other Techniques</p>
-                    <p className="text-muted-foreground">{backSelectedTechniques.join(", ")}</p>
+                <div>
+                  <div className="font-semibold mb-2 text-secondary-foreground">Configuration</div>
+                  <div className="space-y-1">
+                    <div className="text-muted-foreground font-normal">Borders: {[allHasBorders, frontHasBorders, backHasBorders, handsHasBorders].filter(Boolean).length} sections</div>
+                    <div className="text-muted-foreground font-normal">Fill Work: {[allHasFillWork, frontHasFillWork, backHasFillWork, handsHasFillWork].filter(Boolean).length} sections</div>
+                    <div className="text-muted-foreground font-normal">Motifs: {[allHasMotifs, frontHasMotifs, backHasMotifs, handsHasMotifs].filter(Boolean).length} sections</div>
+                    <div className="text-muted-foreground font-normal">Techniques: {Object.keys(store.allTechniquePercentages || {}).length} applied</div>
                   </div>
-                )}
-              </div>
-            </div>
-
-            {/* Hands Section */}
-            <div className="bg-card border border-border rounded-lg p-4">
-              <h3 className="font-semibold mb-4 text-lg">Hands Section</h3>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div className="space-y-2">
-                  <p className="text-sm font-medium">Borders</p>
-                  <p className="text-muted-foreground">
-                    {handsHasBorders ? `Size: ${handsBorderSize || "NA"}` : "NA"}
-                  </p>
                 </div>
-                <div className="space-y-2">
-                  <p className="text-sm font-medium">Fill Work</p>
-                  <p className="text-muted-foreground">
-                    {handsHasFillWork ? `Coverage: ${handsCoverage || "NA"}` : "NA"}
-                  </p>
-                </div>
-                <div className="space-y-2">
-                  <p className="text-sm font-medium">Motifs</p>
-                  <p className="text-muted-foreground">
-                    {handsHasMotifs ? `${handsMotifSize || "NA"}, Count: ${handsMotifCount || "NA"}` : "NA"}
-                  </p>
-                </div>
-                {handsSelectedTechniques.length > 0 && (
-                  <div className="space-y-2 md:col-span-2">
-                    <p className="text-sm font-medium">Other Techniques</p>
-                    <p className="text-muted-foreground">{handsSelectedTechniques.join(", ")}</p>
-                  </div>
-                )}
               </div>
             </div>
           </div>
-        </div>
-        <div className="flex justify-end gap-2 pt-4 border-t">
-          <Button variant="outline" onClick={() => onOpenChange(false)}>
-            Close
-          </Button>
         </div>
       </DialogContent>
     </Dialog>

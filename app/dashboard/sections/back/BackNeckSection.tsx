@@ -3,61 +3,211 @@
 import { useAppStateStore } from "@/lib/store/appState";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { Card } from "@/components/ui/card";
+import { Ship, Waves, Plus } from "lucide-react";
+import Image from "next/image";
+
+// Data structure
+const neckTypes = [
+  { id: "boat", name: "Boat neck", icon: Ship },
+  { id: "deep", name: "Deep neck", icon: Waves },
+  { id: "other", name: "Other necks", icon: Plus },
+];
+
+const neckType2Data = [
+  { id: 'round', name: 'Round Neck', seed: 'neck1' },
+  { id: 'v', name: 'V Neck', seed: 'neck2' },
+  { id: 'square', name: 'Square Neck', seed: 'neck3' },
+  { id: 'sweetheart', name: 'Sweetheart', seed: 'neck4' },
+];
+
+// Reusable Components
+function IconCard({
+  item,
+  isSelected,
+  onClick,
+  radioId
+}: {
+  item: typeof neckTypes[0],
+  isSelected: boolean,
+  onClick: () => void,
+  radioId: string
+}) {
+  const Icon = item.icon;
+  return (
+    <Card
+      className={`relative cursor-pointer p-3 gap-2 transition-all ring-1 ${
+        isSelected
+          ? "border-primary ring-primary bg-primary/5"
+          : "border-border ring-border/30 hover:border-primary/30 hover:bg-primary/2"
+      }`}
+      onClick={onClick}
+    >
+      <div className="absolute right-2">
+        <RadioGroupItem
+          value={item.id}
+          id={radioId}
+          className="data-[state=checked]:bg-primary data-[state=checked]:text-primary-foreground"
+        />
+      </div>
+      <div className={`${isSelected ? "text-primary" : "text-muted-foreground"}`}>
+        <Icon className="h-5 w-5" />
+      </div>
+      <h3
+        className={`text-sm font-medium ${
+          isSelected ? "text-primary" : "text-muted-foreground"
+        }`}
+      >
+        {item.name}
+      </h3>
+    </Card>
+  );
+}
+
+function ImageCard({
+  item,
+  isSelected,
+  onClick,
+  radioId,
+  altPrefix = ""
+}: {
+  item: { id: string | number, name: string, seed?: string },
+  isSelected: boolean,
+  onClick: () => void,
+  radioId: string,
+  altPrefix?: string
+}) {
+  return (
+    <Card
+      className={`py-0 gap-0 relative cursor-pointer overflow-hidden transition-all ring-1 ${
+        isSelected
+          ? "border-primary ring-primary bg-primary/5"
+          : "border-border ring-border/30 hover:border-primary/30 hover:bg-primary/2"
+      }`}
+      onClick={onClick}
+    >
+      <div className="absolute right-2 top-2 z-10">
+        <RadioGroupItem
+          value={item.id.toString()}
+          id={radioId}
+          className="data-[state=checked]:bg-primary data-[state=checked]:text-primary-foreground"
+        />
+      </div>
+      <div className="aspect-[1/1] relative">
+        <Image
+          src={`https://picsum.photos/seed/${item.seed || `neckdesign${item.id}`}/200/200.jpg`}
+          alt={`${altPrefix}${item.name}`}
+          fill
+          className="object-cover"
+        />
+      </div>
+      <div className="p-2">
+        <h3
+          className={`text-sm font-medium text-center ${
+            isSelected ? "text-primary" : "text-muted-foreground"
+          }`}
+        >
+          {item.name}
+        </h3>
+      </div>
+    </Card>
+  );
+}
 
 export default function BackNeckSection() {
   const {
     backNeckType,
     backNeckDesignNumber,
+    backNeckType2,
+    backNeckType2DesignNumber,
     setBackNeckType,
     setBackNeckDesignNumber,
+    setBackNeckType2,
+    setBackNeckType2DesignNumber,
   } = useAppStateStore();
 
   return (
-    <div className="grid gap-6">
-      <div className="bg-card border border-border rounded-lg p-6">
-        <h3 className="font-semibold mb-4 flex items-center gap-3 text-lg">
-          <span className="text-primary text-xl">👔</span> Back Neck Details
-        </h3>
-        <div className="space-y-8">
-          <div className="space-y-4">
-            <Label className="text-base font-medium">Neck Type</Label>
-            <RadioGroup value={backNeckType} onValueChange={setBackNeckType} className="space-y-3">
-              <div className="flex items-center space-x-3 p-3 rounded-lg hover:bg-muted/50 transition-colors">
-                <RadioGroupItem value="boat" id="back-boat-neck" className="h-5 w-5" />
-                <Label htmlFor="back-boat-neck" className="text-base cursor-pointer flex-1">
-                  Boat neck
-                </Label>
-              </div>
-              <div className="flex items-center space-x-3 p-3 rounded-lg hover:bg-muted/50 transition-colors">
-                <RadioGroupItem value="deep" id="back-deep-neck" className="h-5 w-5" />
-                <Label htmlFor="back-deep-neck" className="text-base cursor-pointer flex-1">
-                  Deep neck
-                </Label>
-              </div>
-              <div className="flex items-center space-x-3 p-3 rounded-lg hover:bg-muted/50 transition-colors">
-                <RadioGroupItem value="other" id="back-other-neck" className="h-5 w-5" />
-                <Label htmlFor="back-other-neck" className="text-base cursor-pointer flex-1">
-                  Other necks
-                </Label>
-              </div>
-            </RadioGroup>
-          </div>
+    <div className="grid gap-4">
+      <h3 className="font-semibold mb-3 flex items-center gap-2 text-base">
+        <span className="text-primary">👔</span> Back Neck Details
+      </h3>
+      <div className="space-y-6">
+        <div className="space-y-3">
+          <Label className="text-sm font-medium">Neck Type</Label>
+          <RadioGroup value={backNeckType} onValueChange={setBackNeckType} className="grid grid-cols-1 gap-3 md:grid-cols-3">
+            {neckTypes.map((neck) => (
+              <IconCard
+                key={neck.id}
+                item={neck}
+                isSelected={backNeckType === neck.id}
+                onClick={() => setBackNeckType(neck.id)}
+                radioId={`back-${neck.id}-neck`}
+              />
+            ))}
+          </RadioGroup>
+        </div>
 
-          <div className="space-y-4">
-            <Label className="text-base font-medium">Neck Design Numbers</Label>
-            <RadioGroup value={backNeckDesignNumber} onValueChange={setBackNeckDesignNumber} className="grid grid-cols-3 gap-3 sm:grid-cols-5">
-              {[1, 2, 3, 4, 5].map((num) => (
-                <div key={num} className="flex items-center justify-center">
-                  <div className="flex items-center space-x-2 p-3 rounded-lg hover:bg-muted/50 transition-colors min-w-[60px] justify-center">
-                    <RadioGroupItem value={num.toString()} id={`back-design-${num}`} className="h-5 w-5" />
-                    <Label htmlFor={`back-design-${num}`} className="text-base cursor-pointer font-semibold">
-                      {num}
-                    </Label>
-                  </div>
+        <div className="space-y-3">
+          <Label className="text-sm font-medium">Neck Design Numbers</Label>
+          <RadioGroup value={backNeckDesignNumber} onValueChange={setBackNeckDesignNumber} className="grid grid-cols-3 gap-3 sm:grid-cols-5">
+            {[1, 2, 3, 4, 5].map((num) => (
+              <Card
+                key={num}
+                className={`relative cursor-pointer p-3 gap-2 transition-all ring-1 flex items-center justify-center ${
+                  backNeckDesignNumber === num.toString()
+                    ? "border-primary ring-primary bg-primary/5"
+                    : "border-border ring-1 ring-border/30 hover:border-primary/30 hover:bg-primary/5"
+                }`}
+                onClick={() => setBackNeckDesignNumber(num.toString())}
+              >
+                <div className="absolute right-2 top-2">
+                  <RadioGroupItem
+                    value={num.toString()}
+                    id={`back-design-${num}`}
+                    className="data-[state=checked]:bg-primary data-[state=checked]:text-primary-foreground"
+                  />
                 </div>
-              ))}
-            </RadioGroup>
-          </div>
+                <h3
+                  className={`text-sm font-medium ${
+                    backNeckDesignNumber === num.toString() ? "text-primary" : "text-muted-foreground"
+                  }`}
+                >
+                  {num}
+                </h3>
+              </Card>
+            ))}
+          </RadioGroup>
+        </div>
+
+        <div className="space-y-3">
+          <Label className="text-sm font-medium">Neck Type 2</Label>
+          <RadioGroup value={backNeckType2} onValueChange={setBackNeckType2} className="grid grid-cols-2 gap-3">
+            {neckType2Data.map((neck) => (
+              <ImageCard
+                key={neck.id}
+                item={neck}
+                isSelected={backNeckType2 === neck.id}
+                onClick={() => setBackNeckType2(neck.id)}
+                radioId={`back-neck2-${neck.id}`}
+              />
+            ))}
+          </RadioGroup>
+        </div>
+
+        <div className="space-y-3">
+          <Label className="text-sm font-medium">Neck Type 2 Design Numbers</Label>
+          <RadioGroup value={backNeckType2DesignNumber} onValueChange={setBackNeckType2DesignNumber} className="grid grid-cols-2 gap-3">
+            {[1, 2, 3, 4, 5, 6].map((num) => (
+              <ImageCard
+                key={num}
+                item={{ id: num, name: `Design ${num}` }}
+                isSelected={backNeckType2DesignNumber === num.toString()}
+                onClick={() => setBackNeckType2DesignNumber(num.toString())}
+                radioId={`back-neck2-design-${num}`}
+                altPrefix="Neck "
+              />
+            ))}
+          </RadioGroup>
         </div>
       </div>
     </div>

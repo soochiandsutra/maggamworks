@@ -3,7 +3,9 @@
 import { useAppStateStore } from "@/lib/store/appState";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { RadioGroup } from "@/components/ui/radio-group";
+import { Card } from "@/components/ui/card";
+import { TextCard } from "@/app/dashboard/components/RadioCards";
 
 export default function BackBordersSection() {
   const {
@@ -13,40 +15,53 @@ export default function BackBordersSection() {
     setBackBorderSize,
   } = useAppStateStore();
 
+  const borderSizes = [
+    { id: "0.5-inch", name: "0.5 inch" },
+    { id: "1-inch", name: "1 inch" },
+    { id: "1.5-inch", name: "1.5 inch" },
+    { id: "2-inch", name: "2 inch" },
+    { id: "2.5-inch", name: "2.5 inch" },
+    { id: "3-inch", name: "3 inch" },
+    { id: "3.5-inch", name: "3.5 inch" },
+    { id: "4-inch", name: "4 inch" },
+    { id: "4.5-inch", name: "4.5 inch" },
+    { id: "5-inch", name: "5 inch" }
+  ];
+
   return (
     <div className="grid gap-4">
-      <div className="bg-card border border-border rounded-lg p-4">
-        <h3 className="font-semibold mb-3 flex items-center gap-2">
-          <span className="text-primary">🔲</span> Back Border Details
-        </h3>
-        <div className="space-y-6">
-          <div className="flex items-center space-x-2">
-            <Checkbox
-              id="back-borders"
-              checked={backHasBorders}
-              onCheckedChange={(checked) => setBackHasBorders(checked as boolean)}
-            />
-            <Label htmlFor="back-borders" className="text-sm font-medium">
-              Borders present
-            </Label>
-          </div>
+      <h3 className="font-semibold mb-3 flex items-center gap-2 text-base">
+        <span className="text-primary">🔲</span> Back Border Details
+      </h3>
+      <div className="space-y-4">
+        <Card className="relative cursor-pointer p-4 ring-1 border-border ring-border/30 hover:border-primary/30 hover:bg-primary/2 transition-all">
+          <Checkbox
+            id="back-borders"
+            checked={backHasBorders}
+            onCheckedChange={(checked) => setBackHasBorders(checked as boolean)}
+            className="absolute right-4 top-4 h-5 w-5"
+          />
+          <Label htmlFor="back-borders" className="text-sm font-medium cursor-pointer">
+            Borders present
+          </Label>
+        </Card>
 
-          {backHasBorders && (
-            <div className="space-y-3">
-              <Label className="text-sm font-medium">Border Size</Label>
-              <RadioGroup value={backBorderSize} onValueChange={setBackBorderSize}>
-                <div className="flex items-center space-x-2">
-                  <RadioGroupItem value="1-inch" id="back-border-1-inch" />
-                  <Label htmlFor="back-border-1-inch">1 inch</Label>
-                </div>
-                <div className="flex items-center space-x-2">
-                  <RadioGroupItem value="2-inch" id="back-border-2-inch" />
-                  <Label htmlFor="back-border-2-inch">2 inch</Label>
-                </div>
-              </RadioGroup>
-            </div>
-          )}
-        </div>
+        {backHasBorders && (
+          <div className="space-y-3">
+            <Label className="text-sm font-medium">Border Size</Label>
+            <RadioGroup value={backBorderSize} onValueChange={setBackBorderSize} className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3">
+              {borderSizes.map((size) => (
+                <TextCard
+                  key={size.id}
+                  item={size}
+                  isSelected={backBorderSize === size.id}
+                  onClick={() => setBackBorderSize(size.id)}
+                  radioId={`back-border-${size.id}`}
+                />
+              ))}
+            </RadioGroup>
+          </div>
+        )}
       </div>
     </div>
   );

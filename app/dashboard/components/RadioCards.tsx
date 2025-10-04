@@ -51,13 +51,15 @@ export function ImageCard({
   isSelected,
   onClick,
   radioId,
-  altPrefix = ""
+  altPrefix = "",
+  showRadioButton = true
 }: {
   item: { id: string | number, name: string, seed?: string },
   isSelected: boolean,
   onClick: () => void,
-  radioId: string,
-  altPrefix?: string
+  radioId?: string,
+  altPrefix?: string,
+  showRadioButton?: boolean
 }) {
   return (
     <Card
@@ -68,13 +70,15 @@ export function ImageCard({
       }`}
       onClick={onClick}
     >
-      <div className="absolute right-2 top-2 z-10">
-        <RadioGroupItem
-          value={item.id.toString()}
-          id={radioId}
-          className="data-[state=checked]:bg-primary data-[state=checked]:text-primary-foreground"
-        />
-      </div>
+      {showRadioButton && radioId && (
+        <div className="absolute right-2 top-2 z-10">
+          <RadioGroupItem
+            value={item.id.toString()}
+            id={radioId}
+            className="data-[state=checked]:bg-primary data-[state=checked]:text-primary-foreground"
+          />
+        </div>
+      )}
       <div className="aspect-[1/1] relative">
         <Image
           src={`https://picsum.photos/seed/${item.seed || `design${item.id}`}/200/200.jpg`}

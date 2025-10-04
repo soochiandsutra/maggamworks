@@ -3,7 +3,7 @@
 import { useAppStateStore } from "@/lib/store/appState";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { RadioGroup } from "@/components/ui/radio-group";
 import { Card } from "@/components/ui/card";
 import { TextCard } from "@/app/dashboard/components/RadioCards";
 
@@ -16,8 +16,16 @@ export default function BordersSection() {
   } = useAppStateStore();
 
   const borderSizes = [
+    { id: "0.5-inch", name: "0.5 inch" },
     { id: "1-inch", name: "1 inch" },
-    { id: "2-inch", name: "2 inch" }
+    { id: "1.5-inch", name: "1.5 inch" },
+    { id: "2-inch", name: "2 inch" },
+    { id: "2.5-inch", name: "2.5 inch" },
+    { id: "3-inch", name: "3 inch" },
+    { id: "3.5-inch", name: "3.5 inch" },
+    { id: "4-inch", name: "4 inch" },
+    { id: "4.5-inch", name: "4.5 inch" },
+    { id: "5-inch", name: "5 inch" }
   ];
 
   return (
@@ -41,7 +49,7 @@ export default function BordersSection() {
         {allHasBorders && (
           <div className="space-y-3">
             <Label className="text-sm font-medium">Border Size</Label>
-            <RadioGroup value={allBorderSize} onValueChange={setAllBorderSize} className="grid grid-cols-2 gap-3">
+            <RadioGroup value={allBorderSize} onValueChange={setAllBorderSize} className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3">
               {borderSizes.map((size) => (
                 <TextCard
                   key={size.id}
