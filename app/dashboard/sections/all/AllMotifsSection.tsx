@@ -5,6 +5,8 @@ import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Input } from "@/components/ui/input";
+import { Card } from "@/components/ui/card";
+import { TextCard, ImageCard } from "@/app/dashboard/components/RadioCards";
 
 export default function AllMotifsSection() {
   const allHasMotifs = useAppStateStore((state) => state.allHasMotifs);
@@ -14,48 +16,74 @@ export default function AllMotifsSection() {
   const setAllMotifSize = useAppStateStore((state) => state.setAllMotifSize);
   const setAllMotifCount = useAppStateStore((state) => state.setAllMotifCount);
 
+  const motifSizes = [
+    { id: "small", name: "Small" },
+    { id: "medium", name: "Medium" },
+    { id: "large", name: "Large" },
+    { id: "big", name: "Big" }
+  ];
+
+  const motifDesigns = [
+    { id: 1, name: "Design 1", seed: "motif1" },
+    { id: 2, name: "Design 2", seed: "motif2" },
+    { id: 3, name: "Design 3", seed: "motif3" },
+    { id: 4, name: "Design 4", seed: "motif4" }
+  ];
+
   return (
-    <div className="grid gap-6">
-      <div className="bg-card border border-border rounded-lg p-6">
-        <h3 className="font-semibold mb-4 flex items-center gap-3 text-lg">
-          <span className="text-primary text-xl">✨</span> All Motifs Details
-        </h3>
-        <div className="space-y-6">
-          <div className="flex items-center space-x-3 p-3 rounded-lg hover:bg-muted/50 transition-colors">
-            <Checkbox
-              id="all-motifs"
-              checked={allHasMotifs}
-              onCheckedChange={(checked) => setAllHasMotifs(checked as boolean)}
-              className="h-5 w-5"
-            />
-            <Label htmlFor="all-motifs" className="text-base font-medium cursor-pointer flex-1">
-              Motifs present
-            </Label>
-          </div>
+    <div className="grid gap-4">
+      <h3 className="font-semibold mb-3 flex items-center gap-2 text-base">
+        <span className="text-primary">✨</span> All Motifs Details
+      </h3>
+      <div className="space-y-4">
+        <Card className="relative cursor-pointer p-4 ring-1 border-border ring-border/30 hover:border-primary/30 hover:bg-primary/2 transition-all">
+          <Checkbox
+            id="all-motifs"
+            checked={allHasMotifs}
+            onCheckedChange={(checked) => setAllHasMotifs(checked as boolean)}
+            className="absolute right-4 top-4 h-5 w-5"
+          />
+          <Label htmlFor="all-motifs" className="text-sm font-medium cursor-pointer">
+            Motifs present
+          </Label>
+        </Card>
 
-          {allHasMotifs && (
-            <div className="space-y-6 pl-6 border-l-2 border-muted">
-              <div className="space-y-4">
-                <Label className="text-base font-medium">Motif Size</Label>
-                <RadioGroup value={allMotifSize} onValueChange={setAllMotifSize} className="grid grid-cols-2 gap-3">
-                  {[
-                    { value: "small", label: "Small" },
-                    { value: "medium", label: "Medium" },
-                    { value: "large", label: "Large" },
-                    { value: "big", label: "Big" }
-                  ].map(({ value, label }) => (
-                    <div key={value} className="flex items-center space-x-3 p-3 rounded-lg hover:bg-muted/50 transition-colors">
-                      <RadioGroupItem value={value} id={`all-motif-${value}`} className="h-5 w-5" />
-                      <Label htmlFor={`all-motif-${value}`} className="text-base cursor-pointer flex-1">
-                        {label}
-                      </Label>
-                    </div>
-                  ))}
-                </RadioGroup>
+        {allHasMotifs && (
+          <div className="space-y-4">
+            <div className="space-y-3">
+              <Label className="text-sm font-medium">Motif Size</Label>
+              <RadioGroup value={allMotifSize} onValueChange={setAllMotifSize} className="grid grid-cols-2 gap-3">
+                {motifSizes.map((size) => (
+                  <TextCard
+                    key={size.id}
+                    item={size}
+                    isSelected={allMotifSize === size.id}
+                    onClick={() => setAllMotifSize(size.id)}
+                    radioId={`all-motif-${size.id}`}
+                  />
+                ))}
+              </RadioGroup>
+            </div>
+
+            <div className="space-y-3">
+              <Label className="text-sm font-medium">Motif Designs</Label>
+              <div className="grid grid-cols-2 gap-3">
+                {motifDesigns.map((design) => (
+                  <ImageCard
+                    key={design.id}
+                    item={design}
+                    isSelected={false}
+                    onClick={() => {}}
+                    radioId={`all-motif-design-${design.id}`}
+                    altPrefix="Motif "
+                  />
+                ))}
               </div>
+            </div>
 
+            <Card className="p-4 ring-1 border-border ring-border/30">
               <div className="space-y-3">
-                <Label htmlFor="all-motif-count" className="text-base font-medium">
+                <Label htmlFor="all-motif-count" className="text-sm font-medium">
                   Count (1-20)
                 </Label>
                 <Input
@@ -66,12 +94,12 @@ export default function AllMotifsSection() {
                   value={allMotifCount}
                   onChange={(e) => setAllMotifCount(e.target.value)}
                   placeholder="Enter motif count"
-                  className="h-12 text-base"
+                  className="h-10 text-sm"
                 />
               </div>
-            </div>
-          )}
-        </div>
+            </Card>
+          </div>
+        )}
       </div>
     </div>
   );

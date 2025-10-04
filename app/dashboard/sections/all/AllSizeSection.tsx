@@ -2,6 +2,7 @@
 
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Card } from "@/components/ui/card";
 import { useAppStateStore } from "@/lib/store/appState";
 
 export default function AllSizeSection() {
@@ -16,68 +17,71 @@ export default function AllSizeSection() {
     setHandRound,
   } = useAppStateStore();
 
+  const sizeInputs = [
+    {
+      id: "chest-size",
+      label: "Chest Size/Blouse size (28-44)",
+      value: chestSize,
+      onChange: setChestSize,
+      placeholder: "Enter chest size",
+      min: 28,
+      max: 44,
+      icon: "📏"
+    },
+    {
+      id: "armhole-round",
+      label: "Sleeve Armhole round",
+      value: armholeRound,
+      onChange: setArmholeRound,
+      placeholder: "Enter armhole measurement",
+      icon: "🔄"
+    },
+    {
+      id: "hand-length",
+      label: "Hand length",
+      value: handLength,
+      onChange: setHandLength,
+      placeholder: "Enter hand length",
+      icon: "📏"
+    },
+    {
+      id: "hand-round",
+      label: "Hand round",
+      value: handRound,
+      onChange: setHandRound,
+      placeholder: "Enter hand circumference",
+      icon: "⭕"
+    }
+  ];
+
   return (
-    <div className="grid gap-6">
-      <div className="bg-card border border-border rounded-lg p-6">
-        <h3 className="font-semibold mb-4 flex items-center gap-3 text-lg">
-          <span className="text-primary text-xl">📏</span> Size Measurements
-        </h3>
-        <div className="grid gap-6">
-          <div className="space-y-3">
-            <Label htmlFor="chest-size" className="text-base font-medium">
-              Chest Size/Blouse size (28-44)
-            </Label>
-            <Input
-              id="chest-size"
-              type="number"
-              min="28"
-              max="44"
-              value={chestSize}
-              onChange={(e) => setChestSize(e.target.value)}
-              placeholder="Enter chest size"
-              className="h-12 text-base"
-            />
-          </div>
-          <div className="space-y-3">
-            <Label htmlFor="armhole-round" className="text-base font-medium">
-              Sleeve Armhole round
-            </Label>
-            <Input
-              id="armhole-round"
-              type="number"
-              value={armholeRound}
-              onChange={(e) => setArmholeRound(e.target.value)}
-              placeholder="Enter armhole measurement"
-              className="h-12 text-base"
-            />
-          </div>
-          <div className="space-y-3">
-            <Label htmlFor="hand-length" className="text-base font-medium">
-              Hand length
-            </Label>
-            <Input
-              id="hand-length"
-              type="number"
-              value={handLength}
-              onChange={(e) => setHandLength(e.target.value)}
-              placeholder="Enter hand length"
-              className="h-12 text-base"
-            />
-          </div>
-          <div className="space-y-3">
-            <Label htmlFor="hand-round" className="text-base font-medium">
-              Hand round
-            </Label>
-            <Input
-              id="hand-round"
-              type="number"
-              value={handRound}
-              onChange={(e) => setHandRound(e.target.value)}
-              placeholder="Enter hand circumference"
-              className="h-12 text-base"
-            />
-          </div>
-        </div>
+    <div className="grid gap-4">
+      <h3 className="font-semibold mb-3 flex items-center gap-2 text-base">
+        <span className="text-primary">📏</span> Size Measurements
+      </h3>
+      <div className="grid gap-4 sm:grid-cols-2">
+        {sizeInputs.map((input) => (
+          <Card key={input.id} className="p-4 ring-1 border-border ring-border/30">
+            <div className="space-y-3">
+              <div className="flex items-center gap-2">
+                <span className="text-lg">{input.icon}</span>
+                <Label htmlFor={input.id} className="text-sm font-medium">
+                  {input.label}
+                </Label>
+              </div>
+              <Input
+                id={input.id}
+                type="number"
+                min={input.min}
+                max={input.max}
+                value={input.value}
+                onChange={(e) => input.onChange(e.target.value)}
+                placeholder={input.placeholder}
+                className="h-10 text-sm"
+              />
+            </div>
+          </Card>
+        ))}
       </div>
     </div>
   );

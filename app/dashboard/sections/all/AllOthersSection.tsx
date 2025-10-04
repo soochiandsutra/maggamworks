@@ -3,25 +3,29 @@
 import { useAppStateStore } from "@/lib/store/appState";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
+import { Card } from "@/components/ui/card";
 
 export default function AllOthersSection() {
   const { allSelectedTechniques, setAllSelectedTechniques } = useAppStateStore();
 
+  // Ensure allSelectedTechniques is always an array
+  const techniques = allSelectedTechniques || [];
+
   const embroideryTechniques = [
-    "Challa work",
-    "Paani work / chamki filling / culdhan filling",
-    "Knot work",
-    "Lavangam Kuttu / sugar bead filling",
-    "Thread filling",
-    "Small mirror",
-    "Zardosi challa work",
-    "Zardosi Knot work",
-    "Zardosi loading",
-    "Zardosi filling",
-    "Zardose rose",
-    "Zardosi cross line / chain like Zardosi",
-    "Knot work with chamki",
-    "Thread roses"
+    { id: "challa-work", name: "Challa work", icon: "🧵" },
+    { id: "paani-work", name: "Paani work / chamki filling / culdhan filling", icon: "💧" },
+    { id: "knot-work", name: "Knot work", icon: "🪢" },
+    { id: "lavangam-kuttu", name: "Lavangam Kuttu / sugar bead filling", icon: "🌾" },
+    { id: "thread-filling", name: "Thread filling", icon: "🧶" },
+    { id: "small-mirror", name: "Small mirror", icon: "🪞" },
+    { id: "zardosi-challa", name: "Zardosi challa work", icon: "✨" },
+    { id: "zardosi-knot", name: "Zardosi Knot work", icon: "🔗" },
+    { id: "zardosi-loading", name: "Zardosi loading", icon: "⚖️" },
+    { id: "zardosi-filling", name: "Zardosi filling", icon: "🎨" },
+    { id: "zardose-rose", name: "Zardose rose", icon: "🌹" },
+    { id: "zardosi-cross", name: "Zardosi cross line / chain like Zardosi", icon: "➕" },
+    { id: "knot-chamki", name: "Knot work with chamki", icon: "✨" },
+    { id: "thread-roses", name: "Thread roses", icon: "🌹" }
   ];
 
   const handleTechniqueChange = (technique: string, checked: boolean) => {
@@ -33,47 +37,58 @@ export default function AllOthersSection() {
   };
 
   return (
-    <div className="grid gap-6">
-      <div className="bg-card border border-border rounded-lg p-6">
-        <h3 className="font-semibold mb-4 flex items-center gap-3 text-lg">
-          <span className="text-primary text-xl">🔧</span> Type of Work - Embroidery Techniques
-        </h3>
-        <div className="space-y-6">
-          <Label className="text-base font-medium">Select embroidery techniques used:</Label>
-          <div className="space-y-3">
-            {embroideryTechniques.map((technique) => (
-              <div key={technique} className="flex items-start space-x-3 p-3 rounded-lg hover:bg-muted/50 transition-colors">
+    <div className="grid gap-4">
+      <h3 className="font-semibold mb-3 flex items-center gap-2 text-base">
+        <span className="text-primary">🔧</span> Type of Work - Embroidery Techniques
+      </h3>
+      <div className="space-y-4">
+        <Label className="text-sm font-medium">Select embroidery techniques used:</Label>
+        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+          {embroideryTechniques.map((technique) => (
+            <Card
+              key={technique.id}
+              className={`relative cursor-pointer p-4 ring-1 transition-all ${
+                techniques.includes(technique.name)
+                  ? "border-primary ring-primary bg-primary/5"
+                  : "border-border ring-border/30 hover:border-primary/30 hover:bg-primary/2"
+              }`}
+              onClick={() => handleTechniqueChange(technique.name, !techniques.includes(technique.name))}
+            >
+              <div className="absolute right-3 top-3">
                 <Checkbox
-                  id={technique.toLowerCase().replace(/\s+/g, '-').replace(/\//g, '-')}
-                  checked={allSelectedTechniques.includes(technique)}
-                  onCheckedChange={(checked) => handleTechniqueChange(technique, checked as boolean)}
-                  className="h-5 w-5 mt-0.5"
+                  id={technique.id}
+                  checked={techniques.includes(technique.name)}
+                  onChange={() => {}}
+                  className="h-5 w-5"
                 />
+              </div>
+              <div className="flex items-start gap-3">
+                <span className="text-xl">{technique.icon}</span>
                 <Label
-                  htmlFor={technique.toLowerCase().replace(/\s+/g, '-').replace(/\//g, '-')}
-                  className="text-base cursor-pointer leading-relaxed flex-1"
+                  htmlFor={technique.id}
+                  className="text-sm font-medium cursor-pointer leading-relaxed flex-1 pr-6"
                 >
-                  {technique}
+                  {technique.name}
                 </Label>
               </div>
-            ))}
-          </div>
-          {allSelectedTechniques.length > 0 && (
-            <div className="mt-6 p-4 bg-primary/5 border border-primary/20 rounded-lg">
-              <Label className="text-base font-medium text-primary">Selected techniques:</Label>
-              <div className="flex flex-wrap gap-2 mt-3">
-                {allSelectedTechniques.map((technique) => (
-                  <span
-                    key={technique}
-                    className="inline-flex items-center px-3 py-1.5 text-sm bg-primary/10 text-primary rounded-full font-medium"
-                  >
-                    {technique}
-                  </span>
-                ))}
-              </div>
-            </div>
-          )}
+            </Card>
+          ))}
         </div>
+        {techniques.length > 0 && (
+          <Card className="p-4 bg-primary/5 border border-primary/20 ring-1 ring-primary/30">
+            <Label className="text-sm font-medium text-primary">Selected techniques:</Label>
+            <div className="flex flex-wrap gap-2 mt-3">
+              {techniques.map((technique) => (
+                <span
+                  key={technique}
+                  className="inline-flex items-center px-3 py-1.5 text-sm bg-primary/10 text-primary rounded-full font-medium"
+                >
+                  {technique}
+                </span>
+              ))}
+            </div>
+          </Card>
+        )}
       </div>
     </div>
   );
