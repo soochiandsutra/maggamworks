@@ -10,10 +10,12 @@ import { TextCard } from "@/app/dashboard/components/RadioCards";
 
 export default function FrontMotifsSection() {
   const frontHasMotifs = useAppStateStore((state) => state.frontHasMotifs);
-  const frontMotifSize = useAppStateStore((state) => state.frontMotifSize);
+  const frontMotifSizeX = useAppStateStore((state) => state.frontMotifSizeX);
+  const frontMotifSizeY = useAppStateStore((state) => state.frontMotifSizeY);
   const frontMotifCount = useAppStateStore((state) => state.frontMotifCount);
   const setFrontHasMotifs = useAppStateStore((state) => state.setFrontHasMotifs);
-  const setFrontMotifSize = useAppStateStore((state) => state.setFrontMotifSize);
+  const setFrontMotifSizeX = useAppStateStore((state) => state.setFrontMotifSizeX);
+  const setFrontMotifSizeY = useAppStateStore((state) => state.setFrontMotifSizeY);
   const setFrontMotifCount = useAppStateStore((state) => state.setFrontMotifCount);
 
   const motifSizes = [
@@ -44,18 +46,43 @@ export default function FrontMotifsSection() {
         {frontHasMotifs && (
           <div className="space-y-4">
             <div className="space-y-3">
-              <Label className="text-sm font-medium">Motif Size</Label>
-              <RadioGroup value={frontMotifSize} onValueChange={setFrontMotifSize} className="grid grid-cols-2 gap-3">
-                {motifSizes.map((size) => (
-                  <TextCard
-                    key={size.id}
-                    item={size}
-                    isSelected={frontMotifSize === size.id}
-                    onClick={() => setFrontMotifSize(size.id)}
-                    radioId={`front-motif-${size.id}`}
-                  />
-                ))}
-              </RadioGroup>
+              <Label className="text-sm font-medium">Motif Size (inches)</Label>
+              <div className="grid grid-cols-2 gap-3">
+                <Card className="p-3 ring-1 border-border ring-border/30">
+                  <div className="space-y-2">
+                    <Label htmlFor="front-motif-size-x" className="text-xs font-medium text-muted-foreground">
+                      Width (X)
+                    </Label>
+                    <Input
+                      id="front-motif-size-x"
+                      type="number"
+                      min="0"
+                      step="0.1"
+                      value={frontMotifSizeX || ''}
+                      onChange={(e) => setFrontMotifSizeX(parseFloat(e.target.value) || 0)}
+                      placeholder="0.0"
+                      className="h-8 text-sm"
+                    />
+                  </div>
+                </Card>
+                <Card className="p-3 ring-1 border-border ring-border/30">
+                  <div className="space-y-2">
+                    <Label htmlFor="front-motif-size-y" className="text-xs font-medium text-muted-foreground">
+                      Height (Y)
+                    </Label>
+                    <Input
+                      id="front-motif-size-y"
+                      type="number"
+                      min="0"
+                      step="0.1"
+                      value={frontMotifSizeY || ''}
+                      onChange={(e) => setFrontMotifSizeY(parseFloat(e.target.value) || 0)}
+                      placeholder="0.0"
+                      className="h-8 text-sm"
+                    />
+                  </div>
+                </Card>
+              </div>
             </div>
 
             <Card className="p-4 ring-1 border-border ring-border/30">

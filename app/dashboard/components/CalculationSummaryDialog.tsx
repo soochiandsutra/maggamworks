@@ -20,7 +20,52 @@ export default function CalculationSummaryDialog({
   onOpenChange,
 }: CalculationSummaryDialogProps) {
   const store = useAppStateStore();
-  const calculation: CalculationResult = calculateTime(store);
+
+  // Ensure we have a valid chest size for calculation
+  const chestSize = store.chestSize && store.chestSize.trim() !== '' ? store.chestSize : '36';
+
+  // Debug: Log the store state to see what's being passed
+  console.log('Store state for calculation:', {
+    chestSize: store.chestSize,
+    allHasBorders: store.allHasBorders,
+    allBorderSize: store.allBorderSize,
+    frontHasBorders: store.frontHasBorders,
+    frontBorderSize: store.frontBorderSize,
+    allTechniquePercentages: store.allTechniquePercentages,
+    allNeckType: store.allNeckType,
+    frontNeckType: store.frontNeckType,
+  });
+
+  // Create a modified store state with proper defaults for calculation
+  const calculationState = {
+    ...store,
+    chestSize: chestSize,
+    // Ensure neck types have proper defaults
+    allNeckType: store.allNeckType && store.allNeckType.trim() !== '' ? store.allNeckType : 'round',
+    frontNeckType: store.frontNeckType && store.frontNeckType.trim() !== '' ? store.frontNeckType : 'round',
+    backNeckType: store.backNeckType && store.backNeckType.trim() !== '' ? store.backNeckType : 'round',
+    handsNeckType: store.handsNeckType && store.handsNeckType.trim() !== '' ? store.handsNeckType : 'round',
+    // Ensure string properties have defaults
+    allNeckDesignNumber: store.allNeckDesignNumber || '1',
+    frontNeckDesignNumber: store.frontNeckDesignNumber || '1',
+    backNeckDesignNumber: store.backNeckDesignNumber || '1',
+    handsNeckDesignNumber: store.handsNeckDesignNumber || '1',
+    allMotifCount: store.allMotifCount || '1',
+    frontMotifCount: store.frontMotifCount || '1',
+    backMotifCount: store.backMotifCount || '1',
+    handsMotifCount: store.handsMotifCount || '1',
+  };
+
+  const calculation: CalculationResult = calculateTime(calculationState);
+
+  // Debug: Log the calculation result
+  console.log('Calculation result:', calculation);
+
+  // Additional debug: Check if calculation is working
+  console.log('Total time:', calculation.totalTime);
+  console.log('Front total:', calculation.breakdown.front.total);
+  console.log('Back total:', calculation.breakdown.back.total);
+  console.log('Hands total:', calculation.breakdown.hands.total);
 
   const formatTime = (minutes: number) => {
     const hours = Math.floor(minutes / 60);
@@ -29,8 +74,7 @@ export default function CalculationSummaryDialog({
   };
 
   const {
-    // Size measurements
-    chestSize,
+    // Size measurements (excluding chestSize since we declared it above)
     armholeRound,
     handLength,
     handRound,
@@ -172,7 +216,7 @@ export default function CalculationSummaryDialog({
                 <div>
                   <div className="font-semibold mb-2 text-secondary-foreground">Measurements</div>
                   <div className="space-y-1">
-                    <div className="text-muted-foreground font-normal">Chest: {chestSize || "—"}</div>
+                    <div className="text-muted-foreground font-normal">Chest: {chestSize}</div>
                     <div className="text-muted-foreground font-normal">Armhole: {armholeRound || "—"}</div>
                     <div className="text-muted-foreground font-normal">Hand Length: {handLength || "—"}</div>
                     <div className="text-muted-foreground font-normal">Hand Round: {handRound || "—"}</div>

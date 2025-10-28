@@ -6,6 +6,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { RadioGroup } from "@/components/ui/radio-group";
 import { Card } from "@/components/ui/card";
 import { TextCard } from "@/app/dashboard/components/RadioCards";
+import { Input } from "@/components/ui/input";
 
 export default function HandsBordersSection() {
   const {
@@ -47,20 +48,23 @@ export default function HandsBordersSection() {
         </Card>
 
         {handsHasBorders && (
-          <div className="space-y-3">
-            <Label className="text-sm font-medium">Border Size</Label>
-            <RadioGroup value={handsBorderSize} onValueChange={setHandsBorderSize} className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3">
-              {borderSizes.map((size) => (
-                <TextCard
-                  key={size.id}
-                  item={size}
-                  isSelected={handsBorderSize === size.id}
-                  onClick={() => setHandsBorderSize(size.id)}
-                  radioId={`hands-border-${size.id}`}
-                />
-              ))}
-            </RadioGroup>
-          </div>
+          <Card className="p-4 ring-1 border-border ring-border/30">
+            <div className="space-y-3">
+              <Label htmlFor="hands-border-size" className="text-sm font-medium">
+                Border Size (inches)
+              </Label>
+              <Input
+                id="hands-border-size"
+                type="number"
+                min="0"
+                step="0.1"
+                value={handsBorderSize || ''}
+                onChange={(e) => setHandsBorderSize(parseFloat(e.target.value) || 0)}
+                placeholder="0.0"
+                className="h-10 text-sm"
+              />
+            </div>
+          </Card>
         )}
       </div>
     </div>

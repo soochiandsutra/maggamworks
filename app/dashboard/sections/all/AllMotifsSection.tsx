@@ -10,10 +10,12 @@ import { TextCard, ImageCard } from "@/app/dashboard/components/RadioCards";
 
 export default function AllMotifsSection() {
   const allHasMotifs = useAppStateStore((state) => state.allHasMotifs);
-  const allMotifSize = useAppStateStore((state) => state.allMotifSize);
+  const allMotifSizeX = useAppStateStore((state) => state.allMotifSizeX);
+  const allMotifSizeY = useAppStateStore((state) => state.allMotifSizeY);
   const allMotifCount = useAppStateStore((state) => state.allMotifCount);
   const setAllHasMotifs = useAppStateStore((state) => state.setAllHasMotifs);
-  const setAllMotifSize = useAppStateStore((state) => state.setAllMotifSize);
+  const setAllMotifSizeX = useAppStateStore((state) => state.setAllMotifSizeX);
+  const setAllMotifSizeY = useAppStateStore((state) => state.setAllMotifSizeY);
   const setAllMotifCount = useAppStateStore((state) => state.setAllMotifCount);
 
   const motifSizes = [
@@ -51,18 +53,43 @@ export default function AllMotifsSection() {
         {allHasMotifs && (
           <div className="space-y-4">
             <div className="space-y-3">
-              <Label className="text-sm font-medium">Motif Size</Label>
-              <RadioGroup value={allMotifSize} onValueChange={setAllMotifSize} className="grid grid-cols-2 gap-3">
-                {motifSizes.map((size) => (
-                  <TextCard
-                    key={size.id}
-                    item={size}
-                    isSelected={allMotifSize === size.id}
-                    onClick={() => setAllMotifSize(size.id)}
-                    radioId={`all-motif-${size.id}`}
-                  />
-                ))}
-              </RadioGroup>
+              <Label className="text-sm font-medium">Motif Size (inches)</Label>
+              <div className="grid grid-cols-2 gap-3">
+                <Card className="p-3 ring-1 border-border ring-border/30">
+                  <div className="space-y-2">
+                    <Label htmlFor="all-motif-size-x" className="text-xs font-medium text-muted-foreground">
+                      Width (X)
+                    </Label>
+                    <Input
+                      id="all-motif-size-x"
+                      type="number"
+                      min="0"
+                      step="0.1"
+                      value={allMotifSizeX || ''}
+                      onChange={(e) => setAllMotifSizeX(parseFloat(e.target.value) || 0)}
+                      placeholder="0.0"
+                      className="h-8 text-sm"
+                    />
+                  </div>
+                </Card>
+                <Card className="p-3 ring-1 border-border ring-border/30">
+                  <div className="space-y-2">
+                    <Label htmlFor="all-motif-size-y" className="text-xs font-medium text-muted-foreground">
+                      Height (Y)
+                    </Label>
+                    <Input
+                      id="all-motif-size-y"
+                      type="number"
+                      min="0"
+                      step="0.1"
+                      value={allMotifSizeY || ''}
+                      onChange={(e) => setAllMotifSizeY(parseFloat(e.target.value) || 0)}
+                      placeholder="0.0"
+                      className="h-8 text-sm"
+                    />
+                  </div>
+                </Card>
+              </div>
             </div>
 
             <div className="space-y-3">

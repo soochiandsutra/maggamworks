@@ -10,10 +10,12 @@ import { TextCard } from "@/app/dashboard/components/RadioCards";
 
 export default function HandsMotifsSection() {
   const handsHasMotifs = useAppStateStore((state) => state.handsHasMotifs);
-  const handsMotifSize = useAppStateStore((state) => state.handsMotifSize);
+  const handsMotifSizeX = useAppStateStore((state) => state.handsMotifSizeX);
+  const handsMotifSizeY = useAppStateStore((state) => state.handsMotifSizeY);
   const handsMotifCount = useAppStateStore((state) => state.handsMotifCount);
   const setHandsHasMotifs = useAppStateStore((state) => state.setHandsHasMotifs);
-  const setHandsMotifSize = useAppStateStore((state) => state.setHandsMotifSize);
+  const setHandsMotifSizeX = useAppStateStore((state) => state.setHandsMotifSizeX);
+  const setHandsMotifSizeY = useAppStateStore((state) => state.setHandsMotifSizeY);
   const setHandsMotifCount = useAppStateStore((state) => state.setHandsMotifCount);
 
   const motifSizes = [
@@ -44,18 +46,43 @@ export default function HandsMotifsSection() {
         {handsHasMotifs && (
           <div className="space-y-4">
             <div className="space-y-3">
-              <Label className="text-sm font-medium">Motif Size</Label>
-              <RadioGroup value={handsMotifSize} onValueChange={setHandsMotifSize} className="grid grid-cols-2 gap-3">
-                {motifSizes.map((size) => (
-                  <TextCard
-                    key={size.id}
-                    item={size}
-                    isSelected={handsMotifSize === size.id}
-                    onClick={() => setHandsMotifSize(size.id)}
-                    radioId={`hands-motif-${size.id}`}
-                  />
-                ))}
-              </RadioGroup>
+              <Label className="text-sm font-medium">Motif Size (inches)</Label>
+              <div className="grid grid-cols-2 gap-3">
+                <Card className="p-3 ring-1 border-border ring-border/30">
+                  <div className="space-y-2">
+                    <Label htmlFor="hands-motif-size-x" className="text-xs font-medium text-muted-foreground">
+                      Width (X)
+                    </Label>
+                    <Input
+                      id="hands-motif-size-x"
+                      type="number"
+                      min="0"
+                      step="0.1"
+                      value={handsMotifSizeX || ''}
+                      onChange={(e) => setHandsMotifSizeX(parseFloat(e.target.value) || 0)}
+                      placeholder="0.0"
+                      className="h-8 text-sm"
+                    />
+                  </div>
+                </Card>
+                <Card className="p-3 ring-1 border-border ring-border/30">
+                  <div className="space-y-2">
+                    <Label htmlFor="hands-motif-size-y" className="text-xs font-medium text-muted-foreground">
+                      Height (Y)
+                    </Label>
+                    <Input
+                      id="hands-motif-size-y"
+                      type="number"
+                      min="0"
+                      step="0.1"
+                      value={handsMotifSizeY || ''}
+                      onChange={(e) => setHandsMotifSizeY(parseFloat(e.target.value) || 0)}
+                      placeholder="0.0"
+                      className="h-8 text-sm"
+                    />
+                  </div>
+                </Card>
+              </div>
             </div>
 
             <Card className="p-4 ring-1 border-border ring-border/30">

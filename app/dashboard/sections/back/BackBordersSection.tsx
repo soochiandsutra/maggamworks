@@ -6,13 +6,18 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { RadioGroup } from "@/components/ui/radio-group";
 import { Card } from "@/components/ui/card";
 import { TextCard } from "@/app/dashboard/components/RadioCards";
+import { Input } from "@/components/ui/input";
 
 export default function BackBordersSection() {
   const {
     backHasBorders,
     backBorderSize,
+    backHasBlouseBottom,
+    backBlouseBottomSize,
     setBackHasBorders,
     setBackBorderSize,
+    setBackHasBlouseBottom,
+    setBackBlouseBottomSize,
   } = useAppStateStore();
 
   const borderSizes = [
@@ -42,25 +47,60 @@ export default function BackBordersSection() {
             className="absolute right-4 top-4 h-5 w-5"
           />
           <Label htmlFor="back-borders" className="text-sm font-medium cursor-pointer">
-            Borders present
+            main borders
+          </Label>
+        </Card>
+
+        <Card className="relative cursor-pointer p-4 ring-1 border-border ring-border/30 hover:border-primary/30 hover:bg-primary/2 transition-all">
+          <Checkbox
+            id="back-blouse-bottom"
+            checked={backHasBlouseBottom}
+            onCheckedChange={(checked) => setBackHasBlouseBottom(checked as boolean)}
+            className="absolute right-4 top-4 h-5 w-5"
+          />
+          <Label htmlFor="back-blouse-bottom" className="text-sm font-medium cursor-pointer">
+            Blouse bottom
           </Label>
         </Card>
 
         {backHasBorders && (
-          <div className="space-y-3">
-            <Label className="text-sm font-medium">Border Size</Label>
-            <RadioGroup value={backBorderSize} onValueChange={setBackBorderSize} className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3">
-              {borderSizes.map((size) => (
-                <TextCard
-                  key={size.id}
-                  item={size}
-                  isSelected={backBorderSize === size.id}
-                  onClick={() => setBackBorderSize(size.id)}
-                  radioId={`back-border-${size.id}`}
-                />
-              ))}
-            </RadioGroup>
-          </div>
+          <Card className="p-4 ring-1 border-border ring-border/30">
+            <div className="space-y-3">
+              <Label htmlFor="back-border-size" className="text-sm font-medium">
+                main borders Size (inches)
+              </Label>
+              <Input
+                id="back-border-size"
+                type="number"
+                min="0"
+                step="0.1"
+                value={backBorderSize || ''}
+                onChange={(e) => setBackBorderSize(parseFloat(e.target.value) || 0)}
+                placeholder="0.0"
+                className="h-10 text-sm"
+              />
+            </div>
+          </Card>
+        )}
+
+        {backHasBlouseBottom && (
+          <Card className="p-4 ring-1 border-border ring-border/30">
+            <div className="space-y-3">
+              <Label htmlFor="back-blouse-bottom-size" className="text-sm font-medium">
+                Blouse bottom Size (inches)
+              </Label>
+              <Input
+                id="back-blouse-bottom-size"
+                type="number"
+                min="0"
+                step="0.1"
+                value={backBlouseBottomSize || ''}
+                onChange={(e) => setBackBlouseBottomSize(parseFloat(e.target.value) || 0)}
+                placeholder="0.0"
+                className="h-10 text-sm"
+              />
+            </div>
+          </Card>
         )}
       </div>
     </div>

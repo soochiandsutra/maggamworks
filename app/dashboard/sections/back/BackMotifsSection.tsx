@@ -11,10 +11,12 @@ import { TextCard } from "@/app/dashboard/components/RadioCards";
 
 export default function BackMotifsSection() {
   const backHasMotifs = useAppStateStore((state) => state.backHasMotifs);
-  const backMotifSize = useAppStateStore((state) => state.backMotifSize);
+  const backMotifSizeX = useAppStateStore((state) => state.backMotifSizeX);
+  const backMotifSizeY = useAppStateStore((state) => state.backMotifSizeY);
   const backMotifCount = useAppStateStore((state) => state.backMotifCount);
   const setBackHasMotifs = useAppStateStore((state) => state.setBackHasMotifs);
-  const setBackMotifSize = useAppStateStore((state) => state.setBackMotifSize);
+  const setBackMotifSizeX = useAppStateStore((state) => state.setBackMotifSizeX);
+  const setBackMotifSizeY = useAppStateStore((state) => state.setBackMotifSizeY);
   const setBackMotifCount = useAppStateStore((state) => state.setBackMotifCount);
 
   const motifSizes = [
@@ -45,18 +47,43 @@ export default function BackMotifsSection() {
         {backHasMotifs && (
           <div className="space-y-4">
             <div className="space-y-3">
-              <Label className="text-sm font-medium">Motif Size</Label>
-              <RadioGroup value={backMotifSize} onValueChange={setBackMotifSize} className="grid grid-cols-2 gap-3">
-                {motifSizes.map((size) => (
-                  <TextCard
-                    key={size.id}
-                    item={size}
-                    isSelected={backMotifSize === size.id}
-                    onClick={() => setBackMotifSize(size.id)}
-                    radioId={`back-motif-${size.id}`}
-                  />
-                ))}
-              </RadioGroup>
+              <Label className="text-sm font-medium">Motif Size (inches)</Label>
+              <div className="grid grid-cols-2 gap-3">
+                <Card className="p-3 ring-1 border-border ring-border/30">
+                  <div className="space-y-2">
+                    <Label htmlFor="back-motif-size-x" className="text-xs font-medium text-muted-foreground">
+                      Width (X)
+                    </Label>
+                    <Input
+                      id="back-motif-size-x"
+                      type="number"
+                      min="0"
+                      step="0.1"
+                      value={backMotifSizeX || ''}
+                      onChange={(e) => setBackMotifSizeX(parseFloat(e.target.value) || 0)}
+                      placeholder="0.0"
+                      className="h-8 text-sm"
+                    />
+                  </div>
+                </Card>
+                <Card className="p-3 ring-1 border-border ring-border/30">
+                  <div className="space-y-2">
+                    <Label htmlFor="back-motif-size-y" className="text-xs font-medium text-muted-foreground">
+                      Height (Y)
+                    </Label>
+                    <Input
+                      id="back-motif-size-y"
+                      type="number"
+                      min="0"
+                      step="0.1"
+                      value={backMotifSizeY || ''}
+                      onChange={(e) => setBackMotifSizeY(parseFloat(e.target.value) || 0)}
+                      placeholder="0.0"
+                      className="h-8 text-sm"
+                    />
+                  </div>
+                </Card>
+              </div>
             </div>
 
             <Card className="p-4 ring-1 border-border ring-border/30">

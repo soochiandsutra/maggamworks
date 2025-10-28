@@ -18,31 +18,29 @@ export default function AllOthersSection() {
   const techniques = allSelectedTechniques;
 
   const embroideryTechniques = [
-    { id: "challa-work", name: "Challa work", icon: "🧵" },
-    { id: "paani-work", name: "Paani work / chamki filling / culdhan filling", icon: "💧" },
-    { id: "knot-work", name: "Knot work", icon: "🪢" },
-    { id: "lavangam-kuttu", name: "Lavangam Kuttu / sugar bead filling", icon: "🌾" },
-    { id: "thread-filling", name: "Thread filling", icon: "🧶" },
-    { id: "small-mirror", name: "Small mirror", icon: "🪞" },
-    { id: "zardosi-challa", name: "Zardosi challa work", icon: "✨" },
-    { id: "zardosi-knot", name: "Zardosi Knot work", icon: "🔗" },
-    { id: "zardosi-loading", name: "Zardosi loading", icon: "⚖️" },
-    { id: "zardosi-filling", name: "Zardosi filling", icon: "🎨" },
-    { id: "zardose-rose", name: "Zardose rose", icon: "🌹" },
-    { id: "zardosi-cross", name: "Zardosi cross line / chain like Zardosi", icon: "➕" },
-    { id: "knot-chamki", name: "Knot work with chamki", icon: "✨" },
-    { id: "thread-roses", name: "Thread roses", icon: "🌹" }
+    { id: "challa-work", name: "Challa work (12 mins)", icon: "🧵" },
+    { id: "paani-work", name: "Paani work (9.5 mins)", icon: "💧" },
+    { id: "chambu-filling", name: "Chambu filling (7 mins)", icon: "🧵" },
+    { id: "cutdana-filling", name: "Cutdana filling (7 mins)", icon: "💎" },
+    { id: "lavangam-kuttu", name: "Lavangam Kuttu (7.5 mins)", icon: "🌾" },
+    { id: "thread-filling", name: "Thread filling (8 mins)", icon: "🧶" },
+    { id: "zardosi-chain-stitch", name: "Zardosi chain stitch (14 mins)", icon: "🔗" },
+    { id: "thread-knot-work", name: "Thread knot work (21 mins)", icon: "🪢" },
+    { id: "mirror-work", name: "Mirror work (7 mins)", icon: "🪞" },
+    { id: "zarkan", name: "Zarkan (27 mins)", icon: "✨" },
+    { id: "thread-roses", name: "Thread roses (30 mins)", icon: "🌹" },
+    { id: "zardosi-rose", name: "Zardosi rose (27 mins)", icon: "🌹" }
   ];
 
-  const handleTechniqueChange = (technique: string, checked: boolean) => {
+  const handleTechniqueChange = (techniqueId: string, techniqueName: string, checked: boolean) => {
     if (checked) {
-      setAllSelectedTechniques([...techniques, technique]);
+      setAllSelectedTechniques([...techniques, techniqueName]);
       // Initialize percentage to 50% if not already set
-      if (!allTechniquePercentages[technique]) {
-        setAllTechniquePercentage(technique, 50);
+      if (!allTechniquePercentages[techniqueName]) {
+        setAllTechniquePercentage(techniqueName, 50);
       }
     } else {
-      setAllSelectedTechniques(techniques.filter(t => t !== technique));
+      setAllSelectedTechniques(techniques.filter(t => t !== techniqueName));
     }
   };
 
@@ -104,7 +102,7 @@ export default function AllOthersSection() {
                   ? "border-primary ring-primary bg-primary/5"
                   : "border-border ring-border/30 hover:border-primary/30 hover:bg-primary/2"
               }`}
-              onClick={() => handleTechniqueChange(technique.name, !techniques.includes(technique.name))}
+              onClick={() => handleTechniqueChange(technique.id, technique.name, !techniques.includes(technique.name))}
             >
               <div className="absolute right-3 top-3">
                 <Checkbox
