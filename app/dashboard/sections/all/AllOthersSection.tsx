@@ -11,9 +11,11 @@ export default function AllOthersSection() {
     all: {
       selectedTechniques: allSelectedTechniques = [],
       techniquePercentages: allTechniquePercentages = {},
+      coverage: allCoverage = 50,
     },
     setAllSelectedTechniques,
     setAllTechniquePercentages,
+    setAllCoverage,
   } = useAppStateStore();
 
   // Ensure allSelectedTechniques is always an array
@@ -96,6 +98,26 @@ export default function AllOthersSection() {
         <span className="text-primary">🔧</span> Type of Work - Embroidery Techniques
       </h3>
       <div className="space-y-4">
+        {/* Coverage Slider */}
+        <Card className="p-4 bg-gradient-to-r from-purple-50 to-pink-50 border border-purple-200 ring-1 ring-purple-300">
+          <Label className="text-sm font-medium text-purple-900 mb-3 block">📏 Coverage Percentage (Default)</Label>
+          <div className="space-y-3">
+            <div className="flex items-center justify-between">
+              <span className="text-sm text-purple-700">Default Coverage</span>
+              <span className="text-lg font-bold text-purple-900">{allCoverage}%</span>
+            </div>
+            <Slider
+              value={[allCoverage]}
+              onValueChange={(value) => setAllCoverage(value[0])}
+              max={100}
+              min={0}
+              step={1}
+              className="w-full"
+            />
+            <p className="text-xs text-purple-600">This coverage will be inherited by Front, Back, and Hands sections unless overridden.</p>
+          </div>
+        </Card>
+
         {/* Preview Section - Normalized Percentages (moved to top) */}
         {renderPreview()}
 

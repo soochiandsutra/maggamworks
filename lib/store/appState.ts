@@ -1,19 +1,19 @@
 import { create } from 'zustand';
 
 interface SectionState {
-  hasBorders: boolean;
-  borderSize: number;
-  hasBlouseBottom: boolean;
-  blouseBottomSize: number;
+  hasBorders: boolean | null;
+  borderSize: number | null;
+  hasBlouseBottom: boolean | null;
+  blouseBottomSize: number | null;
   neckStyle: string;
-  hasFillWork: boolean;
+  hasFillWork: boolean | null;
   coverage: number | null;
-  hasMotifs: boolean;
-  motifSizeX: number;
-  motifSizeY: number;
-  motifCount: string;
-  selectedTechniques: string[];
-  techniquePercentages: Record<string, number>;
+  hasMotifs: boolean | null;
+  motifSizeX: number | null;
+  motifSizeY: number | null;
+  motifCount: string | null;
+  selectedTechniques: string[] | null;
+  techniquePercentages: Record<string, number> | null;
 
   // Hands specific
   selectedDesign?: string;
@@ -128,53 +128,53 @@ export const useAppStateStore = create<AppState>((set) => ({
 
   // Front Section
   front: {
-    hasBorders: false,
-    borderSize: 0,
-    hasBlouseBottom: false,
-    blouseBottomSize: 0,
+    hasBorders: null,
+    borderSize: null,
+    hasBlouseBottom: null,
+    blouseBottomSize: null,
     neckStyle: 'not selected',
-    hasFillWork: false,
+    hasFillWork: null,
     coverage: null,
-    hasMotifs: false,
-    motifSizeX: 2,
-    motifSizeY: 2,
-    motifCount: '1',
-    selectedTechniques: [],
-    techniquePercentages: {},
+    hasMotifs: null,
+    motifSizeX: null,
+    motifSizeY: null,
+    motifCount: null,
+    selectedTechniques: null,
+    techniquePercentages: null,
   },
 
   // Back Section
   back: {
-    hasBorders: false,
-    borderSize: 0,
-    hasBlouseBottom: false,
-    blouseBottomSize: 0,
+    hasBorders: null,
+    borderSize: null,
+    hasBlouseBottom: null,
+    blouseBottomSize: null,
     neckStyle: 'not selected',
-    hasFillWork: false,
+    hasFillWork: null,
     coverage: null,
-    hasMotifs: false,
-    motifSizeX: 2,
-    motifSizeY: 2,
-    motifCount: '1',
-    selectedTechniques: [],
-    techniquePercentages: {},
+    hasMotifs: null,
+    motifSizeX: null,
+    motifSizeY: null,
+    motifCount: null,
+    selectedTechniques: null,
+    techniquePercentages: null,
   },
 
   // Hands Section
   hands: {
-    hasBorders: false,
-    borderSize: 0,
-    hasBlouseBottom: false,
-    blouseBottomSize: 0,
+    hasBorders: null,
+    borderSize: null,
+    hasBlouseBottom: null,
+    blouseBottomSize: null,
     neckStyle: 'not selected',
-    hasFillWork: false,
+    hasFillWork: null,
     coverage: null,
-    hasMotifs: false,
-    motifSizeX: 1.5,
-    motifSizeY: 1.5,
-    motifCount: '1',
-    selectedTechniques: [],
-    techniquePercentages: {},
+    hasMotifs: null,
+    motifSizeX: null,
+    motifSizeY: null,
+    motifCount: null,
+    selectedTechniques: null,
+    techniquePercentages: null,
     selectedDesign: 'simple',
   },
 
