@@ -30,15 +30,16 @@ export default function BackOverviewSection() {
     // Borders group
     const bordersValues = [];
     bordersValues.push({ label: 'Enabled', value: store.back.hasBorders ? 'Yes' : 'No', default: 'No', enabled: store.back.hasBorders });
+    const borderSize = store.back.borderSize !== null ? store.back.borderSize : store.all.borderSize;
     if (store.back.hasBorders) {
-      bordersValues.push({ label: 'Border Size', value: store.back.borderSize, default: '0', enabled: true });
+      bordersValues.push({ label: 'Border Size', value: borderSize, default: '0', enabled: true });
     } else {
-      bordersValues.push({ label: 'Border Size', value: store.back.borderSize, default: '0', enabled: false });
+      bordersValues.push({ label: 'Border Size', value: borderSize, default: '0', enabled: false });
     }
     // Add blouse bottom to borders
     bordersValues.push(
       { label: 'Blouse Bottom Enabled', value: store.back.hasBlouseBottom ? 'Yes' : 'No', default: 'No', enabled: store.back.hasBlouseBottom },
-      { label: 'Blouse Bottom Size', value: store.back.blouseBottomSize, default: '0', enabled: store.back.hasBlouseBottom }
+      { label: 'Blouse Bottom Size', value: store.back.blouseBottomSize !== null ? store.back.blouseBottomSize : store.all.blouseBottomSize, default: '0', enabled: store.back.hasBlouseBottom }
     );
     groups.push({ section: 'Borders', values: bordersValues });
 
@@ -47,10 +48,11 @@ export default function BackOverviewSection() {
     const chestSize = parseFloat(store.chestSize) || 36;
     
     if (store.back.hasBorders && store.back.neckStyle !== 'not selected') {
+      const effectiveBorderSize = store.back.borderSize !== null ? store.back.borderSize : (store.all.borderSize || 0);
       const topBorderCalc = calculateBackTopBorder(
         store.back.neckStyle,
         chestSize,
-        store.back.borderSize
+        effectiveBorderSize
       );
       
       borderCalcValues.push({
@@ -78,7 +80,8 @@ export default function BackOverviewSection() {
     }
     
     if (store.back.hasBlouseBottom) {
-      const bottomBorderCalc = calculateBottomBorder(chestSize, store.back.blouseBottomSize);
+      const effectiveBlouseBottomSize = store.back.blouseBottomSize !== null ? store.back.blouseBottomSize : (store.all.blouseBottomSize || 0);
+      const bottomBorderCalc = calculateBottomBorder(chestSize, effectiveBlouseBottomSize);
       
       borderCalcValues.push({
         label: 'Bottom Border Formula',
@@ -120,15 +123,15 @@ export default function BackOverviewSection() {
     motifsValues.push({ label: 'Enabled', value: store.back.hasMotifs ? 'Yes' : 'No', default: 'No', enabled: store.back.hasMotifs });
     if (store.back.hasMotifs) {
       motifsValues.push(
-        { label: 'Motif Size X', value: store.back.motifSizeX, default: '2', enabled: true },
-        { label: 'Motif Size Y', value: store.back.motifSizeY, default: '2', enabled: true },
-        { label: 'Motif Count', value: store.back.motifCount, default: '1', enabled: true }
+        { label: 'Motif Size X', value: store.back.motifSizeX !== null ? store.back.motifSizeX : store.all.motifSizeX, default: '2', enabled: true },
+        { label: 'Motif Size Y', value: store.back.motifSizeY !== null ? store.back.motifSizeY : store.all.motifSizeY, default: '2', enabled: true },
+        { label: 'Motif Count', value: store.back.motifCount !== null ? store.back.motifCount : store.all.motifCount, default: '1', enabled: true }
       );
     } else {
       motifsValues.push(
-        { label: 'Motif Size X', value: store.back.motifSizeX, default: '2', enabled: false },
-        { label: 'Motif Size Y', value: store.back.motifSizeY, default: '2', enabled: false },
-        { label: 'Motif Count', value: store.back.motifCount, default: '1', enabled: false }
+        { label: 'Motif Size X', value: store.back.motifSizeX !== null ? store.back.motifSizeX : store.all.motifSizeX, default: '2', enabled: false },
+        { label: 'Motif Size Y', value: store.back.motifSizeY !== null ? store.back.motifSizeY : store.all.motifSizeY, default: '2', enabled: false },
+        { label: 'Motif Count', value: store.back.motifCount !== null ? store.back.motifCount : store.all.motifCount, default: '1', enabled: false }
       );
     }
     groups.push({ section: 'Motifs', values: motifsValues });
@@ -136,10 +139,13 @@ export default function BackOverviewSection() {
     // Motif Calculation section - always show
     const motifCalcValues = [];
     if (store.back.hasMotifs) {
+      const effectiveMotifSizeX = store.back.motifSizeX !== null ? store.back.motifSizeX : (store.all.motifSizeX || 2);
+      const effectiveMotifSizeY = store.back.motifSizeY !== null ? store.back.motifSizeY : (store.all.motifSizeY || 2);
+      const effectiveMotifCount = store.back.motifCount !== null ? store.back.motifCount : (store.all.motifCount || '1');
       const motifCalc = calculateMotifValue(
-        store.back.motifSizeX,
-        store.back.motifSizeY,
-        parseInt(store.back.motifCount) || 1
+        effectiveMotifSizeX,
+        effectiveMotifSizeY,
+        parseInt(effectiveMotifCount) || 1
       );
       
       motifCalcValues.push({
@@ -280,14 +286,16 @@ export default function BackOverviewSection() {
 
     // Others group - only techniques
     const othersValues = [];
-    if (store.back.selectedTechniques.length > 0) {
+    const selectedTechniques = store.back.selectedTechniques !== null ? store.back.selectedTechniques : (store.all.selectedTechniques || []);
+    const techniquePercentages = store.back.techniquePercentages !== null ? store.back.techniquePercentages : (store.all.techniquePercentages || {});
+    if (selectedTechniques && selectedTechniques.length > 0) {
       // Show techniques with percentages like in the preview
-      const totalPercentage = store.back.selectedTechniques.reduce((sum, technique) => {
-        return sum + (store.back.techniquePercentages[technique] || 50);
+      const totalPercentage = selectedTechniques.reduce((sum, technique) => {
+        return sum + (techniquePercentages[technique] || 50);
       }, 0);
 
-      store.back.selectedTechniques.forEach(technique => {
-        const rawPercentage = store.back.techniquePercentages[technique] || 50;
+      selectedTechniques.forEach(technique => {
+        const rawPercentage = techniquePercentages[technique] || 50;
         const normalizedPercentage = totalPercentage > 0 ? (rawPercentage / totalPercentage) * 100 : 0;
         othersValues.push({
           label: technique,

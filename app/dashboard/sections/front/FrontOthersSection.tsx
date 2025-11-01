@@ -9,11 +9,13 @@ import { Slider } from "@/components/ui/slider";
 export default function FrontOthersSection() {
   const {
     front: {
-      selectedTechniques: frontSelectedTechniques = [],
-      techniquePercentages: frontTechniquePercentages = {},
+      selectedTechniques: frontSelectedTechniques,
+      techniquePercentages: frontTechniquePercentages,
       coverage: frontCoverage,
     },
     all: {
+      selectedTechniques: allSelectedTechniques = [],
+      techniquePercentages: allTechniquePercentages = {},
       coverage: allCoverage = 50,
     },
     setFrontSelectedTechniques,
@@ -24,8 +26,12 @@ export default function FrontOthersSection() {
   const effectiveCoverage = frontCoverage !== null ? frontCoverage : allCoverage;
   const isCustomCoverage = frontCoverage !== null;
 
-  // Ensure frontSelectedTechniques is always an array
-  const techniques = frontSelectedTechniques;
+  const effectiveSelectedTechniques = frontSelectedTechniques !== null ? frontSelectedTechniques : allSelectedTechniques;
+  const effectiveTechniquePercentages = frontTechniquePercentages !== null ? frontTechniquePercentages : allTechniquePercentages;
+  const isCustomTechniques = frontSelectedTechniques !== null;
+
+  // Ensure effectiveSelectedTechniques is always an array
+  const techniques = effectiveSelectedTechniques;
 
   const embroideryTechniques = [
     { id: "challa-work", name: "Challa work", icon: "🧵", timeValue: 12 },
@@ -49,16 +55,16 @@ export default function FrontOthersSection() {
     if (checked) {
       setFrontSelectedTechniques([...techniques, techniqueName]);
       // Initialize percentage to 50% if not already set
-      if (!frontTechniquePercentages[techniqueName]) {
+      if (!effectiveTechniquePercentages[techniqueName]) {
         setFrontTechniquePercentages({
-          ...frontTechniquePercentages,
+          ...effectiveTechniquePercentages,
           [techniqueName]: 50
         });
       }
     } else {
       setFrontSelectedTechniques(techniques.filter(t => t !== techniqueName));
       // Remove the percentage when unchecked
-      const newPercentages = { ...frontTechniquePercentages };
+      const newPercentages = { ...effectiveTechniquePercentages };
       delete newPercentages[techniqueName];
       setFrontTechniquePercentages(newPercentages);
     }
@@ -75,11 +81,11 @@ export default function FrontOthersSection() {
           {(() => {
             // Calculate normalized percentages
             const totalPercentage = techniques.reduce((sum, technique) => {
-              return sum + (frontTechniquePercentages[technique] || 50);
+              return sum + (effectiveTechniquePercentages[technique] || 50);
             }, 0);
 
             return techniques.map((technique) => {
-              const rawPercentage = frontTechniquePercentages[technique] || 50;
+              const rawPercentage = effectiveTechniquePercentages[technique] || 50;
               const normalizedPercentage = totalPercentage > 0 ? (rawPercentage / totalPercentage) * 100 : 0;
 
               return (
@@ -138,6 +144,30 @@ export default function FrontOthersSection() {
           </div>
         </Card>
 
+        {/* Techniques Inheritance Checkbox */}
+        <Card className="p-4 bg-gradient-to-r from-amber-50 to-yellow-50 border border-amber-200 ring-1 ring-amber-300">
+          <div className="flex items-center justify-between">
+            <Label className="text-sm font-medium text-amber-900">Embroidery Techniques</Label>
+            <div className="flex items-center gap-2">
+              <span className="text-xs text-amber-700">
+                {isCustomTechniques ? "Custom" : "Inherited"}
+              </span>
+              <Checkbox
+                checked={isCustomTechniques}
+                onCheckedChange={(checked) => {
+                  if (checked) {
+                    setFrontSelectedTechniques(allSelectedTechniques);
+                    setFrontTechniquePercentages(allTechniquePercentages);
+                  } else {
+                    setFrontSelectedTechniques(null);
+                    setFrontTechniquePercentages(null);
+                  }
+                }}
+              />
+            </div>
+          </div>
+        </Card>
+
         {/* Preview Section - Normalized Percentages (moved to top) */}
         {renderPreview()}
 
@@ -158,6 +188,7 @@ export default function FrontOthersSection() {
                       checked={isSelected}
                       onCheckedChange={(checked) => handleTechniqueChange(technique.id, technique.name, checked as boolean)}
                       className="h-5 w-5"
+                      disabled={!isCustomTechniques}
                     />
                   </div>
                   <div className="flex items-center gap-3">
@@ -173,18 +204,19 @@ export default function FrontOthersSection() {
                     <div className="mt-3 pt-3 border-t border-border">
                       <div className="space-y-2">
                         <Label className="text-sm font-medium">
-                          {technique.name} - {frontTechniquePercentages[technique.name] || 50}%
+                          {technique.name} - {effectiveTechniquePercentages[technique.name] || 50}%
                         </Label>
                         <Slider
-                          value={[frontTechniquePercentages[technique.name] || 50]}
+                          value={[effectiveTechniquePercentages[technique.name] || 50]}
                           onValueChange={(value) => setFrontTechniquePercentages({
-                            ...frontTechniquePercentages,
+                            ...effectiveTechniquePercentages,
                             [technique.name]: value[0]
                           })}
                           max={100}
                           min={0}
                           step={1}
                           className="w-full"
+                          disabled={!isCustomTechniques}
                         />
                       </div>
                     </div>
@@ -203,12 +235,12 @@ export default function FrontOthersSection() {
               {(() => {
                 // Calculate normalized percentages and weighted times
                 const totalPercentage = techniques.reduce((sum, technique) => {
-                  return sum + (frontTechniquePercentages[technique] || 50);
+                  return sum + (effectiveTechniquePercentages[technique] || 50);
                 }, 0);
 
                 let totalWeightedTime = 0;
                 const calculations = techniques.map((technique) => {
-                  const rawPercentage = frontTechniquePercentages[technique] || 50;
+                  const rawPercentage = effectiveTechniquePercentages[technique] || 50;
                   const normalizedPercentage = totalPercentage > 0 ? (rawPercentage / totalPercentage) * 100 : 0;
                   const techniqueData = embroideryTechniques.find(t => t.name === technique);
                   const timeValue = techniqueData?.timeValue || 0;

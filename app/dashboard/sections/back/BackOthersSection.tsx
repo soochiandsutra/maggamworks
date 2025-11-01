@@ -9,11 +9,13 @@ import { Slider } from "@/components/ui/slider";
 export default function BackOthersSection() {
   const {
     back: {
-      selectedTechniques: backSelectedTechniques = [],
-      techniquePercentages: backTechniquePercentages = {},
+      selectedTechniques: backSelectedTechniques,
+      techniquePercentages: backTechniquePercentages,
       coverage: backCoverage,
     },
     all: {
+      selectedTechniques: allSelectedTechniques = [],
+      techniquePercentages: allTechniquePercentages = {},
       coverage: allCoverage = 50,
     },
     setBackSelectedTechniques,
@@ -24,8 +26,12 @@ export default function BackOthersSection() {
   const effectiveCoverage = backCoverage !== null ? backCoverage : allCoverage;
   const isCustomCoverage = backCoverage !== null;
 
-  // Ensure backSelectedTechniques is always an array
-  const techniques = backSelectedTechniques;
+  const effectiveSelectedTechniques = backSelectedTechniques !== null ? backSelectedTechniques : allSelectedTechniques;
+  const effectiveTechniquePercentages = backTechniquePercentages !== null ? backTechniquePercentages : allTechniquePercentages;
+  const isCustomTechniques = backSelectedTechniques !== null;
+
+  // Ensure effectiveSelectedTechniques is always an array
+  const techniques = effectiveSelectedTechniques;
 
   const embroideryTechniques = [
     { id: "challa-work", name: "Challa work", icon: "🧵" },
@@ -49,16 +55,16 @@ export default function BackOthersSection() {
     if (checked) {
       setBackSelectedTechniques([...techniques, techniqueName]);
       // Initialize percentage to 50% if not already set
-      if (!backTechniquePercentages[techniqueName]) {
+      if (!effectiveTechniquePercentages[techniqueName]) {
         setBackTechniquePercentages({
-          ...backTechniquePercentages,
+          ...effectiveTechniquePercentages,
           [techniqueName]: 50
         });
       }
     } else {
       setBackSelectedTechniques(techniques.filter(t => t !== techniqueName));
       // Remove the percentage when unchecked
-      const newPercentages = { ...backTechniquePercentages };
+      const newPercentages = { ...effectiveTechniquePercentages };
       delete newPercentages[techniqueName];
       setBackTechniquePercentages(newPercentages);
     }
@@ -75,11 +81,11 @@ export default function BackOthersSection() {
           {(() => {
             // Calculate normalized percentages
             const totalPercentage = techniques.reduce((sum, technique) => {
-              return sum + (backTechniquePercentages[technique] || 50);
+              return sum + (effectiveTechniquePercentages[technique] || 50);
             }, 0);
 
             return techniques.map((technique) => {
-              const rawPercentage = backTechniquePercentages[technique] || 50;
+              const rawPercentage = effectiveTechniquePercentages[technique] || 50;
               const normalizedPercentage = totalPercentage > 0 ? (rawPercentage / totalPercentage) * 100 : 0;
 
               return (

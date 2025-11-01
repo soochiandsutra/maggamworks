@@ -74,11 +74,12 @@ export default function HandsOverviewSection() {
       });
 
       // Add border value calculation
+      const effectiveHandsBorderSize = store.hands.borderSize !== null ? store.hands.borderSize : (store.all.borderSize || 0);
       const borderValueCalc = calculateHandsBorderValue(
         store.hands.neckStyle,
         handRound,
         armholeRound,
-        store.hands.borderSize
+        effectiveHandsBorderSize
       );
 
       borderCalcValues.push({
@@ -141,10 +142,13 @@ export default function HandsOverviewSection() {
     // Motif Calculation section - always show
     const motifCalcValues = [];
     if (store.hands.hasMotifs) {
+      const effectiveMotifSizeX = store.hands.motifSizeX !== null ? store.hands.motifSizeX : (store.all.motifSizeX || 2);
+      const effectiveMotifSizeY = store.hands.motifSizeY !== null ? store.hands.motifSizeY : (store.all.motifSizeY || 2);
+      const effectiveMotifCount = store.hands.motifCount !== null ? store.hands.motifCount : (store.all.motifCount || '1');
       const motifCalc = calculateMotifValue(
-        store.hands.motifSizeX,
-        store.hands.motifSizeY,
-        parseInt(store.hands.motifCount) || 1
+        effectiveMotifSizeX,
+        effectiveMotifSizeY,
+        parseInt(effectiveMotifCount) || 1
       );
       
       motifCalcValues.push({
@@ -249,14 +253,16 @@ export default function HandsOverviewSection() {
 
     // Others group - only techniques
     const othersValues = [];
-    if (store.hands.selectedTechniques.length > 0) {
+    const selectedTechniques = store.hands.selectedTechniques !== null ? store.hands.selectedTechniques : (store.all.selectedTechniques || []);
+    const techniquePercentages = store.hands.techniquePercentages !== null ? store.hands.techniquePercentages : (store.all.techniquePercentages || {});
+    if (selectedTechniques && selectedTechniques.length > 0) {
       // Show techniques with percentages like in the preview
-      const totalPercentage = store.hands.selectedTechniques.reduce((sum, technique) => {
-        return sum + (store.hands.techniquePercentages[technique] || 50);
+      const totalPercentage = selectedTechniques.reduce((sum, technique) => {
+        return sum + (techniquePercentages[technique] || 50);
       }, 0);
 
-      store.hands.selectedTechniques.forEach(technique => {
-        const rawPercentage = store.hands.techniquePercentages[technique] || 50;
+      selectedTechniques.forEach(technique => {
+        const rawPercentage = techniquePercentages[technique] || 50;
         const normalizedPercentage = totalPercentage > 0 ? (rawPercentage / totalPercentage) * 100 : 0;
         othersValues.push({
           label: technique,

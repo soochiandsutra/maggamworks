@@ -9,11 +9,13 @@ import { Slider } from "@/components/ui/slider";
 export default function HandsOthersSection() {
   const {
     hands: {
-      selectedTechniques: handsSelectedTechniques = [],
-      techniquePercentages: handsTechniquePercentages = {},
+      selectedTechniques: handsSelectedTechniques,
+      techniquePercentages: handsTechniquePercentages,
       coverage: handsCoverage,
     },
     all: {
+      selectedTechniques: allSelectedTechniques = [],
+      techniquePercentages: allTechniquePercentages = {},
       coverage: allCoverage = 50,
     },
     setHandsSelectedTechniques,
@@ -24,8 +26,12 @@ export default function HandsOthersSection() {
   const effectiveCoverage = handsCoverage !== null ? handsCoverage : allCoverage;
   const isCustomCoverage = handsCoverage !== null;
 
-  // Ensure handsSelectedTechniques is always an array
-  const techniques = handsSelectedTechniques;
+  const effectiveSelectedTechniques = handsSelectedTechniques !== null ? handsSelectedTechniques : allSelectedTechniques;
+  const effectiveTechniquePercentages = handsTechniquePercentages !== null ? handsTechniquePercentages : allTechniquePercentages;
+  const isCustomTechniques = handsSelectedTechniques !== null;
+
+  // Ensure effectiveSelectedTechniques is always an array
+  const techniques = effectiveSelectedTechniques;
 
   const embroideryTechniques = [
     { id: "challa-work", name: "Challa work", icon: "🧵" },
@@ -49,16 +55,16 @@ export default function HandsOthersSection() {
     if (checked) {
       setHandsSelectedTechniques([...techniques, techniqueName]);
       // Initialize percentage to 50% if not already set
-      if (!handsTechniquePercentages[techniqueName]) {
+      if (!effectiveTechniquePercentages[techniqueName]) {
         setHandsTechniquePercentages({
-          ...handsTechniquePercentages,
+          ...effectiveTechniquePercentages,
           [techniqueName]: 50
         });
       }
     } else {
       setHandsSelectedTechniques(techniques.filter(t => t !== techniqueName));
       // Remove the percentage when unchecked
-      const newPercentages = { ...handsTechniquePercentages };
+      const newPercentages = { ...effectiveTechniquePercentages };
       delete newPercentages[techniqueName];
       setHandsTechniquePercentages(newPercentages);
     }
@@ -75,11 +81,11 @@ export default function HandsOthersSection() {
           {(() => {
             // Calculate normalized percentages
             const totalPercentage = techniques.reduce((sum, technique) => {
-              return sum + (handsTechniquePercentages[technique] || 50);
+              return sum + (effectiveTechniquePercentages[technique] || 50);
             }, 0);
 
             return techniques.map((technique) => {
-              const rawPercentage = handsTechniquePercentages[technique] || 50;
+              const rawPercentage = effectiveTechniquePercentages[technique] || 50;
               const normalizedPercentage = totalPercentage > 0 ? (rawPercentage / totalPercentage) * 100 : 0;
 
               return (

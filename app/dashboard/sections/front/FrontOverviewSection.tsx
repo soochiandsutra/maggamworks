@@ -278,14 +278,16 @@ export default function FrontOverviewSection() {
 
     // Others group - only techniques
     const othersValues = [];
-    if (store.front.selectedTechniques.length > 0) {
+    const selectedTechniques = store.front.selectedTechniques !== null ? store.front.selectedTechniques : (store.all.selectedTechniques || []);
+    const techniquePercentages = store.front.techniquePercentages !== null ? store.front.techniquePercentages : (store.all.techniquePercentages || {});
+    if (selectedTechniques && selectedTechniques.length > 0) {
       // Show techniques with percentages like in the preview
-      const totalPercentage = store.front.selectedTechniques.reduce((sum, technique) => {
-        return sum + (store.front.techniquePercentages[technique] || 50);
+      const totalPercentage = selectedTechniques.reduce((sum, technique) => {
+        return sum + (techniquePercentages[technique] || 50);
       }, 0);
 
-      store.front.selectedTechniques.forEach(technique => {
-        const rawPercentage = store.front.techniquePercentages[technique] || 50;
+      selectedTechniques.forEach(technique => {
+        const rawPercentage = techniquePercentages[technique] || 50;
         const normalizedPercentage = totalPercentage > 0 ? (rawPercentage / totalPercentage) * 100 : 0;
         othersValues.push({
           label: technique,
