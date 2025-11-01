@@ -22,33 +22,86 @@ export function normalizeTechniquePercentages(techniquePercentages: Record<strin
   return normalized;
 }
 
+// Technique time values (in minutes per sq inch or per motif)
+const TECHNIQUE_TIME_VALUES: Record<string, number> = {
+  "Challa work": 12,
+  "Paani work": 5,
+  "Chamki filling": 5,
+  "Cutdana filling": 5,
+  "Lavangam Kuttu": 7.5,
+  "Sugar bead": 7.5,
+  "Thread filling": 8.5,
+  "Sugar bead + Chamki": 8.5,
+  "Zardosi Challa": 21,
+  "Thread Knot": 21,
+  "Mirror / Zarkans": 7,
+  "Zardosi rose": 27,
+  "Thread roses": 30,
+  "Zardosi chain": 14,
+  "Knot W/ chamki": 17
+};
+
+export function calculateWeightedTime(
+  techniques: string[],
+  techniquePercentages: Record<string, number>
+): number {
+  if (!techniques.length) return 1; // Return 1 as default multiplier if no techniques
+
+  // Calculate total raw percentage
+  const totalPercentage = techniques.reduce((sum, technique) => {
+    return sum + (techniquePercentages[technique] || 50);
+  }, 0);
+
+  // Calculate weighted time
+  let weightedTime = 0;
+  for (const technique of techniques) {
+    const rawPercentage = techniquePercentages[technique] || 50;
+    const normalizedPercentage = totalPercentage > 0 ? (rawPercentage / totalPercentage) * 100 : 0;
+    const timeValue = TECHNIQUE_TIME_VALUES[technique] || 0;
+    weightedTime += timeValue * (normalizedPercentage / 100);
+  }
+
+  return weightedTime;
+}
+
 export function calculateBorderTime(
   hasBorders: boolean,
   borderSize: number,
   neckType: string,
-  designNumber: number
+  designNumber: number,
+  coverage: number,
+  weightedTime: number
 ): number {
   if (!hasBorders || !borderSize) return 0;
 
-  const baseTime = borderSize * BORDER_BASE_TIME_PER_INCH;
+  // BorderValue is the base time
+  const borderValue = borderSize * BORDER_BASE_TIME_PER_INCH;
   const neckMultiplier = NECK_TYPE_MULTIPLIERS[neckType as keyof typeof NECK_TYPE_MULTIPLIERS] || 1.0;
-  const designMultiplier = designNumber > 1 ? 1.2 : 1.0; // Additional time for multiple designs
-
-  return baseTime * neckMultiplier * designMultiplier;
+  const designMultiplier = designNumber > 1 ? 1.2 : 1.0;
+  
+  const totalBorderValue = borderValue * neckMultiplier * designMultiplier;
+  
+  // Apply coverage and weighted time: (Border Value) * coverage% * WeightedTime
+  const coverageMultiplier = coverage / 100;
+  
+  return totalBorderValue * coverageMultiplier * weightedTime;
 }
 
 export function calculateFillWorkTime(
   hasFillWork: boolean,
-  coverage: string,
+  coverage: number,
   techniques: string[],
   techniquePercentages: Record<string, number>,
   chestSize: number,
-  section: string
+  section: string,
+  borderValue: number,
+  weightedTime: number
 ): number {
   if (!hasFillWork || !techniques.length) return 0;
 
+  // Calculate the fill work base calculation
   const area = calculateCoverageArea(chestSize, section);
-  let totalTime = 0;
+  let fillWorkCalculation = 0;
 
   for (const technique of techniques) {
     const workType = technique as WorkType;
@@ -59,10 +112,13 @@ export function calculateFillWorkTime(
     const techniqueArea = area * (percentage / 100);
     const techniqueTime = techniqueArea * baseTimePerSqInch * techniqueMultiplier;
 
-    totalTime += techniqueTime;
+    fillWorkCalculation += techniqueTime;
   }
 
-  return totalTime;
+  // Apply formula: FillWork calculation * borderValue * coverage% * WeightedTime
+  const coverageMultiplier = coverage / 100;
+  
+  return fillWorkCalculation * borderValue * coverageMultiplier * weightedTime;
 }
 
 export function calculateMotifTime(
@@ -71,7 +127,9 @@ export function calculateMotifTime(
   motifSizeY: number,
   motifCount: string,
   techniques: string[],
-  techniquePercentages: Record<string, number>
+  techniquePercentages: Record<string, number>,
+  coverage: number,
+  weightedTime: number
 ): number {
   if (!hasMotifs || !motifCount) return 0;
 
@@ -81,15 +139,18 @@ export function calculateMotifTime(
   const averageSize = (motifSizeX + motifSizeY) / 2;
   const sizeMultiplier = averageSize > 2 ? MOTIF_SIZE_MULTIPLIER : 1.0;
 
-  let totalTime = 0;
+  let motifValue = 0;
 
   for (const technique of techniques) {
     const percentage = techniquePercentages[technique] || 0;
     const techniqueMultiplier = TECHNIQUE_MULTIPLIERS[technique as TechniqueType] || 1.0;
 
     const motifTime = MOTIF_BASE_TIME_PER_MOTIF * count * sizeMultiplier * techniqueMultiplier;
-    totalTime += motifTime * (percentage / 100);
+    motifValue += motifTime * (percentage / 100);
   }
 
-  return totalTime;
+  // Apply formula: Motif value * coverage% * WeightedTime
+  const coverageMultiplier = coverage / 100;
+  
+  return motifValue * coverageMultiplier * weightedTime;
 }

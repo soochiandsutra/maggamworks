@@ -9,13 +9,11 @@ import HandsSection from "./sections/HandsSection";
 import CalculationSummaryDialog from "./components/CalculationSummaryDialog";
 import { DashboardLayout } from "./DashboardLayout";
 import { DashboardHeader } from "./DashboardHeader";
-import { DebugStateModal } from "@/components/debug/DebugStateModal";
 
 export default function DashboardPage() {
   const [activeTab, setActiveTab] = useState("all");
   const [activeSecondaryTab, setActiveSecondaryTab] = useState<string | undefined>();
   const [calculateOpen, setCalculateOpen] = useState(false);
-  const [debugOpen, setDebugOpen] = useState(false);
 
   const handleTabChange = (tab: string) => {
     setActiveTab(tab);
@@ -50,7 +48,7 @@ export default function DashboardPage() {
   return (
     <>
       <DashboardLayout
-        header={<DashboardHeader onDebugClick={() => setDebugOpen(true)} />}
+        header={<DashboardHeader activeTab={activeTab} />}
         main={renderContent()}
         footer={
       <BottomNavigation
@@ -66,11 +64,6 @@ export default function DashboardPage() {
       <CalculationSummaryDialog
         open={calculateOpen}
         onOpenChange={setCalculateOpen}
-      />
-
-      <DebugStateModal
-        open={debugOpen}
-        onOpenChange={setDebugOpen}
       />
     </>
   );

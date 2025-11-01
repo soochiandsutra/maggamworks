@@ -1,5 +1,5 @@
 import { STANDARD_START_TIME } from '../constants/calculation-constants';
-import { calculateBorderTime, calculateFillWorkTime, calculateMotifTime } from './time-calculations';
+import { calculateBorderTime, calculateFillWorkTime, calculateMotifTime, calculateWeightedTime } from './time-calculations';
 import type { CalculationState, CalculationResult, SectionTimeBreakdown } from './types';
 
 export function calculateTime(state: CalculationState): CalculationResult {
@@ -8,8 +8,9 @@ export function calculateTime(state: CalculationState): CalculationResult {
     const sectionValue = state[section][property as keyof typeof state[typeof section]];
     const allValue = state.all[property as keyof typeof state.all];
 
-    // Return section value if it exists and is not empty/default
-    if (sectionValue !== undefined && sectionValue !== '' && sectionValue !== false && sectionValue !== 0) {
+    // Return section value if it exists and is not null/undefined
+    // Important: 0 is a valid value and should not fall back to "all"
+    if (sectionValue !== null && sectionValue !== undefined && sectionValue !== '' && sectionValue !== false) {
       return sectionValue;
     }
 
@@ -32,22 +33,42 @@ export function calculateTime(state: CalculationState): CalculationResult {
     const motifSizeY = getValue(section, 'motifSizeY') as number;
     const motifCount = String(getValue(section, 'motifCount'));
 
-    const borderTime = calculateBorderTime(hasBorders, borderSize, neckType, neckDesignNumber);
+    // Calculate weighted time from selected techniques
+    const weightedTime = calculateWeightedTime(selectedTechniques, techniquePercentages);
+
+    // For Front/Back sections: borderValue = Top Border + Bottom Border
+    // For Hands: borderValue = Hands Border
+    const borderValue = borderSize; // This is already the combined border size
+
+    const borderTime = calculateBorderTime(
+      hasBorders, 
+      borderSize, 
+      neckType, 
+      neckDesignNumber, 
+      coverage, 
+      weightedTime
+    );
+    
     const fillWorkTime = calculateFillWorkTime(
       hasFillWork,
-      String(coverage),
+      coverage,
       selectedTechniques,
       techniquePercentages,
       parseFloat(state.chestSize) || 36,
-      section
+      section,
+      borderValue,
+      weightedTime
     );
+    
     const motifTime = calculateMotifTime(
       hasMotifs,
       motifSizeX,
       motifSizeY,
       motifCount,
       selectedTechniques,
-      techniquePercentages
+      techniquePercentages,
+      coverage,
+      weightedTime
     );
 
     return {

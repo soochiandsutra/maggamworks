@@ -7,7 +7,7 @@ interface SectionState {
   blouseBottomSize: number;
   neckStyle: string;
   hasFillWork: boolean;
-  coverage: number;
+  coverage: number | null;
   hasMotifs: boolean;
   motifSizeX: number;
   motifSizeY: number;
@@ -134,7 +134,7 @@ export const useAppStateStore = create<AppState>((set) => ({
     blouseBottomSize: 0,
     neckStyle: 'not selected',
     hasFillWork: false,
-    coverage: 50,
+    coverage: null,
     hasMotifs: false,
     motifSizeX: 2,
     motifSizeY: 2,
@@ -151,7 +151,7 @@ export const useAppStateStore = create<AppState>((set) => ({
     blouseBottomSize: 0,
     neckStyle: 'not selected',
     hasFillWork: false,
-    coverage: 50,
+    coverage: null,
     hasMotifs: false,
     motifSizeX: 2,
     motifSizeY: 2,
@@ -168,7 +168,7 @@ export const useAppStateStore = create<AppState>((set) => ({
     blouseBottomSize: 0,
     neckStyle: 'not selected',
     hasFillWork: false,
-    coverage: 30,
+    coverage: null,
     hasMotifs: false,
     motifSizeX: 1.5,
     motifSizeY: 1.5,

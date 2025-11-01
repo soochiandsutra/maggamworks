@@ -11,10 +11,18 @@ export default function FrontOthersSection() {
     front: {
       selectedTechniques: frontSelectedTechniques = [],
       techniquePercentages: frontTechniquePercentages = {},
+      coverage: frontCoverage,
+    },
+    all: {
+      coverage: allCoverage = 50,
     },
     setFrontSelectedTechniques,
     setFrontTechniquePercentages,
+    setFrontCoverage,
   } = useAppStateStore();
+
+  const effectiveCoverage = frontCoverage !== null ? frontCoverage : allCoverage;
+  const isCustomCoverage = frontCoverage !== null;
 
   // Ensure frontSelectedTechniques is always an array
   const techniques = frontSelectedTechniques;
@@ -96,6 +104,40 @@ export default function FrontOthersSection() {
         <span className="text-primary">🔧</span> Front Embroidery Techniques
       </h3>
       <div className="space-y-4">
+        {/* Coverage Slider */}
+        <Card className="p-4 bg-gradient-to-r from-purple-50 to-pink-50 border border-purple-200 ring-1 ring-purple-300">
+          <div className="flex items-center justify-between mb-3">
+            <Label className="text-sm font-medium text-purple-900">📏 Coverage Percentage</Label>
+            <Checkbox
+              checked={isCustomCoverage}
+              onCheckedChange={(checked) => {
+                if (checked) {
+                  setFrontCoverage(allCoverage);
+                } else {
+                  setFrontCoverage(null);
+                }
+              }}
+            />
+          </div>
+          <div className="space-y-3">
+            <div className="flex items-center justify-between">
+              <span className="text-sm text-purple-700">
+                {isCustomCoverage ? "Custom Coverage" : `Inherited (${allCoverage}%)`}
+              </span>
+              <span className="text-lg font-bold text-purple-900">{effectiveCoverage}%</span>
+            </div>
+            <Slider
+              value={[effectiveCoverage]}
+              onValueChange={(value) => setFrontCoverage(value[0])}
+              max={100}
+              min={0}
+              step={1}
+              className="w-full"
+              disabled={!isCustomCoverage}
+            />
+          </div>
+        </Card>
+
         {/* Preview Section - Normalized Percentages (moved to top) */}
         {renderPreview()}
 

@@ -5,7 +5,6 @@ import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
 import { Card } from "@/components/ui/card";
-import { ImageCard } from "@/components/custom-ui/RadioCards";
 
 export default function AllMotifsSection() {
   const {
@@ -22,12 +21,6 @@ export default function AllMotifsSection() {
   } = useAppStateStore();
 
 
-  const motifDesigns = [
-    { id: 1, name: "Design 1", seed: "motif1" },
-    { id: 2, name: "Design 2", seed: "motif2" },
-    { id: 3, name: "Design 3", seed: "motif3" },
-    { id: 4, name: "Design 4", seed: "motif4" }
-  ];
 
   return (
     <div className="grid gap-4">
@@ -86,22 +79,6 @@ export default function AllMotifsSection() {
                     />
                   </div>
                 </Card>
-              </div>
-            </div>
-
-            <div className="space-y-3">
-              <Label className="text-sm font-medium">Motif Designs</Label>
-              <div className="grid grid-cols-2 gap-3">
-                {motifDesigns.map((design) => (
-                  <ImageCard
-                    key={design.id}
-                    item={design}
-                    isSelected={false}
-                    onClick={() => {}}
-                    altPrefix="Motif "
-                    showRadioButton={false}
-                  />
-                ))}
               </div>
             </div>
 
