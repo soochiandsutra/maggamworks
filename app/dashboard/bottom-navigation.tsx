@@ -30,7 +30,6 @@ const BottomNavigation: React.FC<BottomNavigationProps> = ({
       case "all":
         return [
           { id: "size", icon: Ruler, label: "Size" },
-          { id: "neck", icon: Shirt, label: "Neck" },
           { id: "borders", icon: Settings, label: "Borders" },
           { id: "motifs", icon: Sparkles, label: "Motifs" },
           { id: "fill-work", icon: Palette, label: "Fill Work" },
@@ -55,6 +54,7 @@ const BottomNavigation: React.FC<BottomNavigationProps> = ({
       case "hands":
         return [
           { id: "size", icon: Ruler, label: "Size" },
+          { id: "neck", icon: Hand, label: "Neck" },
           { id: "borders", icon: Settings, label: "Borders" },
           { id: "motifs", icon: Sparkles, label: "Motifs" },
           { id: "fill-work", icon: Palette, label: "Fill Work" },

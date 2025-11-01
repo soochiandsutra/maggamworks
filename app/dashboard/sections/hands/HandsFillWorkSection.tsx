@@ -7,10 +7,14 @@ import { Card } from "@/components/ui/card";
 import { Slider } from "@/components/ui/slider";
 
 export default function HandsFillWorkSection() {
-  const handsHasFillWork = useAppStateStore((state) => state.handsHasFillWork);
-  const handsCoverage = useAppStateStore((state) => state.handsCoverage);
-  const setHandsHasFillWork = useAppStateStore((state) => state.setHandsHasFillWork);
-  const setHandsCoverage = useAppStateStore((state) => state.setHandsCoverage);
+  const {
+    hands: {
+      hasFillWork: handsHasFillWork,
+      coverage: handsCoverage,
+    },
+    setHandsHasFillWork,
+    setHandsCoverage,
+  } = useAppStateStore();
 
   return (
     <div className="grid gap-4">

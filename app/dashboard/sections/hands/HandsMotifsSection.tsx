@@ -3,27 +3,22 @@
 import { useAppStateStore } from "@/lib/store/appState";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
-import { RadioGroup } from "@/components/ui/radio-group";
 import { Input } from "@/components/ui/input";
 import { Card } from "@/components/ui/card";
-import { TextCard } from "@/app/dashboard/components/RadioCards";
 
 export default function HandsMotifsSection() {
-  const handsHasMotifs = useAppStateStore((state) => state.handsHasMotifs);
-  const handsMotifSizeX = useAppStateStore((state) => state.handsMotifSizeX);
-  const handsMotifSizeY = useAppStateStore((state) => state.handsMotifSizeY);
-  const handsMotifCount = useAppStateStore((state) => state.handsMotifCount);
-  const setHandsHasMotifs = useAppStateStore((state) => state.setHandsHasMotifs);
-  const setHandsMotifSizeX = useAppStateStore((state) => state.setHandsMotifSizeX);
-  const setHandsMotifSizeY = useAppStateStore((state) => state.setHandsMotifSizeY);
-  const setHandsMotifCount = useAppStateStore((state) => state.setHandsMotifCount);
-
-  const motifSizes = [
-    { id: "small", name: "Small" },
-    { id: "medium", name: "Medium" },
-    { id: "large", name: "Large" },
-    { id: "big", name: "Big" }
-  ];
+  const {
+    hands: {
+      hasMotifs: handsHasMotifs,
+      motifSizeX: handsMotifSizeX,
+      motifSizeY: handsMotifSizeY,
+      motifCount: handsMotifCount,
+    },
+    setHandsHasMotifs,
+    setHandsMotifSizeX,
+    setHandsMotifSizeY,
+    setHandsMotifCount,
+  } = useAppStateStore();
 
   return (
     <div className="grid gap-4">

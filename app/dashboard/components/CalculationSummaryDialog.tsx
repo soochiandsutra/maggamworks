@@ -6,8 +6,8 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
+import { useCalculations } from "@/hooks/use-calculations";
 import { useAppStateStore } from "@/lib/store/appState";
-import { calculateTime, CalculationResult } from "@/lib/caluclate";
 
 interface CalculationSummaryDialogProps {
   open: boolean;
@@ -19,44 +19,8 @@ export default function CalculationSummaryDialog({
   open,
   onOpenChange,
 }: CalculationSummaryDialogProps) {
+  const calculation = useCalculations();
   const store = useAppStateStore();
-
-  // Ensure we have a valid chest size for calculation
-  const chestSize = store.chestSize && store.chestSize.trim() !== '' ? store.chestSize : '36';
-
-  // Debug: Log the store state to see what's being passed
-  console.log('Store state for calculation:', {
-    chestSize: store.chestSize,
-    allHasBorders: store.allHasBorders,
-    allBorderSize: store.allBorderSize,
-    frontHasBorders: store.frontHasBorders,
-    frontBorderSize: store.frontBorderSize,
-    allTechniquePercentages: store.allTechniquePercentages,
-    allNeckType: store.allNeckType,
-    frontNeckType: store.frontNeckType,
-  });
-
-  // Create a modified store state with proper defaults for calculation
-  const calculationState = {
-    ...store,
-    chestSize: chestSize,
-    // Ensure neck types have proper defaults
-    allNeckType: store.allNeckType && store.allNeckType.trim() !== '' ? store.allNeckType : 'round',
-    frontNeckType: store.frontNeckType && store.frontNeckType.trim() !== '' ? store.frontNeckType : 'round',
-    backNeckType: store.backNeckType && store.backNeckType.trim() !== '' ? store.backNeckType : 'round',
-    handsNeckType: store.handsNeckType && store.handsNeckType.trim() !== '' ? store.handsNeckType : 'round',
-    // Ensure string properties have defaults
-    allNeckDesignNumber: store.allNeckDesignNumber || '1',
-    frontNeckDesignNumber: store.frontNeckDesignNumber || '1',
-    backNeckDesignNumber: store.backNeckDesignNumber || '1',
-    handsNeckDesignNumber: store.handsNeckDesignNumber || '1',
-    allMotifCount: store.allMotifCount || '1',
-    frontMotifCount: store.frontMotifCount || '1',
-    backMotifCount: store.backMotifCount || '1',
-    handsMotifCount: store.handsMotifCount || '1',
-  };
-
-  const calculation: CalculationResult = calculateTime(calculationState);
 
   // Debug: Log the calculation result
   console.log('Calculation result:', calculation);
@@ -73,58 +37,33 @@ export default function CalculationSummaryDialog({
     return `${hours}.${mins} hrs`;
   };
 
+  // Extract values from the nested store structure
   const {
-    // Size measurements (excluding chestSize since we declared it above)
+    chestSize,
     armholeRound,
     handLength,
     handRound,
-
-    // All Section
-    allHasBorders,
-    // allBorderSize, // Commented out - may be needed for future detailed views
-    // allNeckType, // Commented out - may be needed for future detailed views
-    // allNeckDesignNumber, // Commented out - may be needed for future detailed views
-    allHasFillWork,
-    // allCoverage, // Commented out - may be needed for future detailed views
-    allHasMotifs,
-    // allMotifSize, // Commented out - may be needed for future detailed views
-    // allMotifCount, // Commented out - may be needed for future detailed views
-    // allSelectedTechniques, // Commented out - may be needed for future detailed views
-    // allTechniquePercentages, // Commented out - may be needed for future detailed views
-
-    // Front Section
-    frontHasBorders,
-    // frontBorderSize, // Commented out - may be needed for future detailed views
-    // frontNeckType, // Commented out - may be needed for future detailed views
-    // frontNeckDesignNumber, // Commented out - may be needed for future detailed views
-    frontHasFillWork,
-    // frontCoverage, // Commented out - may be needed for future detailed views
-    frontHasMotifs,
-    // frontMotifSize, // Commented out - may be needed for future detailed views
-    // frontMotifCount, // Commented out - may be needed for future detailed views
-    // frontSelectedTechniques, // Commented out - may be needed for future detailed views
-
-    // Back Section
-    backHasBorders,
-    // backBorderSize, // Commented out - may be needed for future detailed views
-    // backNeckType, // Commented out - may be needed for future detailed views
-    // backNeckDesignNumber, // Commented out - may be needed for future detailed views
-    backHasFillWork,
-    // backCoverage, // Commented out - may be needed for future detailed views
-    backHasMotifs,
-    // backMotifSize, // Commented out - may be needed for future detailed views
-    // backMotifCount, // Commented out - may be needed for future detailed views
-    // backSelectedTechniques, // Commented out - may be needed for future detailed views
-
-    // Hands Section
-    handsHasBorders,
-    // handsBorderSize, // Commented out - may be needed for future detailed views
-    handsHasFillWork,
-    // handsCoverage, // Commented out - may be needed for future detailed views
-    handsHasMotifs,
-    // handsMotifSize, // Commented out - may be needed for future detailed views
-    // handsMotifCount, // Commented out - may be needed for future detailed views
-    // handsSelectedTechniques, // Commented out - may be needed for future detailed views
+    all: {
+      hasBorders: allHasBorders,
+      hasFillWork: allHasFillWork,
+      hasMotifs: allHasMotifs,
+      techniquePercentages: allTechniquePercentages,
+    },
+    front: {
+      hasBorders: frontHasBorders,
+      hasFillWork: frontHasFillWork,
+      hasMotifs: frontHasMotifs,
+    },
+    back: {
+      hasBorders: backHasBorders,
+      hasFillWork: backHasFillWork,
+      hasMotifs: backHasMotifs,
+    },
+    hands: {
+      hasBorders: handsHasBorders,
+      hasFillWork: handsHasFillWork,
+      hasMotifs: handsHasMotifs,
+    },
   } = store;
 
   return (
@@ -228,7 +167,7 @@ export default function CalculationSummaryDialog({
                     <div className="text-muted-foreground font-normal">Borders: {[allHasBorders, frontHasBorders, backHasBorders, handsHasBorders].filter(Boolean).length} sections</div>
                     <div className="text-muted-foreground font-normal">Fill Work: {[allHasFillWork, frontHasFillWork, backHasFillWork, handsHasFillWork].filter(Boolean).length} sections</div>
                     <div className="text-muted-foreground font-normal">Motifs: {[allHasMotifs, frontHasMotifs, backHasMotifs, handsHasMotifs].filter(Boolean).length} sections</div>
-                    <div className="text-muted-foreground font-normal">Techniques: {Object.keys(store.allTechniquePercentages || {}).length} applied</div>
+                    <div className="text-muted-foreground font-normal">Techniques: {Object.keys(allTechniquePercentages || {}).length} applied</div>
                   </div>
                 </div>
               </div>

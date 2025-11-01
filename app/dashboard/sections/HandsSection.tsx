@@ -1,23 +1,23 @@
 import HandsSizeSection from './hands/HandsSizeSection';
+import HandsNeckSection from './hands/HandsNeckSection';
 import HandsBordersSection from './hands/HandsBordersSection';
 import HandsMotifsSection from './hands/HandsMotifsSection';
 import HandsFillWorkSection from './hands/HandsFillWorkSection';
 import HandsOthersSection from './hands/HandsOthersSection';
 import HandsOverviewSection from './hands/HandsOverviewSection';
-import { useAppStateStore } from '@/lib/store/appState';
-import { Button } from '@/components/ui/button';
 
 interface HandsSectionProps {
   activeSecondaryTab?: string;
 }
 
 export default function HandsSection({ activeSecondaryTab }: HandsSectionProps) {
-  const { applyAllSettingsToHands } = useAppStateStore();
 
   const renderHandsContent = () => {
     switch (activeSecondaryTab) {
       case "size":
         return <HandsSizeSection />;
+      case "neck":
+        return <HandsNeckSection />;
       case "borders":
         return <HandsBordersSection />;
       case "motifs":
@@ -33,21 +33,8 @@ export default function HandsSection({ activeSecondaryTab }: HandsSectionProps) 
 
   return (
     <div className="p-6">
-      <div className="flex justify-between items-center mb-4">
-        <div>
-          <h1 className="text-2xl font-bold">Hand Work Details</h1>
-          <p className="text-muted-foreground">
-            Hand stitching and finishing work specifications. {activeSecondaryTab ? `Viewing: ${activeSecondaryTab}` : 'Select a category below'}
-          </p>
-        </div>
-        <Button
-          onClick={applyAllSettingsToHands}
-          variant="outline"
-          className="flex items-center gap-2"
-        >
-          <span>📋</span>
-          Apply Global Settings
-        </Button>
+      <div className="mb-4">
+        <h1 className="text-2xl font-bold">Hand Work Details</h1>
       </div>
       {renderHandsContent()}
     </div>

@@ -7,10 +7,14 @@ import { Card } from "@/components/ui/card";
 import { Slider } from "@/components/ui/slider";
 
 export default function FrontFillWorkSection() {
-  const frontHasFillWork = useAppStateStore((state) => state.frontHasFillWork);
-  const frontCoverage = useAppStateStore((state) => state.frontCoverage);
-  const setFrontHasFillWork = useAppStateStore((state) => state.setFrontHasFillWork);
-  const setFrontCoverage = useAppStateStore((state) => state.setFrontCoverage);
+  const {
+    front: {
+      hasFillWork: frontHasFillWork,
+      coverage: frontCoverage,
+    },
+    setFrontHasFillWork,
+    setFrontCoverage,
+  } = useAppStateStore();
 
   return (
     <div className="grid gap-4">

@@ -7,10 +7,14 @@ import { Card } from "@/components/ui/card";
 import { Slider } from "@/components/ui/slider";
 
 export default function BackFillWorkSection() {
-  const backHasFillWork = useAppStateStore((state) => state.backHasFillWork);
-  const backCoverage = useAppStateStore((state) => state.backCoverage);
-  const setBackHasFillWork = useAppStateStore((state) => state.setBackHasFillWork);
-  const setBackCoverage = useAppStateStore((state) => state.setBackCoverage);
+  const {
+    back: {
+      hasFillWork: backHasFillWork,
+      coverage: backCoverage,
+    },
+    setBackHasFillWork,
+    setBackCoverage,
+  } = useAppStateStore();
 
   return (
     <div className="grid gap-4">

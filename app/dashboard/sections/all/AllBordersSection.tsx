@@ -3,35 +3,23 @@
 import { useAppStateStore } from "@/lib/store/appState";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
-import { RadioGroup } from "@/components/ui/radio-group";
 import { Card } from "@/components/ui/card";
-import { TextCard } from "@/app/dashboard/components/RadioCards";
 import { Input } from "@/components/ui/input";
 
 export default function BordersSection() {
   const {
-    allHasBorders,
-    allBorderSize,
-    allHasBlouseBottom,
-    allBlouseBottomSize,
+    all: {
+      hasBorders: allHasBorders,
+      borderSize: allBorderSize,
+      hasBlouseBottom: allHasBlouseBottom,
+      blouseBottomSize: allBlouseBottomSize,
+    },
     setAllHasBorders,
     setAllBorderSize,
     setAllHasBlouseBottom,
     setAllBlouseBottomSize,
   } = useAppStateStore();
 
-  const borderSizes = [
-    { id: "0.5-inch", name: "0.5 inch" },
-    { id: "1-inch", name: "1 inch" },
-    { id: "1.5-inch", name: "1.5 inch" },
-    { id: "2-inch", name: "2 inch" },
-    { id: "2.5-inch", name: "2.5 inch" },
-    { id: "3-inch", name: "3 inch" },
-    { id: "3.5-inch", name: "3.5 inch" },
-    { id: "4-inch", name: "4 inch" },
-    { id: "4.5-inch", name: "4.5 inch" },
-    { id: "5-inch", name: "5 inch" }
-  ];
 
   return (
     <div className="grid gap-4">

@@ -3,28 +3,22 @@
 import { useAppStateStore } from "@/lib/store/appState";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
-
-import { RadioGroup } from "@/components/ui/radio-group";
 import { Input } from "@/components/ui/input";
 import { Card } from "@/components/ui/card";
-import { TextCard } from "@/app/dashboard/components/RadioCards";
 
 export default function BackMotifsSection() {
-  const backHasMotifs = useAppStateStore((state) => state.backHasMotifs);
-  const backMotifSizeX = useAppStateStore((state) => state.backMotifSizeX);
-  const backMotifSizeY = useAppStateStore((state) => state.backMotifSizeY);
-  const backMotifCount = useAppStateStore((state) => state.backMotifCount);
-  const setBackHasMotifs = useAppStateStore((state) => state.setBackHasMotifs);
-  const setBackMotifSizeX = useAppStateStore((state) => state.setBackMotifSizeX);
-  const setBackMotifSizeY = useAppStateStore((state) => state.setBackMotifSizeY);
-  const setBackMotifCount = useAppStateStore((state) => state.setBackMotifCount);
-
-  const motifSizes = [
-    { id: "small", name: "Small" },
-    { id: "medium", name: "Medium" },
-    { id: "large", name: "Large" },
-    { id: "big", name: "Big" }
-  ];
+  const {
+    back: {
+      hasMotifs: backHasMotifs,
+      motifSizeX: backMotifSizeX,
+      motifSizeY: backMotifSizeY,
+      motifCount: backMotifCount,
+    },
+    setBackHasMotifs,
+    setBackMotifSizeX,
+    setBackMotifSizeY,
+    setBackMotifCount,
+  } = useAppStateStore();
 
   return (
     <div className="grid gap-4">

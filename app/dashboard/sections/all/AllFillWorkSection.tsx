@@ -7,10 +7,14 @@ import { Card } from "@/components/ui/card";
 import { Slider } from "@/components/ui/slider";
 
 export default function AllFillWorkSection() {
-  const allHasFillWork = useAppStateStore((state) => state.allHasFillWork);
-  const allCoverage = useAppStateStore((state) => state.allCoverage);
-  const setAllHasFillWork = useAppStateStore((state) => state.setAllHasFillWork);
-  const setAllCoverage = useAppStateStore((state) => state.setAllCoverage);
+  const {
+    all: {
+      hasFillWork: allHasFillWork,
+      coverage: allCoverage,
+    },
+    setAllHasFillWork,
+    setAllCoverage,
+  } = useAppStateStore();
 
   return (
     <div className="grid gap-4">

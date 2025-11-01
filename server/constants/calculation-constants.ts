@@ -1,0 +1,51 @@
+// Time constants in minutes
+export const STANDARD_START_TIME = 40; // mins (for fitting cloth and marking)
+
+// Base times for different work types (minutes per unit)
+export const BORDER_BASE_TIME_PER_INCH = 5; // time per inch of border
+export const FILL_WORK_BASE_TIME_PER_SQ_INCH = 0.5; // fallback time per square inch of fill work
+export const MOTIF_BASE_TIME_PER_MOTIF = 15; // time per motif
+export const MOTIF_SIZE_MULTIPLIER = 1.2; // multiplier for motif size (larger motifs take more time)
+
+// Neck type time multipliers
+export const NECK_TYPE_MULTIPLIERS = {
+  'round': 1.0,
+  'v-neck': 1.2,
+  'boat-neck': 0.8,
+  'square': 1.1,
+  'collar': 1.5,
+  'none': 0.1
+} as const;
+
+// Work type base times (in minutes per unit area, based on actual measurements)
+export const WORK_TYPE_BASE_TIMES = {
+  'challa-work': 12,        // Challa work - 12 mins
+  'paani-work': 9.5,        // Paani work - 9.5 mins
+  'chambu-filling': 7,      // Chambu filling - 7 mins
+  'cutdana-filling': 7,     // Cutdana filling - 7 mins
+  'lavangam-kuttu': 7.5,    // Lavangam kuttu - 7.5 mins
+  'thread-filling': 8,      // Thread filling - 8 mins
+  'zardosi-chain-stitch': 14, // Zardosi chain stitch - 14 mins
+  'thread-knot-work': 21,   // Thread knot work - 21 mins
+  'mirror-work': 7,         // Mirror - 7 mins
+  'zarkan': 27,             // Zarkan - 27 mins
+  'thread-roses': 30,       // Thread roses - 30 mins
+  'zardosi-rose': 27,       // Zardosi rose - 27 mins
+} as const;
+
+// Technique time multipliers (relative multipliers for complexity)
+export const TECHNIQUE_MULTIPLIERS = {
+  'embroidery': 1.3,
+  'applique': 1.2,
+  'patchwork': 1.4,
+  'beading': 1.5,
+  'sequins': 1.6,
+  'mirror-work': 1.4,
+  'zari': 1.3,
+  'thread-work': 1.2,
+  'none': 1.0
+} as const;
+
+export type NeckType = keyof typeof NECK_TYPE_MULTIPLIERS;
+export type WorkType = keyof typeof WORK_TYPE_BASE_TIMES;
+export type TechniqueType = keyof typeof TECHNIQUE_MULTIPLIERS;

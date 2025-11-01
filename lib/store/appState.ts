@@ -1,5 +1,24 @@
 import { create } from 'zustand';
 
+interface SectionState {
+  hasBorders: boolean;
+  borderSize: number;
+  hasBlouseBottom: boolean;
+  blouseBottomSize: number;
+  neckStyle: string;
+  hasFillWork: boolean;
+  coverage: number;
+  hasMotifs: boolean;
+  motifSizeX: number;
+  motifSizeY: number;
+  motifCount: string;
+  selectedTechniques: string[];
+  techniquePercentages: Record<string, number>;
+
+  // Hands specific
+  selectedDesign?: string;
+}
+
 interface AppState {
   // Size measurements
   chestSize: string;
@@ -8,383 +27,219 @@ interface AppState {
   handRound: string;
 
   // All Section
-  allHasBorders: boolean;
-  allBorderSize: number;
-  allHasBlouseBottom: boolean;
-  allBlouseBottomSize: number;
-  allNeckType: string;
-  allNeckDesignNumber: string;
-  allNeckType2: string;
-  allNeckType2DesignNumber: string;
-  allHasFillWork: boolean;
-  allCoverage: number;
-  allHasMotifs: boolean;
-  allMotifSizeX: number;
-  allMotifSizeY: number;
-  allMotifCount: string;
-  allSelectedTechniques: string[];
-  allTechniquePercentages: Record<string, number>;
+  all: SectionState;
 
   // Front Section
-  frontHasBorders: boolean;
-  frontBorderSize: number;
-  frontHasBlouseBottom: boolean;
-  frontBlouseBottomSize: number;
-  frontNeckType: string;
-  frontNeckDesignNumber: string;
-
-
-  frontNeckType2: string;
-  frontNeckType2DesignNumber: string;
-  frontHasFillWork: boolean;
-  frontCoverage: number;
-  frontHasMotifs: boolean;
-  frontMotifSizeX: number;
-  frontMotifSizeY: number;
-  frontMotifCount: string;
-  frontSelectedTechniques: string[];
-  frontTechniquePercentages: Record<string, number>;
+  front: SectionState;
 
   // Back Section
-  backHasBorders: boolean;
-  backBorderSize: number;
-  backHasBlouseBottom: boolean;
-  backBlouseBottomSize: number;
-  backNeckType: string;
-  backNeckDesignNumber: string;
-  backNeckType2: string;
-  backNeckType2DesignNumber: string;
-  backHasFillWork: boolean;
-  backCoverage: number;
-  backHasMotifs: boolean;
-  backMotifSizeX: number;
-  backMotifSizeY: number;
-  backMotifCount: string;
-  backSelectedTechniques: string[];
-  backTechniquePercentages: Record<string, number>;
+  back: SectionState;
 
   // Hands Section
-  handsHasBorders: boolean;
-  handsBorderSize: number;
-  handsNeckType: string;
-  handsNeckDesignNumber: string;
-  handsSelectedDesign: string;
-  handsHasFillWork: boolean;
-  handsCoverage: number;
-  handsHasMotifs: boolean;
-  handsMotifSizeX: number;
-  handsMotifSizeY: number;
-  handsMotifCount: string;
-  handsSelectedTechniques: string[];
-  handsTechniquePercentages: Record<string, number>;
+  hands: SectionState & { selectedDesign: string };
 
-  // Size measurement setters
-  setChestSize: (value: string) => void;
-  setArmholeRound: (value: string) => void;
-  setHandLength: (value: string) => void;
-  setHandRound: (value: string) => void;
+  // Actions
+  setChestSize: (size: string) => void;
+  setArmholeRound: (round: string) => void;
+  setHandLength: (length: string) => void;
+  setHandRound: (round: string) => void;
 
-  // All Section setters
-  setAllHasBorders: (value: boolean) => void;
-  setAllBorderSize: (value: number) => void;
-  setAllHasBlouseBottom: (value: boolean) => void;
-  setAllBlouseBottomSize: (value: number) => void;
-  setAllNeckType: (value: string) => void;
-  setAllNeckDesignNumber: (value: string) => void;
-  setAllNeckType2: (value: string) => void;
-  setAllNeckType2DesignNumber: (value: string) => void;
-  setAllHasFillWork: (value: boolean) => void;
-  setAllCoverage: (value: number) => void;
-  setAllHasMotifs: (value: boolean) => void;
-  setAllMotifSizeX: (value: number) => void;
-  setAllMotifSizeY: (value: number) => void;
-  setAllMotifCount: (value: string) => void;
+  // Section actions
+  setAllHasBorders: (has: boolean) => void;
+  setAllBorderSize: (size: number) => void;
+  setAllHasBlouseBottom: (has: boolean) => void;
+  setAllBlouseBottomSize: (size: number) => void;
+  setAllNeckStyle: (style: string) => void;
+  setAllHasFillWork: (has: boolean) => void;
+  setAllCoverage: (coverage: number) => void;
+  setAllHasMotifs: (has: boolean) => void;
+  setAllMotifSizeX: (size: number) => void;
+  setAllMotifSizeY: (size: number) => void;
+  setAllMotifCount: (count: string) => void;
   setAllSelectedTechniques: (techniques: string[]) => void;
-  setAllTechniquePercentage: (technique: string, percentage: number) => void;
+  setAllTechniquePercentages: (percentages: Record<string, number>) => void;
 
-  // Front Section setters
-  setFrontHasBorders: (value: boolean) => void;
-  setFrontBorderSize: (value: number) => void;
-  setFrontHasBlouseBottom: (value: boolean) => void;
-  setFrontBlouseBottomSize: (value: number) => void;
-  setFrontNeckType: (value: string) => void;
-  setFrontNeckDesignNumber: (value: string) => void;
-  setFrontNeckType2: (value: string) => void;
-  setFrontNeckType2DesignNumber: (value: string) => void;
-  setFrontHasFillWork: (value: boolean) => void;
-  setFrontCoverage: (value: number) => void;
-  setFrontHasMotifs: (value: boolean) => void;
-  setFrontMotifSizeX: (value: number) => void;
-  setFrontMotifSizeY: (value: number) => void;
-  setFrontMotifCount: (value: string) => void;
+  setFrontHasBorders: (has: boolean) => void;
+  setFrontBorderSize: (size: number) => void;
+  setFrontHasBlouseBottom: (has: boolean) => void;
+  setFrontBlouseBottomSize: (size: number) => void;
+  setFrontNeckStyle: (style: string) => void;
+  setFrontHasFillWork: (has: boolean) => void;
+  setFrontCoverage: (coverage: number) => void;
+  setFrontHasMotifs: (has: boolean) => void;
+  setFrontMotifSizeX: (size: number) => void;
+  setFrontMotifSizeY: (size: number) => void;
+  setFrontMotifCount: (count: string) => void;
   setFrontSelectedTechniques: (techniques: string[]) => void;
-  setFrontTechniquePercentage: (technique: string, percentage: number) => void;
+  setFrontTechniquePercentages: (percentages: Record<string, number>) => void;
 
-  // Back Section setters
-  setBackHasBorders: (value: boolean) => void;
-  setBackBorderSize: (value: number) => void;
-  setBackHasBlouseBottom: (value: boolean) => void;
-  setBackBlouseBottomSize: (value: number) => void;
-  setBackNeckType: (value: string) => void;
-  setBackNeckDesignNumber: (value: string) => void;
-  setBackNeckType2: (value: string) => void;
-  setBackNeckType2DesignNumber: (value: string) => void;
-  setBackHasFillWork: (value: boolean) => void;
-  setBackCoverage: (value: number) => void;
-  setBackHasMotifs: (value: boolean) => void;
-  setBackMotifSizeX: (value: number) => void;
-  setBackMotifSizeY: (value: number) => void;
-  setBackMotifCount: (value: string) => void;
+  setBackHasBorders: (has: boolean) => void;
+  setBackBorderSize: (size: number) => void;
+  setBackHasBlouseBottom: (has: boolean) => void;
+  setBackBlouseBottomSize: (size: number) => void;
+  setBackNeckStyle: (style: string) => void;
+  setBackHasFillWork: (has: boolean) => void;
+  setBackCoverage: (coverage: number) => void;
+  setBackHasMotifs: (has: boolean) => void;
+  setBackMotifSizeX: (size: number) => void;
+  setBackMotifSizeY: (size: number) => void;
+  setBackMotifCount: (count: string) => void;
   setBackSelectedTechniques: (techniques: string[]) => void;
-  setBackTechniquePercentage: (technique: string, percentage: number) => void;
+  setBackTechniquePercentages: (percentages: Record<string, number>) => void;
 
-  // Hands Section setters
-  setHandsHasBorders: (value: boolean) => void;
-  setHandsBorderSize: (value: number) => void;
-  setHandsNeckType: (value: string) => void;
-  setHandsNeckDesignNumber: (value: string) => void;
-  setHandsSelectedDesign: (value: string) => void;
-  setHandsHasFillWork: (value: boolean) => void;
-  setHandsCoverage: (value: number) => void;
-  setHandsHasMotifs: (value: boolean) => void;
-  setHandsMotifSizeX: (value: number) => void;
-  setHandsMotifSizeY: (value: number) => void;
-  setHandsMotifCount: (value: string) => void;
+  setHandsHasBorders: (has: boolean) => void;
+  setHandsBorderSize: (size: number) => void;
+  setHandsNeckStyle: (style: string) => void;
+  setHandsSelectedDesign: (design: string) => void;
+  setHandsHasFillWork: (has: boolean) => void;
+  setHandsCoverage: (coverage: number) => void;
+  setHandsHasMotifs: (has: boolean) => void;
+  setHandsMotifSizeX: (size: number) => void;
+  setHandsMotifSizeY: (size: number) => void;
+  setHandsMotifCount: (count: string) => void;
   setHandsSelectedTechniques: (techniques: string[]) => void;
-  setHandsTechniquePercentage: (technique: string, percentage: number) => void;
+  setHandsTechniquePercentages: (percentages: Record<string, number>) => void;
 
-  // Reset function
-  resetAll: () => void;
-
-  // Global settings application
-  applyAllSettingsToFront: () => void;
-  applyAllSettingsToBack: () => void;
-  applyAllSettingsToHands: () => void;
 }
 
-const initialState = {
+export const useAppStateStore = create<AppState>((set) => ({
   // Size measurements
-  chestSize: '',
-  armholeRound: '',
-  handLength: '',
-  handRound: '',
+  chestSize: '36',
+  armholeRound: '14',
+  handLength: '18',
+  handRound: '8',
 
   // All Section
-  allHasBorders: false,
-  allBorderSize: 0,
-  allHasBlouseBottom: false,
-  allBlouseBottomSize: 0,
-  allNeckType: '',
-  allNeckDesignNumber: '',
-  allNeckType2: '',
-  allNeckType2DesignNumber: '',
-  allHasFillWork: false,
-  allCoverage: 0,
-  allHasMotifs: false,
-  allMotifSizeX: 0,
-  allMotifSizeY: 0,
-  allMotifCount: '',
-  allSelectedTechniques: [],
-  allTechniquePercentages: {},
+  all: {
+    hasBorders: true,
+    borderSize: 0.5,
+    hasBlouseBottom: false,
+    blouseBottomSize: 0,
+    neckStyle: 'not selected',
+    hasFillWork: false,
+    coverage: 50,
+    hasMotifs: false,
+    motifSizeX: 2,
+    motifSizeY: 2,
+    motifCount: '1',
+    selectedTechniques: [],
+    techniquePercentages: {},
+  },
 
   // Front Section
-  frontHasBorders: false,
-  frontBorderSize: 0,
-  frontHasBlouseBottom: false,
-  frontBlouseBottomSize: 0,
-  frontNeckType: '',
-  frontNeckDesignNumber: '',
-  frontNeckType2: '',
-  frontNeckType2DesignNumber: '',
-  frontHasFillWork: false,
-  frontCoverage: 0,
-  frontHasMotifs: false,
-  frontMotifSizeX: 0,
-  frontMotifSizeY: 0,
-  frontMotifCount: '',
-  frontSelectedTechniques: [],
-  frontTechniquePercentages: {},
+  front: {
+    hasBorders: false,
+    borderSize: 0,
+    hasBlouseBottom: false,
+    blouseBottomSize: 0,
+    neckStyle: 'not selected',
+    hasFillWork: false,
+    coverage: 50,
+    hasMotifs: false,
+    motifSizeX: 2,
+    motifSizeY: 2,
+    motifCount: '1',
+    selectedTechniques: [],
+    techniquePercentages: {},
+  },
 
   // Back Section
-  backHasBorders: false,
-  backBorderSize: 0,
-  backHasBlouseBottom: false,
-  backBlouseBottomSize: 0,
-  backNeckType: '',
-  backNeckDesignNumber: '',
-  backNeckType2: '',
-  backNeckType2DesignNumber: '',
-  backHasFillWork: false,
-  backCoverage: 0,
-  backHasMotifs: false,
-  backMotifSizeX: 0,
-  backMotifSizeY: 0,
-  backMotifCount: '',
-  backSelectedTechniques: [],
-  backTechniquePercentages: {},
+  back: {
+    hasBorders: false,
+    borderSize: 0,
+    hasBlouseBottom: false,
+    blouseBottomSize: 0,
+    neckStyle: 'not selected',
+    hasFillWork: false,
+    coverage: 50,
+    hasMotifs: false,
+    motifSizeX: 2,
+    motifSizeY: 2,
+    motifCount: '1',
+    selectedTechniques: [],
+    techniquePercentages: {},
+  },
 
   // Hands Section
-  handsHasBorders: false,
-  handsBorderSize: 0,
-  handsNeckType: '',
-  handsNeckDesignNumber: '',
-  handsSelectedDesign: '',
-  handsHasFillWork: false,
-  handsCoverage: 0,
-  handsHasMotifs: false,
-  handsMotifSizeX: 0,
-  handsMotifSizeY: 0,
-  handsMotifCount: '',
-  handsSelectedTechniques: [],
-  handsTechniquePercentages: {},
-};
+  hands: {
+    hasBorders: false,
+    borderSize: 0,
+    hasBlouseBottom: false,
+    blouseBottomSize: 0,
+    neckStyle: 'not selected',
+    hasFillWork: false,
+    coverage: 30,
+    hasMotifs: false,
+    motifSizeX: 1.5,
+    motifSizeY: 1.5,
+    motifCount: '1',
+    selectedTechniques: [],
+    techniquePercentages: {},
+    selectedDesign: 'simple',
+  },
 
-export const useAppStateStore = create<AppState>((set) => ({
-  ...initialState,
+  // Size actions
+  setChestSize: (size) => set({ chestSize: size }),
+  setArmholeRound: (round) => set({ armholeRound: round }),
+  setHandLength: (length) => set({ handLength: length }),
+  setHandRound: (round) => set({ handRound: round }),
 
-  // Size measurement setters
-  setChestSize: (value) => set({ chestSize: value }),
-  setArmholeRound: (value) => set({ armholeRound: value }),
-  setHandLength: (value) => set({ handLength: value }),
-  setHandRound: (value) => set({ handRound: value }),
+  // All section actions
+  setAllHasBorders: (has) => set((state) => ({ all: { ...state.all, hasBorders: has } })),
+  setAllBorderSize: (size) => set((state) => ({ all: { ...state.all, borderSize: size } })),
+  setAllHasBlouseBottom: (has) => set((state) => ({ all: { ...state.all, hasBlouseBottom: has } })),
+  setAllBlouseBottomSize: (size) => set((state) => ({ all: { ...state.all, blouseBottomSize: size } })),
+  setAllNeckStyle: (style) => set((state) => ({ all: { ...state.all, neckStyle: style } })),
+  setAllHasFillWork: (has) => set((state) => ({ all: { ...state.all, hasFillWork: has } })),
+  setAllCoverage: (coverage) => set((state) => ({ all: { ...state.all, coverage: coverage } })),
+  setAllHasMotifs: (has) => set((state) => ({ all: { ...state.all, hasMotifs: has } })),
+  setAllMotifSizeX: (size) => set((state) => ({ all: { ...state.all, motifSizeX: size } })),
+  setAllMotifSizeY: (size) => set((state) => ({ all: { ...state.all, motifSizeY: size } })),
+  setAllMotifCount: (count) => set((state) => ({ all: { ...state.all, motifCount: count } })),
+  setAllSelectedTechniques: (techniques) => set((state) => ({ all: { ...state.all, selectedTechniques: techniques } })),
+  setAllTechniquePercentages: (percentages) => set((state) => ({ all: { ...state.all, techniquePercentages: percentages } })),
 
-  // All Section setters
-  setAllHasBorders: (value) => set({ allHasBorders: value }),
-  setAllBorderSize: (value) => set({ allBorderSize: value }),
-  setAllHasBlouseBottom: (value) => set({ allHasBlouseBottom: value }),
-  setAllBlouseBottomSize: (value) => set({ allBlouseBottomSize: value }),
-  setAllNeckType: (value) => set({ allNeckType: value }),
-  setAllNeckDesignNumber: (value) => set({ allNeckDesignNumber: value }),
-  setAllNeckType2: (value) => set({ allNeckType2: value }),
-  setAllNeckType2DesignNumber: (value) => set({ allNeckType2DesignNumber: value }),
-  setAllHasFillWork: (value) => set({ allHasFillWork: value }),
-  setAllCoverage: (value) => set({ allCoverage: value }),
-  setAllHasMotifs: (value) => set({ allHasMotifs: value }),
-  setAllMotifSizeX: (value) => set({ allMotifSizeX: value }),
-  setAllMotifSizeY: (value) => set({ allMotifSizeY: value }),
-  setAllMotifCount: (value) => set({ allMotifCount: value }),
-  setAllSelectedTechniques: (techniques) => set({ allSelectedTechniques: techniques }),
-  setAllTechniquePercentage: (technique, percentage) => set((state) => ({
-    allTechniquePercentages: { ...state.allTechniquePercentages, [technique]: percentage }
-  })),
+  // Front section actions
+  setFrontHasBorders: (has) => set((state) => ({ front: { ...state.front, hasBorders: has } })),
+  setFrontBorderSize: (size) => set((state) => ({ front: { ...state.front, borderSize: size } })),
+  setFrontHasBlouseBottom: (has) => set((state) => ({ front: { ...state.front, hasBlouseBottom: has } })),
+  setFrontBlouseBottomSize: (size) => set((state) => ({ front: { ...state.front, blouseBottomSize: size } })),
+  setFrontNeckStyle: (style) => set((state) => ({ front: { ...state.front, neckStyle: style } })),
+  setFrontHasFillWork: (has) => set((state) => ({ front: { ...state.front, hasFillWork: has } })),
+  setFrontCoverage: (coverage) => set((state) => ({ front: { ...state.front, coverage: coverage } })),
+  setFrontHasMotifs: (has) => set((state) => ({ front: { ...state.front, hasMotifs: has } })),
+  setFrontMotifSizeX: (size) => set((state) => ({ front: { ...state.front, motifSizeX: size } })),
+  setFrontMotifSizeY: (size) => set((state) => ({ front: { ...state.front, motifSizeY: size } })),
+  setFrontMotifCount: (count) => set((state) => ({ front: { ...state.front, motifCount: count } })),
+  setFrontSelectedTechniques: (techniques) => set((state) => ({ front: { ...state.front, selectedTechniques: techniques } })),
+  setFrontTechniquePercentages: (percentages) => set((state) => ({ front: { ...state.front, techniquePercentages: percentages } })),
 
-  // Front Section setters
-  setFrontHasBorders: (value) => set({ frontHasBorders: value }),
-  setFrontBorderSize: (value) => set({ frontBorderSize: value }),
-  setFrontHasBlouseBottom: (value) => set({ frontHasBlouseBottom: value }),
-  setFrontBlouseBottomSize: (value) => set({ frontBlouseBottomSize: value }),
-  setFrontNeckType: (value) => set({ frontNeckType: value }),
-  setFrontNeckDesignNumber: (value) => set({ frontNeckDesignNumber: value }),
-  setFrontNeckType2: (value) => set({ frontNeckType2: value }),
-  setFrontNeckType2DesignNumber: (value) => set({ frontNeckType2DesignNumber: value }),
-  setFrontHasFillWork: (value) => set({ frontHasFillWork: value }),
-  setFrontCoverage: (value) => set({ frontCoverage: value }),
-  setFrontHasMotifs: (value) => set({ frontHasMotifs: value }),
-  setFrontMotifSizeX: (value) => set({ frontMotifSizeX: value }),
-  setFrontMotifSizeY: (value) => set({ frontMotifSizeY: value }),
-  setFrontMotifCount: (value) => set({ frontMotifCount: value }),
-  setFrontSelectedTechniques: (techniques) => set({ frontSelectedTechniques: techniques }),
-  setFrontTechniquePercentage: (technique, percentage) => set((state) => ({
-    frontTechniquePercentages: { ...state.frontTechniquePercentages, [technique]: percentage }
-  })),
+  // Back section actions
+  setBackHasBorders: (has) => set((state) => ({ back: { ...state.back, hasBorders: has } })),
+  setBackBorderSize: (size) => set((state) => ({ back: { ...state.back, borderSize: size } })),
+  setBackHasBlouseBottom: (has) => set((state) => ({ back: { ...state.back, hasBlouseBottom: has } })),
+  setBackBlouseBottomSize: (size) => set((state) => ({ back: { ...state.back, blouseBottomSize: size } })),
+  setBackNeckStyle: (style) => set((state) => ({ back: { ...state.back, neckStyle: style } })),
+  setBackHasFillWork: (has) => set((state) => ({ back: { ...state.back, hasFillWork: has } })),
+  setBackCoverage: (coverage) => set((state) => ({ back: { ...state.back, coverage: coverage } })),
+  setBackHasMotifs: (has) => set((state) => ({ back: { ...state.back, hasMotifs: has } })),
+  setBackMotifSizeX: (size) => set((state) => ({ back: { ...state.back, motifSizeX: size } })),
+  setBackMotifSizeY: (size) => set((state) => ({ back: { ...state.back, motifSizeY: size } })),
+  setBackMotifCount: (count) => set((state) => ({ back: { ...state.back, motifCount: count } })),
+  setBackSelectedTechniques: (techniques) => set((state) => ({ back: { ...state.back, selectedTechniques: techniques } })),
+  setBackTechniquePercentages: (percentages) => set((state) => ({ back: { ...state.back, techniquePercentages: percentages } })),
 
-  // Back Section setters
-  setBackHasBorders: (value) => set({ backHasBorders: value }),
-  setBackBorderSize: (value) => set({ backBorderSize: value }),
-  setBackHasBlouseBottom: (value) => set({ backHasBlouseBottom: value }),
-  setBackBlouseBottomSize: (value) => set({ backBlouseBottomSize: value }),
-  setBackNeckType: (value) => set({ backNeckType: value }),
-  setBackNeckDesignNumber: (value) => set({ backNeckDesignNumber: value }),
-  setBackNeckType2: (value) => set({ backNeckType2: value }),
-  setBackNeckType2DesignNumber: (value) => set({ backNeckType2DesignNumber: value }),
-  setBackHasFillWork: (value) => set({ backHasFillWork: value }),
-  setBackCoverage: (value) => set({ backCoverage: value }),
-  setBackHasMotifs: (value) => set({ backHasMotifs: value }),
-  setBackMotifSizeX: (value) => set({ backMotifSizeX: value }),
-  setBackMotifSizeY: (value) => set({ backMotifSizeY: value }),
-  setBackMotifCount: (value) => set({ backMotifCount: value }),
-  setBackSelectedTechniques: (techniques) => set({ backSelectedTechniques: techniques }),
-  setBackTechniquePercentage: (technique, percentage) => set((state) => ({
-    backTechniquePercentages: { ...state.backTechniquePercentages, [technique]: percentage }
-  })),
-
-  // Hands Section setters
-  setHandsHasBorders: (value) => set({ handsHasBorders: value }),
-  setHandsBorderSize: (value) => set({ handsBorderSize: value }),
-  setHandsNeckType: (value) => set({ handsNeckType: value }),
-  setHandsNeckDesignNumber: (value) => set({ handsNeckDesignNumber: value }),
-  setHandsSelectedDesign: (value) => set({ handsSelectedDesign: value }),
-  setHandsHasFillWork: (value) => set({ handsHasFillWork: value }),
-  setHandsCoverage: (value) => set({ handsCoverage: value }),
-  setHandsHasMotifs: (value) => set({ handsHasMotifs: value }),
-  setHandsMotifSizeX: (value) => set({ handsMotifSizeX: value }),
-  setHandsMotifSizeY: (value) => set({ handsMotifSizeY: value }),
-  setHandsMotifCount: (value) => set({ handsMotifCount: value }),
-  setHandsSelectedTechniques: (techniques) => set({ handsSelectedTechniques: techniques }),
-  setHandsTechniquePercentage: (technique, percentage) => set((state) => ({
-    handsTechniquePercentages: { ...state.handsTechniquePercentages, [technique]: percentage }
-  })),
-
-  // Reset function
-  resetAll: () => set(initialState),
-  resetTechniquesAndPercentages: () => set((state) => ({
-    ...state,
-    allSelectedTechniques: [],
-    allTechniquePercentages: {},
-    frontSelectedTechniques: [],
-    frontTechniquePercentages: {},
-    backSelectedTechniques: [],
-    backTechniquePercentages: {},
-    handsSelectedTechniques: [],
-    handsTechniquePercentages: {},
-  })),
-
-  // Global settings application functions
-  applyAllSettingsToFront: () => set((state) => ({
-    frontHasBorders: state.allHasBorders,
-    frontBorderSize: state.allBorderSize,
-    frontNeckType: state.allNeckType,
-    frontNeckDesignNumber: state.allNeckDesignNumber,
-    frontNeckType2: state.allNeckType2,
-    frontNeckType2DesignNumber: state.allNeckType2DesignNumber,
-    frontHasFillWork: state.allHasFillWork,
-    frontCoverage: state.allCoverage,
-    frontHasMotifs: state.allHasMotifs,
-    frontMotifSizeX: state.allMotifSizeX,
-    frontMotifSizeY: state.allMotifSizeY,
-    frontMotifCount: state.allMotifCount,
-    frontSelectedTechniques: [...state.allSelectedTechniques],
-    frontTechniquePercentages: { ...state.allTechniquePercentages },
-  })),
-  applyAllSettingsToBack: () => set((state) => ({
-    backHasBorders: state.allHasBorders,
-    backBorderSize: state.allBorderSize,
-    backNeckType: state.allNeckType,
-    backNeckDesignNumber: state.allNeckDesignNumber,
-    backNeckType2: state.allNeckType2,
-    backNeckType2DesignNumber: state.allNeckType2DesignNumber,
-    backHasFillWork: state.allHasFillWork,
-    backCoverage: state.allCoverage,
-    backHasMotifs: state.allHasMotifs,
-    backMotifSizeX: state.allMotifSizeX,
-    backMotifSizeY: state.allMotifSizeY,
-    backMotifCount: state.allMotifCount,
-    backSelectedTechniques: [...state.allSelectedTechniques],
-    backTechniquePercentages: { ...state.allTechniquePercentages },
-  })),
-  applyAllSettingsToHands: () => set((state) => ({
-    handsHasBorders: state.allHasBorders,
-    handsBorderSize: state.allBorderSize,
-    handsNeckType: state.allNeckType,
-    handsNeckDesignNumber: state.allNeckDesignNumber,
-    handsSelectedDesign: state.allNeckType,
-    handsHasFillWork: state.allHasFillWork,
-    handsCoverage: state.allCoverage,
-    handsHasMotifs: state.allHasMotifs,
-    handsMotifSizeX: state.allMotifSizeX,
-    handsMotifSizeY: state.allMotifSizeY,
-    handsMotifCount: state.allMotifCount,
-    handsSelectedTechniques: [...state.allSelectedTechniques],
-    handsTechniquePercentages: { ...state.allTechniquePercentages },
-  })),
+  // Hands section actions
+  setHandsHasBorders: (has) => set((state) => ({ hands: { ...state.hands, hasBorders: has } })),
+  setHandsBorderSize: (size) => set((state) => ({ hands: { ...state.hands, borderSize: size } })),
+  setHandsNeckStyle: (style) => set((state) => ({ hands: { ...state.hands, neckStyle: style } })),
+  setHandsSelectedDesign: (design) => set((state) => ({ hands: { ...state.hands, selectedDesign: design } })),
+  setHandsHasFillWork: (has) => set((state) => ({ hands: { ...state.hands, hasFillWork: has } })),
+  setHandsCoverage: (coverage) => set((state) => ({ hands: { ...state.hands, coverage: coverage } })),
+  setHandsHasMotifs: (has) => set((state) => ({ hands: { ...state.hands, hasMotifs: has } })),
+  setHandsMotifSizeX: (size) => set((state) => ({ hands: { ...state.hands, motifSizeX: size } })),
+  setHandsMotifSizeY: (size) => set((state) => ({ hands: { ...state.hands, motifSizeY: size } })),
+  setHandsMotifCount: (count) => set((state) => ({ hands: { ...state.hands, motifCount: count } })),
+  setHandsSelectedTechniques: (techniques) => set((state) => ({ hands: { ...state.hands, selectedTechniques: techniques } })),
+  setHandsTechniquePercentages: (percentages) => set((state) => ({ hands: { ...state.hands, techniquePercentages: percentages } })),
 }));

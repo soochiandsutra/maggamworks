@@ -3,27 +3,24 @@
 import { useAppStateStore } from "@/lib/store/appState";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
-import { RadioGroup } from "@/components/ui/radio-group";
 import { Input } from "@/components/ui/input";
 import { Card } from "@/components/ui/card";
-import { TextCard, ImageCard } from "@/app/dashboard/components/RadioCards";
+import { ImageCard } from "@/components/custom-ui/RadioCards";
 
 export default function AllMotifsSection() {
-  const allHasMotifs = useAppStateStore((state) => state.allHasMotifs);
-  const allMotifSizeX = useAppStateStore((state) => state.allMotifSizeX);
-  const allMotifSizeY = useAppStateStore((state) => state.allMotifSizeY);
-  const allMotifCount = useAppStateStore((state) => state.allMotifCount);
-  const setAllHasMotifs = useAppStateStore((state) => state.setAllHasMotifs);
-  const setAllMotifSizeX = useAppStateStore((state) => state.setAllMotifSizeX);
-  const setAllMotifSizeY = useAppStateStore((state) => state.setAllMotifSizeY);
-  const setAllMotifCount = useAppStateStore((state) => state.setAllMotifCount);
+  const {
+    all: {
+      hasMotifs: allHasMotifs,
+      motifSizeX: allMotifSizeX,
+      motifSizeY: allMotifSizeY,
+      motifCount: allMotifCount,
+    },
+    setAllHasMotifs,
+    setAllMotifSizeX,
+    setAllMotifSizeY,
+    setAllMotifCount,
+  } = useAppStateStore();
 
-  const motifSizes = [
-    { id: "small", name: "Small" },
-    { id: "medium", name: "Medium" },
-    { id: "large", name: "Large" },
-    { id: "big", name: "Big" }
-  ];
 
   const motifDesigns = [
     { id: 1, name: "Design 1", seed: "motif1" },
