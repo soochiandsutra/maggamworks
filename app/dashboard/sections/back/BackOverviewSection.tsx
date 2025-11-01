@@ -183,11 +183,6 @@ export default function BackOverviewSection() {
     // Fill Work group
     const fillWorkValues = [];
     fillWorkValues.push({ label: 'Enabled', value: store.back.hasFillWork ? 'Yes' : 'No', default: 'No', enabled: store.back.hasFillWork });
-    if (store.back.hasFillWork) {
-      fillWorkValues.push({ label: 'Coverage', value: store.back.coverage, default: '50', enabled: true });
-    } else {
-      fillWorkValues.push({ label: 'Coverage', value: store.back.coverage, default: '50', enabled: false });
-    }
     groups.push({ section: 'Fill Work', values: fillWorkValues });
 
     // Fillwork Calculation group (separate section) - always show

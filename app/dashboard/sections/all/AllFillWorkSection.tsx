@@ -4,16 +4,13 @@ import { useAppStateStore } from "@/lib/store/appState";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Card } from "@/components/ui/card";
-import { Slider } from "@/components/ui/slider";
 
 export default function AllFillWorkSection() {
   const {
     all: {
       hasFillWork: allHasFillWork,
-      coverage: allCoverage,
     },
     setAllHasFillWork,
-    setAllCoverage,
   } = useAppStateStore();
 
   return (
@@ -33,26 +30,6 @@ export default function AllFillWorkSection() {
             Fill work present
           </Label>
         </Card>
-
-        {allHasFillWork && (
-          <div className="space-y-3">
-            <Label className="text-sm font-medium">Coverage: {allCoverage}%</Label>
-            <Card className="p-4">
-              <Slider
-                value={[allCoverage]}
-                onValueChange={(value) => setAllCoverage(value[0])}
-                min={0}
-                max={100}
-                step={1}
-                className="w-full"
-              />
-              <div className="flex justify-between text-xs text-muted-foreground mt-2">
-                <span>0%</span>
-                <span>100%</span>
-              </div>
-            </Card>
-          </div>
-        )}
       </div>
     </div>
   );

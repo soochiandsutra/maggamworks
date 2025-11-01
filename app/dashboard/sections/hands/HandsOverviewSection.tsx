@@ -186,11 +186,6 @@ export default function HandsOverviewSection() {
     // Fill Work group
     const fillWorkValues = [];
     fillWorkValues.push({ label: 'Enabled', value: store.hands.hasFillWork ? 'Yes' : 'No', default: 'No', enabled: store.hands.hasFillWork });
-    if (store.hands.hasFillWork) {
-      fillWorkValues.push({ label: 'Coverage', value: store.hands.coverage, default: '30', enabled: true });
-    } else {
-      fillWorkValues.push({ label: 'Coverage', value: store.hands.coverage, default: '30', enabled: false });
-    }
     groups.push({ section: 'Fill Work', values: fillWorkValues });
 
     // Fillwork Calculation group (separate section) - always show

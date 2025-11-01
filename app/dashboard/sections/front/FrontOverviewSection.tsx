@@ -177,11 +177,6 @@ export default function FrontOverviewSection() {
     // Fill Work group
     const fillWorkValues = [];
     fillWorkValues.push({ label: 'Enabled', value: store.front.hasFillWork ? 'Yes' : 'No', default: 'No', enabled: store.front.hasFillWork });
-    if (store.front.hasFillWork) {
-      fillWorkValues.push({ label: 'Coverage', value: store.front.coverage, default: '50', enabled: true });
-    } else {
-      fillWorkValues.push({ label: 'Coverage', value: store.front.coverage, default: '50', enabled: false });
-    }
     groups.push({ section: 'Fill Work', values: fillWorkValues });
 
     // Fillwork Calculation group (separate section) - always show

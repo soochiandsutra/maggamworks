@@ -104,24 +104,24 @@ interface AppState {
 
 export const useAppStateStore = create<AppState>((set) => ({
   // Size measurements
-  chestSize: '36',
-  armholeRound: '14',
-  handLength: '18',
-  handRound: '8',
+  chestSize: '',
+  armholeRound: '',
+  handLength: '',
+  handRound: '',
 
   // All Section
   all: {
     hasBorders: true,
-    borderSize: 0.5,
+    borderSize: 0,
     hasBlouseBottom: false,
     blouseBottomSize: 0,
     neckStyle: 'not selected',
     hasFillWork: false,
     coverage: 50,
     hasMotifs: false,
-    motifSizeX: 2,
-    motifSizeY: 2,
-    motifCount: '1',
+    motifSizeX: 0,
+    motifSizeY: 0,
+    motifCount: '',
     selectedTechniques: [],
     techniquePercentages: {},
   },

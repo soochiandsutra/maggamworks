@@ -103,13 +103,19 @@ export function calculateFillWorkTime(
   const area = calculateCoverageArea(chestSize, section);
   let fillWorkCalculation = 0;
 
+  // Calculate total raw percentage for normalization
+  const totalPercentage = techniques.reduce((sum, technique) => {
+    return sum + (techniquePercentages[technique] || 50);
+  }, 0);
+
   for (const technique of techniques) {
     const workType = technique as WorkType;
-    const percentage = techniquePercentages[technique] || 0;
+    const rawPercentage = techniquePercentages[technique] || 50;
+    const normalizedPercentage = totalPercentage > 0 ? (rawPercentage / totalPercentage) * 100 : 0;
     const baseTimePerSqInch = WORK_TYPE_BASE_TIMES[workType] || FILL_WORK_BASE_TIME_PER_SQ_INCH;
     const techniqueMultiplier = TECHNIQUE_MULTIPLIERS[technique as TechniqueType] || 1.0;
 
-    const techniqueArea = area * (percentage / 100);
+    const techniqueArea = area * (normalizedPercentage / 100);
     const techniqueTime = techniqueArea * baseTimePerSqInch * techniqueMultiplier;
 
     fillWorkCalculation += techniqueTime;
@@ -141,12 +147,18 @@ export function calculateMotifTime(
 
   let motifValue = 0;
 
+  // Calculate total raw percentage for normalization
+  const totalPercentage = techniques.reduce((sum, technique) => {
+    return sum + (techniquePercentages[technique] || 50);
+  }, 0);
+
   for (const technique of techniques) {
-    const percentage = techniquePercentages[technique] || 0;
+    const rawPercentage = techniquePercentages[technique] || 50;
+    const normalizedPercentage = totalPercentage > 0 ? (rawPercentage / totalPercentage) * 100 : 0;
     const techniqueMultiplier = TECHNIQUE_MULTIPLIERS[technique as TechniqueType] || 1.0;
 
     const motifTime = MOTIF_BASE_TIME_PER_MOTIF * count * sizeMultiplier * techniqueMultiplier;
-    motifValue += motifTime * (percentage / 100);
+    motifValue += motifTime * (normalizedPercentage / 100);
   }
 
   // Apply formula: Motif value * coverage% * WeightedTime

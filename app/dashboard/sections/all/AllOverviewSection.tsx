@@ -97,11 +97,6 @@ export default function AllOverviewContent() {
     // Fill Work group
     const fillWorkValues = [];
     fillWorkValues.push({ label: 'Enabled', value: store.all.hasFillWork ? 'Yes' : 'No', default: 'No', enabled: store.all.hasFillWork });
-    if (store.all.hasFillWork) {
-      fillWorkValues.push({ label: 'Coverage', value: store.all.coverage, default: '50', enabled: true });
-    } else {
-      fillWorkValues.push({ label: 'Coverage', value: store.all.coverage, default: '50', enabled: false });
-    }
     groups.push({ section: 'Fill Work', values: fillWorkValues });
 
     // Neck group
