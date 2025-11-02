@@ -7,12 +7,13 @@ import { Card } from "@/components/ui/card";
 interface NumberInputProps {
   id: string;
   label: string;
-  value: number;
+  value: number | null;
   onChange: (value: number) => void;
   placeholder?: string;
   min?: number;
   step?: number;
   unit?: string;
+  disabled?: boolean;
 }
 
 export function NumberInput({
@@ -23,7 +24,8 @@ export function NumberInput({
   placeholder = "0.0",
   min = 0,
   step = 0.1,
-  unit = ""
+  unit = "",
+  disabled = false
 }: NumberInputProps) {
   return (
     <Card className="p-4 ring-1 border-border ring-border/30">
@@ -40,6 +42,7 @@ export function NumberInput({
           onChange={(e) => onChange(parseFloat(e.target.value) || 0)}
           placeholder={placeholder}
           className="h-10 text-sm"
+          disabled={disabled}
         />
       </div>
     </Card>

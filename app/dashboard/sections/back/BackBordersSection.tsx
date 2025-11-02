@@ -40,8 +40,8 @@ export default function BackBordersSection() {
               checked={isCustomBorders}
               onCheckedChange={(checked) => {
                 if (checked) {
-                  setBackHasBorders(all.hasBorders);
-                  setBackBorderSize(all.borderSize);
+                  setBackHasBorders(!!all.hasBorders);
+                  setBackBorderSize(all.borderSize || 0);
                 } else {
                   setBackHasBorders(null);
                   setBackBorderSize(null);
@@ -53,7 +53,7 @@ export default function BackBordersSection() {
         
         <CheckboxCard
           id="back-borders"
-          checked={hasBorders}
+          checked={!!hasBorders}
           onCheckedChange={(checked) => setBackHasBorders(checked as boolean)}
           label="Main borders present"
           disabled={!isCustomBorders}
@@ -83,8 +83,8 @@ export default function BackBordersSection() {
               checked={isCustomBlouseBottom}
               onCheckedChange={(checked) => {
                 if (checked) {
-                  setBackHasBlouseBottom(all.hasBlouseBottom);
-                  setBackBlouseBottomSize(all.blouseBottomSize);
+                  setBackHasBlouseBottom(!!all.hasBlouseBottom);
+                  setBackBlouseBottomSize(all.blouseBottomSize || 0);
                 } else {
                   setBackHasBlouseBottom(null);
                   setBackBlouseBottomSize(null);
@@ -96,7 +96,7 @@ export default function BackBordersSection() {
         
         <CheckboxCard
           id="back-blouse-bottom"
-          checked={hasBlouseBottom}
+          checked={!!hasBlouseBottom}
           onCheckedChange={(checked) => setBackHasBlouseBottom(checked as boolean)}
           label="Blouse bottom present"
           disabled={!isCustomBlouseBottom}

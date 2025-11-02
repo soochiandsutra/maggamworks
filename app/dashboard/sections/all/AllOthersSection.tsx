@@ -19,7 +19,9 @@ export default function AllOthersSection() {
   } = useAppStateStore();
 
   // Ensure allSelectedTechniques is always an array
-  const techniques = allSelectedTechniques;
+  const techniques = allSelectedTechniques || [];
+  const techniquePercentages = allTechniquePercentages || {};
+  const coverage = allCoverage ?? 50;
 
   const embroideryTechniques = [
     { id: "challa-work", name: "Challa work", icon: "🧵" },
@@ -43,16 +45,16 @@ export default function AllOthersSection() {
     if (checked) {
       setAllSelectedTechniques([...techniques, techniqueName]);
       // Initialize percentage to 50% if not already set
-      if (!allTechniquePercentages[techniqueName]) {
+      if (!techniquePercentages[techniqueName]) {
         setAllTechniquePercentages({
-          ...allTechniquePercentages,
+          ...techniquePercentages,
           [techniqueName]: 50
         });
       }
     } else {
       setAllSelectedTechniques(techniques.filter(t => t !== techniqueName));
       // Remove the percentage when unchecked
-      const newPercentages = { ...allTechniquePercentages };
+      const newPercentages = { ...techniquePercentages };
       delete newPercentages[techniqueName];
       setAllTechniquePercentages(newPercentages);
     }
@@ -69,11 +71,11 @@ export default function AllOthersSection() {
           {(() => {
             // Calculate normalized percentages
             const totalPercentage = techniques.reduce((sum, technique) => {
-              return sum + (allTechniquePercentages[technique] || 50);
+              return sum + (techniquePercentages[technique] || 50);
             }, 0);
 
             return techniques.map((technique) => {
-              const rawPercentage = allTechniquePercentages[technique] || 50;
+              const rawPercentage = techniquePercentages[technique] || 50;
               const normalizedPercentage = totalPercentage > 0 ? (rawPercentage / totalPercentage) * 100 : 0;
 
               return (
@@ -104,10 +106,10 @@ export default function AllOthersSection() {
           <div className="space-y-3">
             <div className="flex items-center justify-between">
               <span className="text-sm text-purple-700">Default Coverage</span>
-              <span className="text-lg font-bold text-purple-900">{allCoverage}%</span>
+              <span className="text-lg font-bold text-purple-900">{coverage}%</span>
             </div>
             <Slider
-              value={[allCoverage]}
+              value={[coverage]}
               onValueChange={(value) => setAllCoverage(value[0])}
               max={100}
               min={0}
@@ -153,12 +155,12 @@ export default function AllOthersSection() {
                     <div className="mt-3 pt-3 border-t border-border">
                       <div className="space-y-2">
                         <Label className="text-sm font-medium">
-                          {technique.name} - {allTechniquePercentages[technique.name] || 50}%
+                          {technique.name} - {techniquePercentages[technique.name] || 50}%
                         </Label>
                         <Slider
-                          value={[allTechniquePercentages[technique.name] || 50]}
+                          value={[techniquePercentages[technique.name] || 50]}
                           onValueChange={(value) => setAllTechniquePercentages({
-                            ...allTechniquePercentages,
+                            ...techniquePercentages,
                             [technique.name]: value[0]
                           })}
                           max={100}

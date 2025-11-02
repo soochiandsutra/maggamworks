@@ -11,18 +11,6 @@ export default function FrontOverviewSection() {
   const calculation = useCalculations();
   const store = useAppStateStore();
 
-  // Helper function to format values
-  const formatValue = (value: any) => {
-    if (typeof value === 'boolean') return value ? 'Yes' : 'No';
-    if (Array.isArray(value)) return value.length > 0 ? value.join(', ') : 'None';
-    if (typeof value === 'object' && value !== null) {
-      const entries = Object.entries(value);
-      if (entries.length === 0) return 'None';
-      return entries.map(([k, v]) => `${k}: ${v}`).join(', ');
-    }
-    return String(value);
-  };
-
   // Group values by category for Front section
   const getGroupedValues = () => {
     const groups = [];
@@ -45,12 +33,17 @@ export default function FrontOverviewSection() {
     // Border Calculation section - always show
     const borderCalcValues = [];
     const chestSize = parseFloat(store.chestSize) || 36;
+    const borderSize = store.front.borderSize !== null ? store.front.borderSize : (store.all.borderSize || 0);
+    const blouseBottomSize = store.front.blouseBottomSize !== null ? store.front.blouseBottomSize : (store.all.blouseBottomSize || 0);
+    const motifSizeX = store.front.motifSizeX !== null ? store.front.motifSizeX : (store.all.motifSizeX || 0);
+    const motifSizeY = store.front.motifSizeY !== null ? store.front.motifSizeY : (store.all.motifSizeY || 0);
+    const motifCount = store.front.motifCount !== null ? store.front.motifCount : (store.all.motifCount || '1');
     
     if (store.front.hasBorders && store.front.neckStyle !== 'not selected') {
       const topBorderCalc = calculateFrontTopBorder(
         store.front.neckStyle,
         chestSize,
-        store.front.borderSize
+        borderSize
       );
       
       borderCalcValues.push({
@@ -78,7 +71,7 @@ export default function FrontOverviewSection() {
     }
     
     if (store.front.hasBlouseBottom) {
-      const bottomBorderCalc = calculateBottomBorder(chestSize, store.front.blouseBottomSize);
+      const bottomBorderCalc = calculateBottomBorder(chestSize, blouseBottomSize);
       
       borderCalcValues.push({
         label: 'Bottom Border Formula',
@@ -137,9 +130,9 @@ export default function FrontOverviewSection() {
     const motifCalcValues = [];
     if (store.front.hasMotifs) {
       const motifCalc = calculateMotifValue(
-        store.front.motifSizeX,
-        store.front.motifSizeY,
-        parseInt(store.front.motifCount) || 1
+        motifSizeX,
+        motifSizeY,
+        parseInt(motifCount) || 1
       );
       
       motifCalcValues.push({

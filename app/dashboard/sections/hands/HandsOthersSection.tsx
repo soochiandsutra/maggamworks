@@ -23,15 +23,15 @@ export default function HandsOthersSection() {
     setHandsCoverage,
   } = useAppStateStore();
 
-  const effectiveCoverage = handsCoverage !== null ? handsCoverage : allCoverage;
+  const effectiveCoverage = handsCoverage !== null ? handsCoverage : (allCoverage ?? 50);
   const isCustomCoverage = handsCoverage !== null;
 
   const effectiveSelectedTechniques = handsSelectedTechniques !== null ? handsSelectedTechniques : allSelectedTechniques;
   const effectiveTechniquePercentages = handsTechniquePercentages !== null ? handsTechniquePercentages : allTechniquePercentages;
-  const isCustomTechniques = handsSelectedTechniques !== null;
 
   // Ensure effectiveSelectedTechniques is always an array
-  const techniques = effectiveSelectedTechniques;
+  const techniques = effectiveSelectedTechniques || [];
+  const techniquePercentages = effectiveTechniquePercentages || {};
 
   const embroideryTechniques = [
     { id: "challa-work", name: "Challa work", icon: "🧵" },
@@ -55,16 +55,16 @@ export default function HandsOthersSection() {
     if (checked) {
       setHandsSelectedTechniques([...techniques, techniqueName]);
       // Initialize percentage to 50% if not already set
-      if (!effectiveTechniquePercentages[techniqueName]) {
+      if (!techniquePercentages[techniqueName]) {
         setHandsTechniquePercentages({
-          ...effectiveTechniquePercentages,
+          ...techniquePercentages,
           [techniqueName]: 50
         });
       }
     } else {
       setHandsSelectedTechniques(techniques.filter(t => t !== techniqueName));
       // Remove the percentage when unchecked
-      const newPercentages = { ...effectiveTechniquePercentages };
+      const newPercentages = { ...techniquePercentages };
       delete newPercentages[techniqueName];
       setHandsTechniquePercentages(newPercentages);
     }
@@ -81,11 +81,11 @@ export default function HandsOthersSection() {
           {(() => {
             // Calculate normalized percentages
             const totalPercentage = techniques.reduce((sum, technique) => {
-              return sum + (effectiveTechniquePercentages[technique] || 50);
+              return sum + (techniquePercentages[technique] || 50);
             }, 0);
 
             return techniques.map((technique) => {
-              const rawPercentage = effectiveTechniquePercentages[technique] || 50;
+              const rawPercentage = techniquePercentages[technique] || 50;
               const normalizedPercentage = totalPercentage > 0 ? (rawPercentage / totalPercentage) * 100 : 0;
 
               return (
@@ -174,12 +174,12 @@ export default function HandsOthersSection() {
                     <div className="mt-3 pt-3 border-t border-border">
                       <div className="space-y-2">
                         <Label className="text-sm font-medium">
-                          {technique.name} - {handsTechniquePercentages[technique.name] || 50}%
+                          {technique.name} - {techniquePercentages[technique.name] || 50}%
                         </Label>
                         <Slider
-                          value={[handsTechniquePercentages[technique.name] || 50]}
+                          value={[techniquePercentages[technique.name] || 50]}
                           onValueChange={(value) => setHandsTechniquePercentages({
-                            ...handsTechniquePercentages,
+                            ...techniquePercentages,
                             [technique.name]: value[0]
                           })}
                           max={100}

@@ -31,7 +31,7 @@ export default function AllMotifsSection() {
         <Card className="relative cursor-pointer p-4 ring-1 border-border ring-border/30 hover:border-primary/30 hover:bg-primary/2 transition-all">
           <Checkbox
             id="all-motifs"
-            checked={allHasMotifs}
+            checked={!!allHasMotifs}
             onCheckedChange={(checked) => setAllHasMotifs(checked as boolean)}
             className="absolute right-4 top-4 h-5 w-5"
           />
@@ -92,7 +92,7 @@ export default function AllMotifsSection() {
                   type="number"
                   min="1"
                   max="20"
-                  value={allMotifCount}
+                  value={allMotifCount || ''}
                   onChange={(e) => setAllMotifCount(e.target.value)}
                   placeholder="Enter motif count"
                   className="h-10 text-sm"

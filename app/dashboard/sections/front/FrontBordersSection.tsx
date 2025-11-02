@@ -40,8 +40,8 @@ export default function FrontBordersSection() {
               checked={isCustomBorders}
               onCheckedChange={(checked) => {
                 if (checked) {
-                  setFrontHasBorders(all.hasBorders);
-                  setFrontBorderSize(all.borderSize);
+                  setFrontHasBorders(!!all.hasBorders);
+                  setFrontBorderSize(all.borderSize || 0);
                 } else {
                   setFrontHasBorders(null);
                   setFrontBorderSize(null);
@@ -53,7 +53,7 @@ export default function FrontBordersSection() {
         
         <CheckboxCard
           id="front-borders"
-          checked={hasBorders}
+          checked={!!hasBorders}
           onCheckedChange={(checked) => setFrontHasBorders(checked as boolean)}
           label="Main borders present"
           disabled={!isCustomBorders}
@@ -83,8 +83,8 @@ export default function FrontBordersSection() {
               checked={isCustomBlouseBottom}
               onCheckedChange={(checked) => {
                 if (checked) {
-                  setFrontHasBlouseBottom(all.hasBlouseBottom);
-                  setFrontBlouseBottomSize(all.blouseBottomSize);
+                  setFrontHasBlouseBottom(!!all.hasBlouseBottom);
+                  setFrontBlouseBottomSize(all.blouseBottomSize || 0);
                 } else {
                   setFrontHasBlouseBottom(null);
                   setFrontBlouseBottomSize(null);
@@ -96,7 +96,7 @@ export default function FrontBordersSection() {
         
         <CheckboxCard
           id="front-blouse-bottom"
-          checked={hasBlouseBottom}
+          checked={!!hasBlouseBottom}
           onCheckedChange={(checked) => setFrontHasBlouseBottom(checked as boolean)}
           label="Blouse bottom present"
           disabled={!isCustomBlouseBottom}

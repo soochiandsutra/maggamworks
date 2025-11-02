@@ -56,7 +56,7 @@ export default function FrontMotifsSection() {
         <Card className="relative cursor-pointer p-4 ring-1 border-border ring-border/30 hover:border-primary/30 hover:bg-primary/2 transition-all">
           <Checkbox
             id="front-motifs"
-            checked={hasMotifs}
+            checked={!!hasMotifs}
             onCheckedChange={(checked) => setFrontHasMotifs(checked as boolean)}
             className="absolute right-4 top-4 h-5 w-5"
             disabled={!isCustom}
@@ -120,7 +120,7 @@ export default function FrontMotifsSection() {
                   type="number"
                   min="1"
                   max="20"
-                  value={motifCount}
+                  value={motifCount || ''}
                   onChange={(e) => setFrontMotifCount(e.target.value)}
                   placeholder="Enter motif count"
                   className="h-10 text-sm"

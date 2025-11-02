@@ -11,18 +11,6 @@ export default function BackOverviewSection() {
   const calculation = useCalculations();
   const store = useAppStateStore();
 
-  // Helper function to format values
-  const formatValue = (value: any) => {
-    if (typeof value === 'boolean') return value ? 'Yes' : 'No';
-    if (Array.isArray(value)) return value.length > 0 ? value.join(', ') : 'None';
-    if (typeof value === 'object' && value !== null) {
-      const entries = Object.entries(value);
-      if (entries.length === 0) return 'None';
-      return entries.map(([k, v]) => `${k}: ${v}`).join(', ');
-    }
-    return String(value);
-  };
-
   // Group values by category for Back section
   const getGroupedValues = () => {
     const groups = [];

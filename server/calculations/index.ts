@@ -20,8 +20,8 @@ export function calculateTime(state: CalculationState): CalculationResult {
   const calculateSectionTime = (section: 'front' | 'back' | 'hands'): SectionTimeBreakdown => {
     const hasBorders = getValue(section, 'hasBorders') as boolean;
     const borderSize = getValue(section, 'borderSize') as number;
-    const neckType = getValue(section, 'neckType') as string;
-    const neckDesignNumber = parseInt(String(getValue(section, 'neckDesignNumber'))) || 1;
+    const neckStyle = getValue(section, 'neckStyle') as string;
+    const neckDesignNumber = 1; // Default design number
 
     const hasFillWork = getValue(section, 'hasFillWork') as boolean;
     const coverage = getValue(section, 'coverage') as number;
@@ -43,7 +43,7 @@ export function calculateTime(state: CalculationState): CalculationResult {
     const borderTime = calculateBorderTime(
       hasBorders, 
       borderSize, 
-      neckType, 
+      neckStyle, 
       neckDesignNumber, 
       coverage, 
       weightedTime

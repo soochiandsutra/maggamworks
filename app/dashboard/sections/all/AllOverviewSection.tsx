@@ -1,34 +1,10 @@
 'use client';
 
-import { useCalculations } from '@/hooks/use-calculations';
 import { useAppStateStore } from '@/lib/store/appState';
 import { getSizeFactorInfo } from '@/utils/size-factor';
 
 export default function AllOverviewContent() {
-  const calculation = useCalculations();
   const store = useAppStateStore();
-
-  const formatTime = (minutes: number) => {
-    const hours = Math.floor(minutes / 60);
-    const mins = Math.round(minutes % 60);
-    return `${hours}.${mins} hrs`;
-  };
-
-  const totalBorders = calculation.breakdown.front.borders + calculation.breakdown.back.borders + calculation.breakdown.hands.borders;
-  const totalMotifs = calculation.breakdown.front.motifs + calculation.breakdown.back.motifs + calculation.breakdown.hands.motifs;
-  const totalFillWork = calculation.breakdown.front.fillWork + calculation.breakdown.back.fillWork + calculation.breakdown.hands.fillWork;
-
-  // Helper function to format values
-  const formatValue = (value: any) => {
-    if (typeof value === 'boolean') return value ? 'Yes' : 'No';
-    if (Array.isArray(value)) return value.length > 0 ? value.join(', ') : 'None';
-    if (typeof value === 'object' && value !== null) {
-      const entries = Object.entries(value);
-      if (entries.length === 0) return 'None';
-      return entries.map(([k, v]) => `${k}: ${v}`).join(', ');
-    }
-    return String(value);
-  };
 
   // Group values by category for All section
   const getGroupedValues = () => {
@@ -128,14 +104,17 @@ export default function AllOverviewContent() {
 
     // Others group - only techniques
     const othersValues = [];
-    if (store.all.selectedTechniques.length > 0) {
+    const selectedTechniques = store.all.selectedTechniques || [];
+    const techniquePercentages = store.all.techniquePercentages || {};
+    
+    if (selectedTechniques.length > 0) {
       // Show techniques with percentages like in the preview
-      const totalPercentage = store.all.selectedTechniques.reduce((sum, technique) => {
-        return sum + (store.all.techniquePercentages[technique] || 50);
+      const totalPercentage = selectedTechniques.reduce((sum, technique) => {
+        return sum + (techniquePercentages[technique] || 50);
       }, 0);
 
-      store.all.selectedTechniques.forEach(technique => {
-        const rawPercentage = store.all.techniquePercentages[technique] || 50;
+      selectedTechniques.forEach(technique => {
+        const rawPercentage = techniquePercentages[technique] || 50;
         const normalizedPercentage = totalPercentage > 0 ? (rawPercentage / totalPercentage) * 100 : 0;
         othersValues.push({
           label: technique,

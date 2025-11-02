@@ -12,6 +12,7 @@ interface CheckboxCardProps {
   label: string;
   children?: ReactNode;
   className?: string;
+  disabled?: boolean;
 }
 
 export function CheckboxCard({
@@ -20,7 +21,8 @@ export function CheckboxCard({
   onCheckedChange,
   label,
   children,
-  className = ""
+  className = "",
+  disabled = false
 }: CheckboxCardProps) {
   return (
     <Card className={`relative cursor-pointer p-4 ring-1 border-border ring-border/30 hover:border-primary/30 hover:bg-primary/2 transition-all ${className}`}>
@@ -29,6 +31,7 @@ export function CheckboxCard({
         checked={checked}
         onCheckedChange={(checked) => onCheckedChange(checked as boolean)}
         className="absolute right-4 top-4 h-5 w-5"
+        disabled={disabled}
       />
       <Label htmlFor={id} className="text-sm font-medium cursor-pointer">
         {label}

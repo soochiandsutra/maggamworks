@@ -23,15 +23,15 @@ export default function BackOthersSection() {
     setBackCoverage,
   } = useAppStateStore();
 
-  const effectiveCoverage = backCoverage !== null ? backCoverage : allCoverage;
+  const effectiveCoverage = backCoverage !== null ? backCoverage : (allCoverage ?? 50);
   const isCustomCoverage = backCoverage !== null;
 
   const effectiveSelectedTechniques = backSelectedTechniques !== null ? backSelectedTechniques : allSelectedTechniques;
   const effectiveTechniquePercentages = backTechniquePercentages !== null ? backTechniquePercentages : allTechniquePercentages;
-  const isCustomTechniques = backSelectedTechniques !== null;
 
   // Ensure effectiveSelectedTechniques is always an array
-  const techniques = effectiveSelectedTechniques;
+  const techniques = effectiveSelectedTechniques || [];
+  const techniquePercentages = effectiveTechniquePercentages || {};
 
   const embroideryTechniques = [
     { id: "challa-work", name: "Challa work", icon: "🧵" },
@@ -55,16 +55,16 @@ export default function BackOthersSection() {
     if (checked) {
       setBackSelectedTechniques([...techniques, techniqueName]);
       // Initialize percentage to 50% if not already set
-      if (!effectiveTechniquePercentages[techniqueName]) {
+      if (!techniquePercentages[techniqueName]) {
         setBackTechniquePercentages({
-          ...effectiveTechniquePercentages,
+          ...techniquePercentages,
           [techniqueName]: 50
         });
       }
     } else {
       setBackSelectedTechniques(techniques.filter(t => t !== techniqueName));
       // Remove the percentage when unchecked
-      const newPercentages = { ...effectiveTechniquePercentages };
+      const newPercentages = { ...techniquePercentages };
       delete newPercentages[techniqueName];
       setBackTechniquePercentages(newPercentages);
     }
@@ -81,11 +81,11 @@ export default function BackOthersSection() {
           {(() => {
             // Calculate normalized percentages
             const totalPercentage = techniques.reduce((sum, technique) => {
-              return sum + (effectiveTechniquePercentages[technique] || 50);
+              return sum + (techniquePercentages[technique] || 50);
             }, 0);
 
             return techniques.map((technique) => {
-              const rawPercentage = effectiveTechniquePercentages[technique] || 50;
+              const rawPercentage = techniquePercentages[technique] || 50;
               const normalizedPercentage = totalPercentage > 0 ? (rawPercentage / totalPercentage) * 100 : 0;
 
               return (
@@ -174,12 +174,12 @@ export default function BackOthersSection() {
                     <div className="mt-3 pt-3 border-t border-border">
                       <div className="space-y-2">
                         <Label className="text-sm font-medium">
-                          {technique.name} - {backTechniquePercentages[technique.name] || 50}%
+                          {technique.name} - {techniquePercentages[technique.name] || 50}%
                         </Label>
                         <Slider
-                          value={[backTechniquePercentages[technique.name] || 50]}
+                          value={[techniquePercentages[technique.name] || 50]}
                           onValueChange={(value) => setBackTechniquePercentages({
-                            ...backTechniquePercentages,
+                            ...techniquePercentages,
                             [technique.name]: value[0]
                           })}
                           max={100}

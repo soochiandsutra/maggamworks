@@ -22,7 +22,7 @@ export default function AllFillWorkSection() {
         <Card className="relative cursor-pointer p-4 ring-1 border-border ring-border/30 hover:border-primary/30 hover:bg-primary/2 transition-all">
           <Checkbox
             id="all-fill-work"
-            checked={allHasFillWork}
+            checked={!!allHasFillWork}
             onCheckedChange={(checked) => setAllHasFillWork(checked as boolean)}
             className="absolute right-4 top-4 h-5 w-5"
           />

@@ -1,20 +1,17 @@
 export interface SectionState {
-  hasBorders: boolean;
-  borderSize: number;
-  hasBlouseBottom: boolean;
-  blouseBottomSize: number;
-  neckType: string;
-  neckDesignNumber: string;
-  neckType2: string;
-  neckType2DesignNumber: string;
-  hasFillWork: boolean;
-  coverage: number;
-  hasMotifs: boolean;
-  motifSizeX: number;
-  motifSizeY: number;
-  motifCount: string;
-  selectedTechniques: string[];
-  techniquePercentages: Record<string, number>;
+  hasBorders: boolean | null;
+  borderSize: number | null;
+  hasBlouseBottom: boolean | null;
+  blouseBottomSize: number | null;
+  neckStyle: string;
+  hasFillWork: boolean | null;
+  coverage: number | null;
+  hasMotifs: boolean | null;
+  motifSizeX: number | null;
+  motifSizeY: number | null;
+  motifCount: string | null;
+  selectedTechniques: string[] | null;
+  techniquePercentages: Record<string, number> | null;
   selectedDesign?: string;
 }
 

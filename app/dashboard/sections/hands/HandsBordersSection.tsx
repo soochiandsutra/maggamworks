@@ -34,8 +34,8 @@ export default function HandsBordersSection() {
               checked={isCustomBorders}
               onCheckedChange={(checked) => {
                 if (checked) {
-                  setHandsHasBorders(all.hasBorders);
-                  setHandsBorderSize(all.borderSize);
+                  setHandsHasBorders(!!all.hasBorders);
+                  setHandsBorderSize(all.borderSize || 0);
                 } else {
                   setHandsHasBorders(null);
                   setHandsBorderSize(null);
@@ -47,7 +47,7 @@ export default function HandsBordersSection() {
         
         <CheckboxCard
           id="hands-borders"
-          checked={hasBorders}
+          checked={!!hasBorders}
           onCheckedChange={(checked) => setHandsHasBorders(checked as boolean)}
           label="Main borders present"
           disabled={!isCustomBorders}
