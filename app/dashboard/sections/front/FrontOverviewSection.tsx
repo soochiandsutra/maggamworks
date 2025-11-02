@@ -239,7 +239,8 @@ export default function FrontOverviewSection() {
     // Front Neck Type Values section - always show
     const neckTypeValues = [];
     if (store.front.neckStyle !== 'not selected') {
-      const neckTypeValue = getFrontNeckTypeValue(store.front.neckStyle);
+      const chestSize = parseFloat(store.chestSize) || 36;
+      const neckTypeValue = getFrontNeckTypeValue(store.front.neckStyle, chestSize);
       
       neckTypeValues.push({
         label: 'Selected Neck Type',
@@ -250,7 +251,7 @@ export default function FrontOverviewSection() {
 
       neckTypeValues.push({
         label: 'Neck Type Value',
-        value: neckTypeValue.value.toString(),
+        value: neckTypeValue.value.toFixed(2),
         default: '-',
         enabled: true
       });

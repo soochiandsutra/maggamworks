@@ -34,7 +34,7 @@ BoatNeck - 11
 DeepNeck - 2
 style1 (MadubalaNeck) - 3.8
 Style2 (PatchWork) - 3.0
-Style3 (BridalNeck) - 2.5
+Style3 (BridalNeck) - 2/5 * ((chestsize * 7) - 56)
 Style4 (V-Neck) - 1.5 
 
 Back Neck Type Values- 
@@ -44,7 +44,7 @@ style1 - 2
 Style2 - 2.7
 Style3 - 3.7
 Style4 - 2
-Style5 - 2.5
+Style5 - 0.55 * ((chestsize * 7) - 10)
 Style6 - 1.4
 
 Hand Border Formulas -

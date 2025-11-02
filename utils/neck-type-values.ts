@@ -9,16 +9,22 @@
  * - DeepNeck: 2
  * - style1 (MadubalaNeck): 3.8
  * - Style2 (PatchWork): 3.0
- * - Style3 (BridalNeck): 2.5
+ * - Style3 (BridalNeck): 2/5 * ((chestsize * 7) - 56)
  * - Style4 (V-Neck): 1.5
  */
-export function getFrontNeckTypeValue(neckStyle: string): { name: string; value: number } {
+export function getFrontNeckTypeValue(neckStyle: string, chestSize?: number): { name: string; value: number } {
+  // Style3 uses a formula based on chest size
+  if (neckStyle === '3' && chestSize !== undefined) {
+    const value = (2 / 5) * ((chestSize * 7) - 56);
+    return { name: 'Style 3 (Bridal Neck)', value };
+  }
+
   const neckValues: { [key: string]: { name: string; value: number } } = {
     'boat': { name: 'Boat Neck', value: 11 },
     'deep': { name: 'Deep Neck', value: 2 },
     '1': { name: 'Style 1 (Madubala Neck)', value: 3.8 },
     '2': { name: 'Style 2 (Patch Work)', value: 3.0 },
-    '3': { name: 'Style 3 (Bridal Neck)', value: 2.5 },
+    '3': { name: 'Style 3 (Bridal Neck)', value: 0 }, // fallback if chestSize not provided
     '4': { name: 'Style 4 (V-Neck)', value: 1.5 }
   };
 
@@ -34,10 +40,16 @@ export function getFrontNeckTypeValue(neckStyle: string): { name: string; value:
  * - Style2: 2.7
  * - Style3: 3.7
  * - Style4: 2
- * - Style5: 2.5
+ * - Style5: 0.55 * ((chestsize * 7) - 10)
  * - Style6: 1.4
  */
-export function getBackNeckTypeValue(neckStyle: string): { name: string; value: number } {
+export function getBackNeckTypeValue(neckStyle: string, chestSize?: number): { name: string; value: number } {
+  // Style5 uses a formula based on chest size
+  if (neckStyle === '5' && chestSize !== undefined) {
+    const value = 0.55 * ((chestSize * 7) - 10);
+    return { name: 'Style 5', value };
+  }
+
   const neckValues: { [key: string]: { name: string; value: number } } = {
     'boat': { name: 'Boat Neck', value: 11 },
     'deep': { name: 'Deep Neck', value: 2 },
@@ -45,7 +57,7 @@ export function getBackNeckTypeValue(neckStyle: string): { name: string; value: 
     '2': { name: 'Style 2', value: 2.7 },
     '3': { name: 'Style 3', value: 3.7 },
     '4': { name: 'Style 4', value: 2 },
-    '5': { name: 'Style 5', value: 2.5 },
+    '5': { name: 'Style 5', value: 0 }, // fallback if chestSize not provided
     '6': { name: 'Style 6', value: 1.4 }
   };
 

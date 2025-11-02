@@ -242,7 +242,8 @@ export default function BackOverviewSection() {
     // Back Neck Type Values section - always show
     const backNeckTypeValues = [];
     if (store.back.neckStyle !== 'not selected') {
-      const neckTypeValue = getBackNeckTypeValue(store.back.neckStyle);
+      const chestSize = parseFloat(store.chestSize) || 36;
+      const neckTypeValue = getBackNeckTypeValue(store.back.neckStyle, chestSize);
       
       backNeckTypeValues.push({
         label: 'Selected Neck Type',
@@ -253,7 +254,7 @@ export default function BackOverviewSection() {
 
       backNeckTypeValues.push({
         label: 'Neck Type Value',
-        value: neckTypeValue.value.toString(),
+        value: neckTypeValue.value.toFixed(2),
         default: '-',
         enabled: true
       });

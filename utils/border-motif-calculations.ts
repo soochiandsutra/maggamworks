@@ -31,7 +31,7 @@ export function calculateFrontTopBorder(
   chestSize: number,
   borderThickness: number
 ): CalculationResult {
-  const neckTypeValue = getFrontNeckTypeValue(neckStyle).value;
+  const neckTypeValue = getFrontNeckTypeValue(neckStyle, chestSize).value;
   const sizeFactor = getSizeFactor(chestSize);
   const result = neckTypeValue * sizeFactor * borderThickness;
 
@@ -55,7 +55,7 @@ export function calculateBackTopBorder(
   chestSize: number,
   borderThickness: number
 ): CalculationResult {
-  const neckTypeValue = getBackNeckTypeValue(neckStyle).value;
+  const neckTypeValue = getBackNeckTypeValue(neckStyle, chestSize).value;
   const sizeFactor = getSizeFactor(chestSize);
   const result = neckTypeValue * sizeFactor * borderThickness;
 
