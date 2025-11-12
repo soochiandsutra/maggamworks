@@ -21,11 +21,11 @@ export function getFrontNeckTypeValue(neckStyle: string, chestSize?: number): { 
 
   const neckValues: { [key: string]: { name: string; value: number } } = {
     'boat': { name: 'Boat Neck', value: 11 },
-    'deep': { name: 'Deep Neck', value: 2 },
-    '1': { name: 'Style 1 (Madubala Neck)', value: 3.8 },
-    '2': { name: 'Style 2 (Patch Work)', value: 3.0 },
+    'deep': { name: 'Deep Neck', value: 22 },
+    '1': { name: 'Style 1 (Madubala Neck)', value: 41.8 },
+    '2': { name: 'Style 2 (Patch Work)', value: 33 },
     '3': { name: 'Style 3 (Bridal Neck)', value: 0 }, // fallback if chestSize not provided
-    '4': { name: 'Style 4 (V-Neck)', value: 1.5 }
+    '4': { name: 'Style 4 (V-Neck)', value: 16.5 }
   };
 
   return neckValues[neckStyle] || { name: 'Not Selected', value: 0 };
@@ -52,13 +52,13 @@ export function getBackNeckTypeValue(neckStyle: string, chestSize?: number): { n
 
   const neckValues: { [key: string]: { name: string; value: number } } = {
     'boat': { name: 'Boat Neck', value: 11 },
-    'deep': { name: 'Deep Neck', value: 2 },
-    '1': { name: 'Style 1', value: 2 },
-    '2': { name: 'Style 2', value: 2.7 },
-    '3': { name: 'Style 3', value: 3.7 },
-    '4': { name: 'Style 4', value: 2 },
+    'deep': { name: 'Deep Neck', value: 22 },
+    '1': { name: 'Style 1', value: 22 },
+    '2': { name: 'Style 2', value: 29.7 },
+    '3': { name: 'Style 3', value: 40.7 },
+    '4': { name: 'Style 4', value: 22 },
     '5': { name: 'Style 5', value: 0 }, // fallback if chestSize not provided
-    '6': { name: 'Style 6', value: 1.4 }
+    '6': { name: 'Style 6', value: 15.4 }
   };
 
   return neckValues[neckStyle] || { name: 'Not Selected', value: 0 };
