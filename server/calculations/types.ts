@@ -43,8 +43,6 @@ export interface CalculationResult {
     back: SectionTimeBreakdown;
     hands: SectionTimeBreakdown;
   };
-  estimatedCost: number;
-  hourlyRate: number;
 }
 
 export interface SectionTimeBreakdown {

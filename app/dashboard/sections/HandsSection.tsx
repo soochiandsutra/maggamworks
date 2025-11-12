@@ -1,4 +1,3 @@
-import HandsSizeSection from './hands/HandsSizeSection';
 import HandsNeckSection from './hands/HandsNeckSection';
 import HandsBordersSection from './hands/HandsBordersSection';
 import HandsMotifsSection from './hands/HandsMotifsSection';
@@ -14,8 +13,6 @@ export default function HandsSection({ activeSecondaryTab }: HandsSectionProps) 
 
   const renderHandsContent = () => {
     switch (activeSecondaryTab) {
-      case "size":
-        return <HandsSizeSection />;
       case "neck":
         return <HandsNeckSection />;
       case "borders":

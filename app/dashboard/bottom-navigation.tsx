@@ -53,7 +53,6 @@ const BottomNavigation: React.FC<BottomNavigationProps> = ({
         ];
       case "hands":
         return [
-          { id: "size", icon: Ruler, label: "Size" },
           { id: "neck", icon: Hand, label: "Neck" },
           { id: "borders", icon: Settings, label: "Borders" },
           { id: "motifs", icon: Sparkles, label: "Motifs" },

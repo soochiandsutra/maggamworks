@@ -24,7 +24,6 @@ export default function BackOthersSection() {
   } = useAppStateStore();
 
   const effectiveCoverage = backCoverage !== null ? backCoverage : (allCoverage ?? 50);
-  const isCustomCoverage = backCoverage !== null;
 
   const effectiveSelectedTechniques = backSelectedTechniques !== null ? backSelectedTechniques : allSelectedTechniques;
   const effectiveTechniquePercentages = backTechniquePercentages !== null ? backTechniquePercentages : allTechniquePercentages;
@@ -113,24 +112,9 @@ export default function BackOthersSection() {
       <div className="space-y-4">
         {/* Coverage Slider */}
         <Card className="p-4 bg-gradient-to-r from-purple-50 to-pink-50 border border-purple-200 ring-1 ring-purple-300">
-          <div className="flex items-center justify-between mb-3">
-            <Label className="text-sm font-medium text-purple-900">📏 Coverage Percentage</Label>
-            <Checkbox
-              checked={isCustomCoverage}
-              onCheckedChange={(checked) => {
-                if (checked) {
-                  setBackCoverage(allCoverage);
-                } else {
-                  setBackCoverage(null);
-                }
-              }}
-            />
-          </div>
+          <Label className="text-sm font-medium text-purple-900 mb-3 block">📏 Coverage Percentage</Label>
           <div className="space-y-3">
             <div className="flex items-center justify-between">
-              <span className="text-sm text-purple-700">
-                {isCustomCoverage ? "Custom Coverage" : `Inherited (${allCoverage}%)`}
-              </span>
               <span className="text-lg font-bold text-purple-900">{effectiveCoverage}%</span>
             </div>
             <Slider
@@ -140,7 +124,6 @@ export default function BackOthersSection() {
               min={0}
               step={1}
               className="w-full"
-              disabled={!isCustomCoverage}
             />
           </div>
         </Card>

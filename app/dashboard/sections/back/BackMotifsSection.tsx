@@ -20,7 +20,6 @@ export default function BackMotifsSection() {
   const motifSizeX = back.motifSizeX !== null ? back.motifSizeX : all.motifSizeX;
   const motifSizeY = back.motifSizeY !== null ? back.motifSizeY : all.motifSizeY;
   const motifCount = back.motifCount !== null ? back.motifCount : all.motifCount;
-  const isCustom = back.hasMotifs !== null;
 
   return (
     <div className="grid gap-4">
@@ -28,38 +27,12 @@ export default function BackMotifsSection() {
         <span className="text-primary">✨</span> Back Motifs Details
       </h3>
       <div className="space-y-4 p-4 border rounded-lg bg-muted/10">
-        <div className="flex items-center justify-between mb-2">
-          <Label className="text-sm font-medium">Motifs Settings</Label>
-          <div className="flex items-center gap-2">
-            <span className="text-xs text-muted-foreground">
-              {isCustom ? "Custom" : "Inherited"}
-            </span>
-            <Checkbox
-              checked={isCustom}
-              onCheckedChange={(checked) => {
-                if (checked) {
-                  setBackHasMotifs(all.hasMotifs);
-                  setBackMotifSizeX(all.motifSizeX);
-                  setBackMotifSizeY(all.motifSizeY);
-                  setBackMotifCount(all.motifCount);
-                } else {
-                  setBackHasMotifs(null);
-                  setBackMotifSizeX(null);
-                  setBackMotifSizeY(null);
-                  setBackMotifCount(null);
-                }
-              }}
-            />
-          </div>
-        </div>
-
         <Card className="relative cursor-pointer p-4 ring-1 border-border ring-border/30 hover:border-primary/30 hover:bg-primary/2 transition-all">
           <Checkbox
             id="back-motifs"
             checked={!!hasMotifs}
             onCheckedChange={(checked) => setBackHasMotifs(checked as boolean)}
             className="absolute right-4 top-4 h-5 w-5"
-            disabled={!isCustom}
           />
           <Label htmlFor="back-motifs" className="text-sm font-medium cursor-pointer">
             Motifs present
@@ -85,7 +58,6 @@ export default function BackMotifsSection() {
                       onChange={(e) => setBackMotifSizeX(parseFloat(e.target.value) || 0)}
                       placeholder="0.0"
                       className="h-8 text-sm"
-                      disabled={!isCustom}
                     />
                   </div>
                 </Card>
@@ -103,7 +75,6 @@ export default function BackMotifsSection() {
                       onChange={(e) => setBackMotifSizeY(parseFloat(e.target.value) || 0)}
                       placeholder="0.0"
                       className="h-8 text-sm"
-                      disabled={!isCustom}
                     />
                   </div>
                 </Card>
@@ -124,7 +95,6 @@ export default function BackMotifsSection() {
                   onChange={(e) => setBackMotifCount(e.target.value)}
                   placeholder="Enter motif count"
                   className="h-10 text-sm"
-                  disabled={!isCustom}
                 />
               </div>
             </Card>

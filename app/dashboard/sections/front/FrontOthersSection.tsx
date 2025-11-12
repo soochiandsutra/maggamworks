@@ -24,11 +24,9 @@ export default function FrontOthersSection() {
   } = useAppStateStore();
 
   const effectiveCoverage = frontCoverage !== null ? frontCoverage : (allCoverage ?? 50);
-  const isCustomCoverage = frontCoverage !== null;
 
   const effectiveSelectedTechniques = frontSelectedTechniques !== null ? frontSelectedTechniques : allSelectedTechniques;
   const effectiveTechniquePercentages = frontTechniquePercentages !== null ? frontTechniquePercentages : allTechniquePercentages;
-  const isCustomTechniques = frontSelectedTechniques !== null;
 
   // Ensure effectiveSelectedTechniques is always an array
   const techniques = effectiveSelectedTechniques || [];
@@ -113,24 +111,9 @@ export default function FrontOthersSection() {
       <div className="space-y-4">
         {/* Coverage Slider */}
         <Card className="p-4 bg-gradient-to-r from-purple-50 to-pink-50 border border-purple-200 ring-1 ring-purple-300">
-          <div className="flex items-center justify-between mb-3">
-            <Label className="text-sm font-medium text-purple-900">📏 Coverage Percentage</Label>
-            <Checkbox
-              checked={isCustomCoverage}
-              onCheckedChange={(checked) => {
-                if (checked) {
-                  setFrontCoverage(allCoverage);
-                } else {
-                  setFrontCoverage(null);
-                }
-              }}
-            />
-          </div>
+          <Label className="text-sm font-medium text-purple-900 mb-3 block">📏 Coverage Percentage</Label>
           <div className="space-y-3">
             <div className="flex items-center justify-between">
-              <span className="text-sm text-purple-700">
-                {isCustomCoverage ? "Custom Coverage" : `Inherited (${allCoverage}%)`}
-              </span>
               <span className="text-lg font-bold text-purple-900">{effectiveCoverage}%</span>
             </div>
             <Slider
@@ -140,32 +123,7 @@ export default function FrontOthersSection() {
               min={0}
               step={1}
               className="w-full"
-              disabled={!isCustomCoverage}
             />
-          </div>
-        </Card>
-
-        {/* Techniques Inheritance Checkbox */}
-        <Card className="p-4 bg-gradient-to-r from-amber-50 to-yellow-50 border border-amber-200 ring-1 ring-amber-300">
-          <div className="flex items-center justify-between">
-            <Label className="text-sm font-medium text-amber-900">Embroidery Techniques</Label>
-            <div className="flex items-center gap-2">
-              <span className="text-xs text-amber-700">
-                {isCustomTechniques ? "Custom" : "Inherited"}
-              </span>
-              <Checkbox
-                checked={isCustomTechniques}
-                onCheckedChange={(checked) => {
-                  if (checked) {
-                    setFrontSelectedTechniques(allSelectedTechniques);
-                    setFrontTechniquePercentages(allTechniquePercentages);
-                  } else {
-                    setFrontSelectedTechniques(null);
-                    setFrontTechniquePercentages(null);
-                  }
-                }}
-              />
-            </div>
           </div>
         </Card>
 
@@ -189,7 +147,6 @@ export default function FrontOthersSection() {
                       checked={isSelected}
                       onCheckedChange={(checked) => handleTechniqueChange(technique.id, technique.name, checked as boolean)}
                       className="h-5 w-5"
-                      disabled={!isCustomTechniques}
                     />
                   </div>
                   <div className="flex items-center gap-3">
@@ -217,7 +174,6 @@ export default function FrontOthersSection() {
                           min={0}
                           step={1}
                           className="w-full"
-                          disabled={!isCustomTechniques}
                         />
                       </div>
                     </div>

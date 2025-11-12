@@ -249,6 +249,22 @@ export default function FrontOverviewSection() {
         enabled: true
       });
 
+      // Show formula for Style3 (calculated)
+      if (store.front.neckStyle === '3') {
+        neckTypeValues.push({
+          label: 'Formula',
+          value: '(2/5) × ((chest size × 7) - 56)',
+          default: '-',
+          enabled: true
+        });
+        neckTypeValues.push({
+          label: 'Chest Size',
+          value: chestSize.toString(),
+          default: '-',
+          enabled: true
+        });
+      }
+
       neckTypeValues.push({
         label: 'Neck Type Value',
         value: neckTypeValue.value.toFixed(2),

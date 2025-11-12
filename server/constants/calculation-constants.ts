@@ -1,22 +1,6 @@
 // Time constants in minutes
 export const STANDARD_START_TIME = 40; // mins (for fitting cloth and marking)
 
-// Base times for different work types (minutes per unit)
-export const BORDER_BASE_TIME_PER_INCH = 5; // time per inch of border
-export const FILL_WORK_BASE_TIME_PER_SQ_INCH = 0.5; // fallback time per square inch of fill work
-export const MOTIF_BASE_TIME_PER_MOTIF = 15; // time per motif
-export const MOTIF_SIZE_MULTIPLIER = 1.2; // multiplier for motif size (larger motifs take more time)
-
-// Neck type time multipliers
-export const NECK_TYPE_MULTIPLIERS = {
-  'round': 1.0,
-  'v-neck': 1.2,
-  'boat-neck': 0.8,
-  'square': 1.1,
-  'collar': 1.5,
-  'none': 0.1
-} as const;
-
 // Work type base times (in minutes per unit area, based on actual measurements)
 export const WORK_TYPE_BASE_TIMES = {
   'challa-work': 12,        // Challa work - 12 mins
@@ -46,6 +30,5 @@ export const TECHNIQUE_MULTIPLIERS = {
   'none': 1.0
 } as const;
 
-export type NeckType = keyof typeof NECK_TYPE_MULTIPLIERS;
 export type WorkType = keyof typeof WORK_TYPE_BASE_TIMES;
 export type TechniqueType = keyof typeof TECHNIQUE_MULTIPLIERS;

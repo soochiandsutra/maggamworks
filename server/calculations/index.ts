@@ -1,5 +1,8 @@
 import { STANDARD_START_TIME } from '../constants/calculation-constants';
 import { calculateBorderTime, calculateFillWorkTime, calculateMotifTime, calculateWeightedTime } from './time-calculations';
+import { calculateFrontTopBorder, calculateBackTopBorder, calculateBottomBorder, calculateHandsBorderValue, calculateMotifValue } from '@/utils/border-motif-calculations';
+import { calculateFrontFillworkArea, calculateBackFillworkArea, calculateHandsFillworkArea } from '@/utils/fillwork-calculations';
+import { getSizeFactor } from '@/utils/size-factor';
 import type { CalculationState, CalculationResult, SectionTimeBreakdown } from './types';
 
 export function calculateTime(state: CalculationState): CalculationResult {
@@ -20,8 +23,9 @@ export function calculateTime(state: CalculationState): CalculationResult {
   const calculateSectionTime = (section: 'front' | 'back' | 'hands'): SectionTimeBreakdown => {
     const hasBorders = getValue(section, 'hasBorders') as boolean;
     const borderSize = getValue(section, 'borderSize') as number;
+    const hasBlouseBottom = getValue(section, 'hasBlouseBottom') as boolean;
+    const blouseBottomSize = getValue(section, 'blouseBottomSize') as number;
     const neckStyle = getValue(section, 'neckStyle') as string;
-    const neckDesignNumber = 1; // Default design number
 
     const hasFillWork = getValue(section, 'hasFillWork') as boolean;
     const coverage = getValue(section, 'coverage') as number;
@@ -33,43 +37,49 @@ export function calculateTime(state: CalculationState): CalculationResult {
     const motifSizeY = getValue(section, 'motifSizeY') as number;
     const motifCount = String(getValue(section, 'motifCount'));
 
+    const chestSize = parseFloat(state.chestSize) || 36;
+    const armholeRound = parseFloat(state.armholeRound) || 0;
+    const handRound = parseFloat(state.handRound) || 0;
+    const handLength = parseFloat(state.handLength) || 0;
+
     // Calculate weighted time from selected techniques
     const weightedTime = calculateWeightedTime(selectedTechniques, techniquePercentages);
 
-    // For Front/Back sections: borderValue = Top Border + Bottom Border
-    // For Hands: borderValue = Hands Border
-    const borderValue = borderSize; // This is already the combined border size
+    // Calculate border value based on section
+    let borderValue = 0;
+    if (section === 'front') {
+      const topBorder = calculateFrontTopBorder(neckStyle, chestSize, borderSize);
+      const bottomBorder = hasBlouseBottom ? calculateBottomBorder(chestSize, blouseBottomSize) : { result: 0 };
+      borderValue = topBorder.result + bottomBorder.result;
+    } else if (section === 'back') {
+      const topBorder = calculateBackTopBorder(neckStyle, chestSize, borderSize);
+      const bottomBorder = hasBlouseBottom ? calculateBottomBorder(chestSize, blouseBottomSize) : { result: 0 };
+      borderValue = topBorder.result + bottomBorder.result;
+    } else if (section === 'hands') {
+      const selectedDesign = (state.hands as any).selectedDesign || 'simple';
+      const handsBorder = calculateHandsBorderValue(selectedDesign, handRound, armholeRound, borderSize);
+      borderValue = handsBorder.result;
+    }
 
-    const borderTime = calculateBorderTime(
-      hasBorders, 
-      borderSize, 
-      neckStyle, 
-      neckDesignNumber, 
-      coverage, 
-      weightedTime
-    );
-    
-    const fillWorkTime = calculateFillWorkTime(
-      hasFillWork,
-      coverage,
-      selectedTechniques,
-      techniquePercentages,
-      parseFloat(state.chestSize) || 36,
-      section,
-      borderValue,
-      weightedTime
-    );
-    
-    const motifTime = calculateMotifTime(
-      hasMotifs,
-      motifSizeX,
-      motifSizeY,
-      motifCount,
-      selectedTechniques,
-      techniquePercentages,
-      coverage,
-      weightedTime
-    );
+    // Calculate fillwork area based on section
+    let fillworkArea = 0;
+    if (section === 'front') {
+      fillworkArea = calculateFrontFillworkArea(neckStyle, chestSize).result;
+    } else if (section === 'back') {
+      fillworkArea = calculateBackFillworkArea(neckStyle, chestSize).result;
+    } else if (section === 'hands') {
+      fillworkArea = calculateHandsFillworkArea(armholeRound, handRound, handLength).result;
+    }
+
+    // Calculate motif value
+    const count = parseInt(motifCount) || 0;
+    const motifValue = calculateMotifValue(motifSizeX, motifSizeY, count).result;
+    const sizeFactor = getSizeFactor(chestSize);
+
+    // Calculate times using the formulas from CALCULATION_README.md
+    const borderTime = calculateBorderTime(hasBorders, borderValue, coverage, weightedTime);
+    const fillWorkTime = calculateFillWorkTime(hasFillWork, fillworkArea, coverage, weightedTime);
+    const motifTime = calculateMotifTime(hasMotifs, motifValue, sizeFactor, coverage, weightedTime);
 
     return {
       borders: borderTime,
@@ -92,10 +102,6 @@ export function calculateTime(state: CalculationState): CalculationResult {
 
   const totalTime = STANDARD_START_TIME + frontTime.total + backTime.total + handsTime.total;
 
-  // Cost calculation (assuming ₹200/hour rate)
-  const hourlyRate = 200;
-  const estimatedCost = Math.round((totalTime / 60) * hourlyRate);
-
   return {
     totalTime,
     breakdown: {
@@ -103,9 +109,7 @@ export function calculateTime(state: CalculationState): CalculationResult {
       front: frontTime,
       back: backTime,
       hands: handsTime
-    },
-    estimatedCost,
-    hourlyRate
+    }
   };
 }
 

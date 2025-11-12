@@ -252,6 +252,22 @@ export default function BackOverviewSection() {
         enabled: true
       });
 
+      // Show formula for Style5 (calculated)
+      if (store.back.neckStyle === '5') {
+        backNeckTypeValues.push({
+          label: 'Formula',
+          value: '0.55 × ((chest size × 7) - 10)',
+          default: '-',
+          enabled: true
+        });
+        backNeckTypeValues.push({
+          label: 'Chest Size',
+          value: chestSize.toString(),
+          default: '-',
+          enabled: true
+        });
+      }
+
       backNeckTypeValues.push({
         label: 'Neck Type Value',
         value: neckTypeValue.value.toFixed(2),
