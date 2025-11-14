@@ -11,25 +11,25 @@ describe('getFrontNeckTypeValue', () => {
     it('should return correct value for Deep Neck', () => {
       const result = getFrontNeckTypeValue('deep');
       expect(result.name).toBe('Deep Neck');
-      expect(result.value).toBe(2);
+      expect(result.value).toBe(22);
     });
 
     it('should return correct value for Style 1 (Madubala Neck)', () => {
       const result = getFrontNeckTypeValue('1');
       expect(result.name).toBe('Style 1 (Madubala Neck)');
-      expect(result.value).toBe(3.8);
+      expect(result.value).toBe(41.8);
     });
 
     it('should return correct value for Style 2 (Patch Work)', () => {
       const result = getFrontNeckTypeValue('2');
       expect(result.name).toBe('Style 2 (Patch Work)');
-      expect(result.value).toBe(3.0);
+      expect(result.value).toBe(33);
     });
 
     it('should return correct value for Style 4 (V-Neck)', () => {
       const result = getFrontNeckTypeValue('4');
       expect(result.name).toBe('Style 4 (V-Neck)');
-      expect(result.value).toBe(1.5);
+      expect(result.value).toBe(16.5);
     });
 
     it('should return Not Selected for unknown style', () => {
@@ -118,7 +118,7 @@ describe('getFrontNeckTypeValue', () => {
 
     it('should not use formula for other styles even if chest size is provided', () => {
       const result = getFrontNeckTypeValue('1', 36);
-      expect(result.value).toBe(3.8); // Should be fixed value, not calculated
+      expect(result.value).toBe(41.8); // Should be fixed value, not calculated
     });
   });
 });
@@ -134,37 +134,37 @@ describe('getBackNeckTypeValue', () => {
     it('should return correct value for Deep Neck', () => {
       const result = getBackNeckTypeValue('deep');
       expect(result.name).toBe('Deep Neck');
-      expect(result.value).toBe(2);
+      expect(result.value).toBe(22);
     });
 
     it('should return correct value for Style 1', () => {
       const result = getBackNeckTypeValue('1');
       expect(result.name).toBe('Style 1');
-      expect(result.value).toBe(2);
+      expect(result.value).toBe(22);
     });
 
     it('should return correct value for Style 2', () => {
       const result = getBackNeckTypeValue('2');
       expect(result.name).toBe('Style 2');
-      expect(result.value).toBe(2.7);
+      expect(result.value).toBe(29.7);
     });
 
     it('should return correct value for Style 3', () => {
       const result = getBackNeckTypeValue('3');
       expect(result.name).toBe('Style 3');
-      expect(result.value).toBe(3.7);
+      expect(result.value).toBe(40.7);
     });
 
     it('should return correct value for Style 4', () => {
       const result = getBackNeckTypeValue('4');
       expect(result.name).toBe('Style 4');
-      expect(result.value).toBe(2);
+      expect(result.value).toBe(22);
     });
 
     it('should return correct value for Style 6', () => {
       const result = getBackNeckTypeValue('6');
       expect(result.name).toBe('Style 6');
-      expect(result.value).toBe(1.4);
+      expect(result.value).toBe(15.4);
     });
 
     it('should return Not Selected for unknown style', () => {
@@ -247,7 +247,7 @@ describe('getBackNeckTypeValue', () => {
 
     it('should not use formula for other styles even if chest size is provided', () => {
       const result = getBackNeckTypeValue('2', 36);
-      expect(result.value).toBe(2.7); // Should be fixed value, not calculated
+      expect(result.value).toBe(29.7); // Should be fixed value, not calculated
     });
   });
 });

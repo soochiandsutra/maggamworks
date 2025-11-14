@@ -19,7 +19,7 @@ export default function BackFillWorkSection() {
       <h3 className="font-semibold mb-3 flex items-center gap-2 text-base">
         <span className="text-primary">🎨</span> Back Fill Work Details
       </h3>
-      <div className="space-y-4 p-4 border rounded-lg bg-muted/10">
+      <div className="space-y-4 p-4 rounded-lg bg-muted/10">
         <Card className="relative cursor-pointer p-4 ring-1 border-border ring-border/30 hover:border-primary/30 hover:bg-primary/2 transition-all">
           <Checkbox
             id="back-fill-work"

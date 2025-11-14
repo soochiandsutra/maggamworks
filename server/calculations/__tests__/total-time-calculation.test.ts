@@ -204,13 +204,13 @@ describe('Total Time Calculation Tests', () => {
       const coverage = 0.8;
       
       // Border Value
-      const topBorder = 2 * sizeFactor * 2; // = 4.448 (deep neck value = 2)
+      const topBorder = 22 * sizeFactor * 2; // = 48.928 (deep neck value = 22)
       const bottomBorder = (chestSize / 2) * 1.5; // = 27
-      const borderValue = topBorder + bottomBorder; // = 31.448
+      const borderValue = topBorder + bottomBorder; // = 75.928
       
       // Border Time
       const borderTime = borderValue * coverage * weightedTime;
-      // = 31.448 × 0.8 × 12 = 301.90
+      // = 75.928 × 0.8 × 12 = 728.9088
       
       // Fillwork Area (back deep)
       const fillworkArea = (chestSize * 7) - 70; // = 182
@@ -228,11 +228,11 @@ describe('Total Time Calculation Tests', () => {
       
       // Back Total
       const backTotal = borderTime + fillworkTime + motifTime;
-      // = 301.90 + 1,747.2 + 192.31 = 2,241.41
+      // = 728.9088 + 1,747.2 + 192.31 = 2,668.4188
       
       // Project Total
       const expectedTotal = 40 + backTotal;
-      // = 40 + 2,241.41 = 2,281.41
+      // = 40 + 2,668.4188 = 2,708.4188
       
       expect(result.breakdown.back.borders).toBeCloseTo(borderTime, 1);
       expect(result.breakdown.back.fillWork).toBeCloseTo(fillworkTime, 1);

@@ -29,10 +29,10 @@ describe('Border Value Calculations', () => {
       const borderThickness = 1.5;
       
       // Calculation:
-      // Neck Type Value for deep = 2
+      // Neck Type Value for deep = 22
       // Size Factor for 32 = 1.056
-      // Formula: 2 × 1.056 × 1.5
-      const expected = 2 * 1.056 * 1.5; // = 3.168
+      // Formula: 22 × 1.056 × 1.5
+      const expected = 22 * 1.056 * 1.5; // = 34.848
       
       const result = calculateFrontTopBorder(neckStyle, chestSize, borderThickness);
       
@@ -46,10 +46,10 @@ describe('Border Value Calculations', () => {
       const borderThickness = 2.5;
       
       // Calculation:
-      // Neck Type Value for style 1 = 3.8
+      // Neck Type Value for style 1 = 41.8
       // Size Factor for 40 = 1.168
-      // Formula: 3.8 × 1.168 × 2.5
-      const expected = 3.8 * 1.168 * 2.5; // = 11.096
+      // Formula: 41.8 × 1.168 × 2.5
+      const expected = 41.8 * 1.168 * 2.5; // = 122.056
       
       const result = calculateFrontTopBorder(neckStyle, chestSize, borderThickness);
       
@@ -126,10 +126,10 @@ describe('Border Value Calculations', () => {
       const borderThickness = 1.5;
       
       // Calculation:
-      // Back Neck Type Value for style 2 = 2.7
+      // Back Neck Type Value for style 2 = 29.7
       // Size Factor for 28 = 1.0
-      // Formula: 2.7 × 1.0 × 1.5
-      const expected = 2.7 * 1.0 * 1.5; // = 4.05
+      // Formula: 29.7 × 1.0 × 1.5
+      const expected = 29.7 * 1.0 * 1.5; // = 44.55
       
       const result = calculateBackTopBorder(neckStyle, chestSize, borderThickness);
       
@@ -163,15 +163,15 @@ describe('Border Value Calculations', () => {
       // Small size
       const chestSize28 = 28;
       const sizeFactor28 = 1.0;
-      const neckValue = 2;
-      const expected28 = neckValue * sizeFactor28 * borderThickness; // = 4.0
+      const neckValue = 22;
+      const expected28 = neckValue * sizeFactor28 * borderThickness; // = 44.0
       const result28 = calculateBackTopBorder(neckStyle, chestSize28, borderThickness);
       expect(result28.result).toBe(expected28);
       
       // Large size
       const chestSize44 = 44;
       const sizeFactor44 = 1.224;
-      const expected44 = neckValue * sizeFactor44 * borderThickness; // = 4.896
+      const expected44 = neckValue * sizeFactor44 * borderThickness; // = 53.856
       const result44 = calculateBackTopBorder(neckStyle, chestSize44, borderThickness);
       expect(result44.result).toBe(expected44);
     });

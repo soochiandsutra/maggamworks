@@ -6,6 +6,7 @@ import { formatTime } from "@/utils/formatters";
 import { calculateHandsFillworkArea } from "@/utils/fillwork-calculations";
 import { calculateHandBorderLength } from "@/utils/border-calculations";
 import { calculateHandsBorderValue, calculateMotifValue } from "@/utils/border-motif-calculations";
+import { calculateWeightedTime } from "@/server/calculations/time-calculations";
 
 export default function HandsOverviewSection() {
   const calculation = useCalculations();
@@ -32,10 +33,10 @@ export default function HandsOverviewSection() {
 
     // Hand Border Formulas section - always show
     const borderCalcValues = [];
-    if (store.hands.hasBorders && store.hands.neckStyle !== 'not selected') {
+    if (store.hands.hasBorders && store.hands.selectedDesign !== 'simple') {
       const handRound = parseFloat(store.handRound) || 8;
       const armholeRound = parseFloat(store.armholeRound) || 14;
-      const borderCalc = calculateHandBorderLength(store.hands.neckStyle, handRound, armholeRound);
+      const borderCalc = calculateHandBorderLength(store.hands.selectedDesign, handRound, armholeRound);
       
       borderCalcValues.push({
         label: 'Border Length Formula',
@@ -64,7 +65,7 @@ export default function HandsOverviewSection() {
       // Add border value calculation
       const effectiveHandsBorderSize = store.hands.borderSize !== null ? store.hands.borderSize : (store.all.borderSize || 0);
       const borderValueCalc = calculateHandsBorderValue(
-        store.hands.neckStyle,
+        store.hands.selectedDesign,
         handRound,
         armholeRound,
         effectiveHandsBorderSize
@@ -224,17 +225,17 @@ export default function HandsOverviewSection() {
       'style2': 'Style 2',
       'style3': 'Style 3',
       'style4': 'Style 4',
+      'simple': 'Simple',
       'not selected': 'Not Selected'
     };
     
-    const displayName = neckStyleNames[store.hands.neckStyle] || store.hands.neckStyle;
+    const displayName = neckStyleNames[store.hands.selectedDesign] || store.hands.selectedDesign;
     neckValues.push(
-      { label: 'Neck Style', value: displayName, default: 'Not Selected', enabled: store.hands.neckStyle !== 'not selected' },
-      { label: 'Selected Design', value: store.hands.selectedDesign, default: 'simple', enabled: true }
+      { label: 'Selected Design', value: displayName, default: 'Simple', enabled: store.hands.selectedDesign !== 'simple' }
     );
     groups.push({ section: 'Neck', values: neckValues });
 
-    // Others group - only techniques
+    // Others group - techniques and weighted time
     const othersValues = [];
     const selectedTechniques = store.hands.selectedTechniques !== null ? store.hands.selectedTechniques : (store.all.selectedTechniques || []);
     const techniquePercentages = store.hands.techniquePercentages !== null ? store.hands.techniquePercentages : (store.all.techniquePercentages || {});
@@ -258,6 +259,15 @@ export default function HandsOverviewSection() {
           default: 'Not Selected',
           enabled: true
         });
+      });
+
+      // Calculate and display weighted time
+      const weightedTime = calculateWeightedTime(selectedTechniques, techniquePercentages);
+      othersValues.push({
+        label: 'Weighted Time Result',
+        value: `${weightedTime.toFixed(2)} min/inch²`,
+        default: '0',
+        enabled: true
       });
     } else {
       othersValues.push({

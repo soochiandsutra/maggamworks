@@ -53,10 +53,10 @@ describe('FrontOverviewSection - Front Neck Type Values', () => {
       render(<FrontOverviewSection />);
       
       expect(screen.getAllByText(/Deep Neck/)[0]).toBeInTheDocument();
-      expect(screen.getByText('2.00')).toBeInTheDocument();
+      expect(screen.getByText('22.00')).toBeInTheDocument();
     });
 
-    it('should display Style 1 (Madubala Neck) value as 3.8', () => {
+    it('should display Style 1 (Madubala Neck) value as 41.8', () => {
       const store = useAppStateStore.getState();
       
       act(() => {
@@ -67,10 +67,10 @@ describe('FrontOverviewSection - Front Neck Type Values', () => {
       render(<FrontOverviewSection />);
       
       expect(screen.getByText('Style 1 (Madubala Neck)')).toBeInTheDocument();
-      expect(screen.getByText('3.80')).toBeInTheDocument();
+      expect(screen.getByText('41.80')).toBeInTheDocument();
     });
 
-    it('should display Style 2 (Patch Work) value as 3.0', () => {
+    it('should display Style 2 (Patch Work) value as 33', () => {
       const store = useAppStateStore.getState();
       
       act(() => {
@@ -81,10 +81,10 @@ describe('FrontOverviewSection - Front Neck Type Values', () => {
       render(<FrontOverviewSection />);
       
       expect(screen.getByText('Style 2 (Patch Work)')).toBeInTheDocument();
-      expect(screen.getByText('3.00')).toBeInTheDocument();
+      expect(screen.getByText('33.00')).toBeInTheDocument();
     });
 
-    it('should display Style 4 (V-Neck) value as 1.5', () => {
+    it('should display Style 4 (V-Neck) value as 16.5', () => {
       const store = useAppStateStore.getState();
       
       act(() => {
@@ -95,7 +95,7 @@ describe('FrontOverviewSection - Front Neck Type Values', () => {
       render(<FrontOverviewSection />);
       
       expect(screen.getByText('Style 4 (V-Neck)')).toBeInTheDocument();
-      expect(screen.getByText('1.50')).toBeInTheDocument();
+      expect(screen.getByText('16.50')).toBeInTheDocument();
     });
   });
 
@@ -335,7 +335,7 @@ describe('FrontOverviewSection - Front Neck Type Values', () => {
       });
       
       rerender(<FrontOverviewSection />);
-      expect(screen.getByText('3.80')).toBeInTheDocument();
+      expect(screen.getByText('41.80')).toBeInTheDocument();
     });
   });
 

@@ -19,47 +19,47 @@ describe('calculateFrontTopBorder', () => {
     });
 
     it('should calculate correctly for Deep Neck', () => {
-      // Neck Type Value: 2, Size Factor for 32: 1.056, Border Thickness: 1.5
-      // Expected: 2 * 1.056 * 1.5 = 3.168
+      // Neck Type Value: 22, Size Factor for 32: 1.056, Border Thickness: 1.5
+      // Expected: 22 * 1.056 * 1.5 = 34.848
       const result = calculateFrontTopBorder('deep', 32, 1.5);
       
-      expect(result.inputs['Neck Type Value']).toBe(2);
+      expect(result.inputs['Neck Type Value']).toBe(22);
       expect(result.inputs['Size Factor']).toBeCloseTo(1.056, 3);
       expect(result.inputs['Border Thickness']).toBe(1.5);
-      expect(result.result).toBeCloseTo(3.168, 2);
+      expect(result.result).toBeCloseTo(34.848, 2);
     });
 
     it('should calculate correctly for Style 1 (Madubala Neck)', () => {
-      // Neck Type Value: 3.8, Size Factor for 28: 1, Border Thickness: 1
-      // Expected: 3.8 * 1 * 1 = 3.8
+      // Neck Type Value: 41.8, Size Factor for 28: 1, Border Thickness: 1
+      // Expected: 41.8 * 1 * 1 = 41.8
       const result = calculateFrontTopBorder('1', 28, 1);
       
-      expect(result.inputs['Neck Type Value']).toBe(3.8);
+      expect(result.inputs['Neck Type Value']).toBe(41.8);
       expect(result.inputs['Size Factor']).toBe(1);
       expect(result.inputs['Border Thickness']).toBe(1);
-      expect(result.result).toBe(3.8);
+      expect(result.result).toBe(41.8);
     });
 
     it('should calculate correctly for Style 2 (Patch Work)', () => {
-      // Neck Type Value: 3.0, Size Factor for 40: 1.168, Border Thickness: 2.5
-      // Expected: 3.0 * 1.168 * 2.5 = 8.76
+      // Neck Type Value: 33, Size Factor for 40: 1.168, Border Thickness: 2.5
+      // Expected: 33 * 1.168 * 2.5 = 96.36
       const result = calculateFrontTopBorder('2', 40, 2.5);
       
-      expect(result.inputs['Neck Type Value']).toBe(3.0);
+      expect(result.inputs['Neck Type Value']).toBe(33);
       expect(result.inputs['Size Factor']).toBeCloseTo(1.168, 3);
       expect(result.inputs['Border Thickness']).toBe(2.5);
-      expect(result.result).toBeCloseTo(8.76, 2);
+      expect(result.result).toBeCloseTo(96.36, 2);
     });
 
     it('should calculate correctly for Style 4 (V-Neck)', () => {
-      // Neck Type Value: 1.5, Size Factor for 44: 1.224, Border Thickness: 3
-      // Expected: 1.5 * 1.224 * 3 = 5.508
+      // Neck Type Value: 16.5, Size Factor for 44: 1.224, Border Thickness: 3
+      // Expected: 16.5 * 1.224 * 3 = 60.588
       const result = calculateFrontTopBorder('4', 44, 3);
       
-      expect(result.inputs['Neck Type Value']).toBe(1.5);
+      expect(result.inputs['Neck Type Value']).toBe(16.5);
       expect(result.inputs['Size Factor']).toBeCloseTo(1.224, 3);
       expect(result.inputs['Border Thickness']).toBe(3);
-      expect(result.result).toBeCloseTo(5.508, 2);
+      expect(result.result).toBeCloseTo(60.588, 2);
     });
   });
 
@@ -122,7 +122,7 @@ describe('calculateFrontTopBorder', () => {
     it('should handle decimal border thickness', () => {
       const result = calculateFrontTopBorder('deep', 32, 1.75);
       expect(result.inputs['Border Thickness']).toBe(1.75);
-      expect(result.result).toBeCloseTo(3.696, 2);
+      expect(result.result).toBeCloseTo(40.656, 2);
     });
   });
 });
@@ -141,41 +141,41 @@ describe('calculateBackTopBorder', () => {
     it('should calculate correctly for Style 1', () => {
       const result = calculateBackTopBorder('1', 32, 1.5);
       
-      expect(result.inputs['Neck Type Value']).toBe(2);
+      expect(result.inputs['Neck Type Value']).toBe(22);
       expect(result.inputs['Size Factor']).toBeCloseTo(1.056, 3);
-      expect(result.result).toBeCloseTo(3.168, 2);
+      expect(result.result).toBeCloseTo(34.848, 2);
     });
 
     it('should calculate correctly for Style 2', () => {
       const result = calculateBackTopBorder('2', 36, 2);
       
-      expect(result.inputs['Neck Type Value']).toBe(2.7);
+      expect(result.inputs['Neck Type Value']).toBe(29.7);
       expect(result.inputs['Size Factor']).toBeCloseTo(1.112, 3);
-      expect(result.result).toBeCloseTo(6.0048, 2);
+      expect(result.result).toBeCloseTo(66.0528, 2);
     });
 
     it('should calculate correctly for Style 3', () => {
       const result = calculateBackTopBorder('3', 36, 2);
       
-      expect(result.inputs['Neck Type Value']).toBe(3.7);
+      expect(result.inputs['Neck Type Value']).toBe(40.7);
       expect(result.inputs['Size Factor']).toBeCloseTo(1.112, 3);
-      expect(result.result).toBeCloseTo(8.2288, 2);
+      expect(result.result).toBeCloseTo(90.5168, 2);
     });
 
     it('should calculate correctly for Style 4', () => {
       const result = calculateBackTopBorder('4', 36, 2);
       
-      expect(result.inputs['Neck Type Value']).toBe(2);
+      expect(result.inputs['Neck Type Value']).toBe(22);
       expect(result.inputs['Size Factor']).toBeCloseTo(1.112, 3);
-      expect(result.result).toBeCloseTo(4.448, 2);
+      expect(result.result).toBeCloseTo(48.928, 2);
     });
 
     it('should calculate correctly for Style 6', () => {
       const result = calculateBackTopBorder('6', 36, 2);
       
-      expect(result.inputs['Neck Type Value']).toBe(1.4);
+      expect(result.inputs['Neck Type Value']).toBe(15.4);
       expect(result.inputs['Size Factor']).toBeCloseTo(1.112, 3);
-      expect(result.result).toBeCloseTo(3.1136, 2);
+      expect(result.result).toBeCloseTo(34.2496, 2);
     });
   });
 

@@ -19,7 +19,7 @@ export default function HandsBordersSection() {
       title="Hands Border Details"
       icon="🔲"
     >
-      <div className="space-y-2 p-4 border rounded-lg bg-muted/10">
+      <div className="space-y-2 p-4 rounded-lg bg-muted/10">
         <CheckboxCard
           id="hands-borders"
           checked={!!hasBorders}

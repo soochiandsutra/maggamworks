@@ -24,7 +24,7 @@ export default function FrontBordersSection() {
       title="Front Border Details"
       icon="🔲"
     >
-      <div className="space-y-2 p-4 border rounded-lg bg-muted/10">
+      <div className="space-y-2 p-4 rounded-lg bg-muted/10">
         <CheckboxCard
           id="front-borders"
           checked={!!hasBorders}
@@ -43,7 +43,7 @@ export default function FrontBordersSection() {
         )}
       </div>
 
-      <div className="space-y-2 p-4 border rounded-lg bg-muted/10">
+      <div className="space-y-2 p-4 rounded-lg bg-muted/10">
         <CheckboxCard
           id="front-blouse-bottom"
           checked={!!hasBlouseBottom}

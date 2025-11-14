@@ -24,7 +24,7 @@ export default function BackBordersSection() {
       title="Back Border Details"
       icon="🔲"
     >
-      <div className="space-y-2 p-4 border rounded-lg bg-muted/10">
+      <div className="space-y-2 p-4 rounded-lg bg-muted/10">
         <CheckboxCard
           id="back-borders"
           checked={!!hasBorders}
@@ -43,7 +43,7 @@ export default function BackBordersSection() {
         )}
       </div>
 
-      <div className="space-y-2 p-4 border rounded-lg bg-muted/10">
+      <div className="space-y-2 p-4 rounded-lg bg-muted/10">
         <CheckboxCard
           id="back-blouse-bottom"
           checked={!!hasBlouseBottom}
