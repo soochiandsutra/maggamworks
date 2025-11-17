@@ -2,13 +2,7 @@ export const formatTime = (minutes: number): string => {
   const hours = Math.floor(minutes / 60);
   const mins = Math.round(minutes % 60);
 
-  if (hours === 0) {
-    return `${mins} min`;
-  } else if (mins === 0) {
-    return `${hours} hr`;
-  } else {
-    return `${hours} hr ${mins} min`;
-  }
+  return `${hours}h ${mins}m`;
 };
 
 export const formatCurrency = (amount: number): string => {

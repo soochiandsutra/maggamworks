@@ -8,6 +8,7 @@ import {
 } from "@/components/ui/dialog";
 import { useCalculations } from "@/hooks/use-calculations";
 import { useAppStateStore } from "@/lib/store/appState";
+import { formatTime } from "@/utils/formatters";
 
 interface CalculationSummaryDialogProps {
   open: boolean;
@@ -30,12 +31,6 @@ export default function CalculationSummaryDialog({
   console.log('Front total:', calculation.breakdown.front.total);
   console.log('Back total:', calculation.breakdown.back.total);
   console.log('Hands total:', calculation.breakdown.hands.total);
-
-  const formatTime = (minutes: number) => {
-    const hours = Math.floor(minutes / 60);
-    const mins = Math.round(minutes % 60);
-    return `${hours}.${mins} hrs`;
-  };
 
   // Extract values from the nested store structure
   const {
@@ -79,9 +74,6 @@ export default function CalculationSummaryDialog({
               <div className="text-center space-y-2">
                 <div className="text-3xl font-black text-primary">{formatTime(calculation.totalTime)}</div>
                 <div className="text-sm text-secondary-foreground font-medium">Total Project Time</div>
-                <div className="text-sm text-muted-foreground font-normal">
-                  <span>{Math.round(calculation.totalTime / 8)} working days</span>
-                </div>
               </div>
             </div>
 

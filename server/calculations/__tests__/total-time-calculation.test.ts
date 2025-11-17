@@ -550,38 +550,6 @@ describe('Total Time Calculation Tests', () => {
     });
   });
 
-  describe('Working Days Calculation', () => {
-    it('should calculate working days at 8 hours per day', () => {
-      const state = createState();
-      
-      // Full project
-      state.front.hasBorders = true;
-      state.front.borderSize = 2;
-      state.front.neckStyle = 'boat';
-      state.front.hasFillWork = true;
-      state.front.hasMotifs = true;
-      state.front.motifSizeX = 3;
-      state.front.motifSizeY = 4;
-      state.front.motifCount = '5';
-      
-      state.back.hasBorders = true;
-      state.back.borderSize = 2;
-      state.back.neckStyle = 'deep';
-      
-      state.hands.hasBorders = true;
-      state.hands.borderSize = 1;
-      
-      const result = calculateTime(state);
-      
-      // Convert to hours and days
-      const hours = result.totalTime / 60;
-      const workingDays = hours / 8;
-      
-      // Should be reasonable (not 0 or infinity)
-      expect(workingDays).toBeGreaterThan(0);
-      expect(workingDays).toBeLessThan(100); // Sanity check
-    });
-  });
 
   describe('Formula Verification', () => {
     it('should verify the total time formula components', () => {

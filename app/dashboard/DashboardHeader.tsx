@@ -1,6 +1,7 @@
 "use client";
 
 import { useCalculations } from "@/hooks/use-calculations";
+import { formatTime } from "@/utils/formatters";
 
 interface DashboardHeaderProps {
   activeTab: string;
@@ -8,12 +9,6 @@ interface DashboardHeaderProps {
 
 export function DashboardHeader({ activeTab }: DashboardHeaderProps) {
   const calculation = useCalculations();
-
-  const formatTime = (minutes: number) => {
-    const hours = Math.floor(minutes / 60);
-    const mins = Math.round(minutes % 60);
-    return `${hours}h ${mins}m`;
-  };
 
   const getSectionTime = () => {
     switch (activeTab) {

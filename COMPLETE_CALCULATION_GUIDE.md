@@ -490,7 +490,6 @@ Hands Total = 3,695.07 minutes ≈ 61.6 hours
 Total Time = 40 + 3,458.27 + 2,433.56 + 3,695.07
            = 9,626.9 minutes
            ≈ 160.4 hours
-           ≈ 20 working days (8 hours/day)
 ```
 
 ---
