@@ -35,7 +35,7 @@ export function getFrontNeckTypeValue(neckStyle: string, chestSize?: number): { 
  * Get back neck type value
  * Based on CALCULATION_README.md:
  * - BoatNeck: 11
- * - DeepNeck: 2
+ * - DeepNeck: 2.7
  * - style1: 2
  * - Style2: 2.7
  * - Style3: 3.7
@@ -52,7 +52,7 @@ export function getBackNeckTypeValue(neckStyle: string, chestSize?: number): { n
 
   const neckValues: { [key: string]: { name: string; value: number } } = {
     'boat': { name: 'Boat Neck', value: 11 },
-    'deep': { name: 'Deep Neck', value: 22 },
+    'deep': { name: 'Deep Neck', value: 29.7 },
     '1': { name: 'Style 1', value: 22 },
     '2': { name: 'Style 2', value: 29.7 },
     '3': { name: 'Style 3', value: 40.7 },

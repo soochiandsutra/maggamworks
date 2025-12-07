@@ -37,9 +37,9 @@ Style2 (PatchWork) - 3.0
 Style3 (BridalNeck) - 2/5 * ((chestsize * 7) - 56)
 Style4 (V-Neck) - 1.5 
 
-Back Neck Type Values- 
+Back Neck Type Values-
 BoatNeck - 11
-DeepNeck - 2
+DeepNeck - 2.7
 style1 - 2
 Style2 - 2.7
 Style3 - 3.7
