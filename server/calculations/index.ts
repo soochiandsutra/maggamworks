@@ -72,7 +72,11 @@ export function calculateTime(state: CalculationState): CalculationResult {
     }
 
     // Calculate motif value
-    const count = parseInt(motifCount) || 0;
+    // For hands section, multiply count by 2 to account for both sleeves
+    let count = parseInt(motifCount) || 0;
+    if (section === 'hands') {
+      count = count * 2;
+    }
     const motifValue = calculateMotifValue(motifSizeX, motifSizeY, count).result;
     const sizeFactor = getSizeFactor(chestSize);
 
